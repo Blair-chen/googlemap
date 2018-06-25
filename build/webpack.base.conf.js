@@ -37,7 +37,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'store':resolve('src/store/modules')
+      'store':resolve('src/store/modules'),
       'common':resolve('src/common'),
       'components':resolve('src/components')
     }
