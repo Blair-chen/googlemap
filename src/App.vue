@@ -1,7 +1,6 @@
 <template lang="pug">
   div.vue-map
     search-rode
-
 </template>
 
 
