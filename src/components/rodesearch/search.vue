@@ -45,7 +45,8 @@ export default {
       this.zoom = 20;
       if (!_.isEmpty(result)) {
         this.ploys = result.positions;
-        this.center = result.center;
+       // this.center = result.center;
+       this.$refs.googleMap.$mapObject.setCenter(result.center);
       }
     },
     addLatLng(event,path) {

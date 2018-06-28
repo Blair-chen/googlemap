@@ -39,6 +39,9 @@ export default {
   watch: {
     map(nv) {
       this.loadinit();
+    },
+    path(nv) {
+       this.loadinit();
     }
   },
   mounted() {
