@@ -13,6 +13,7 @@ import vueGooglemapPolyline from "../global/googleMapPolyline";
 import vueGoogleInfoWindow from "../global/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "@/store/modules/search/api/index.js";
+import axios from "axios";
 
 export default {
   components: { vueGooglemapPolyline, vueGoogleInfoWindow },
@@ -25,8 +26,8 @@ export default {
       map: null,
       event: { click: "onclick" },
       marks: [],
-      zoom:5,
-      color:"#0000FF"
+      zoom: 5,
+      color: "#0000FF"
     };
   },
   mounted() {
@@ -40,16 +41,31 @@ export default {
     });
   },
   methods: {
-    search() {
-      let result = api.search(this.key);
-      this.zoom = 20;
-      if (!_.isEmpty(result)) {
-        this.ploys = result.positions;
-       // this.center = result.center;
-       this.$refs.googleMap.$mapObject.setCenter(result.center);
-      }
+    async search() {
+      let item = this;
+      let re = await axios
+        .get("http://localhost:8080/findRoade", {
+          params: {
+            tile: this.key
+          },
+          headers: {
+            "Access-Control-Allow-Origin":
+              "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
+          },
+          crossdomain: true
+        })
+        .then(function(response) {
+          if (response.status === 200) {
+            item.ploys = response.data.positions;
+            item.zoom = 20;
+            item.$refs.googleMap.$mapObject.setCenter(response.data.center);
+          }
+        })
+        .catch(function(response) {
+          console.log(response);
+        });
     },
-    addLatLng(event,path) {
+    addLatLng(event, path) {
       let item = {
         position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
         positions: path,
