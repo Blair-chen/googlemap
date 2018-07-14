@@ -1,3 +1,4 @@
+import axios from "axios";
 export const zoomMapping = (zoom) => {
   if (1<=zoom&&zoom<=5) {
     return 1;
@@ -25,4 +26,15 @@ export const colorMapping =(flow)=>{
   if (8<=flow && flow<10) {
     return "#FF4533"
   }
+}
+
+export const findPosition=(params)=>{
+  axios
+  .post("http://localhost:8080/findPositions", params)
+  .then(function(response) {
+    return response;
+  })
+  .catch(function(response) {
+    console.log(response)
+  });
 }

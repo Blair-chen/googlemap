@@ -93,7 +93,7 @@ export default {
       for (let eventName in events) {
         if (eventName)
           this.$polyline.addListener(eventName, ev => {
-            this.$emit(events[eventName],ev,this.path);
+            this.$emit(events[eventName],ev,this.valueitem);
           });
       }
     }
