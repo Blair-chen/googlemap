@@ -9,6 +9,7 @@ export default {
     return {};
   },
   props: {
+    valueitem:Object,
     path: Array,
     clickable: {
       type: Boolean,
