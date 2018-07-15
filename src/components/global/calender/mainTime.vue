@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal6" :transfer="false"
+Modal(v-model="modal6" :transfer="false"  :width="850"
         title="时间选择器"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")

@@ -77,6 +77,7 @@ export default {
       let selectMonth = date.getMonth();
       let selectDay = date.getDate();
       let select = selectYear+"年"+selectMonth+1+"月"+selectDay +"日"
+      debugger
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
