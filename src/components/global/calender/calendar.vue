@@ -9,7 +9,8 @@
       tbody
         tr(v-for="(row,index) in vdata")
           td.relative.calendar-cell(v-for="(date,index) in row" :class="{current:isCurrentMonth(date),stress:index>=5&&isCurrentMonth(date)}")
-            div(@click="selectHandler(date)") {{date.getDate()}}
+            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="isCurrentMonth(date)")
+              div(@click="selectHandler(date)") {{date.getDate()}}
 </template>
 
 <script>
@@ -72,12 +73,27 @@ export default {
     }
   },
   methods: {
+    getDate(date) {
+       let selectMonth = date.getMonth()+1;
+      return date.getFullYear()+"年"+selectMonth+"月"+ date.getDate() +"日";
+    },
     selectHandler(date){
       let selectYear = date.getFullYear();
-      let selectMonth = date.getMonth();
+      let selectMonth = date.getMonth()+1;
       let selectDay = date.getDate();
-      let select = selectYear+"年"+selectMonth+1+"月"+selectDay +"日"
-      debugger
+      let select = selectYear+"年"+selectMonth+"月"+selectDay +"日";
+          this.$Modal.confirm({
+            title: '提示',
+            content: '选择时间为'+select,
+            onOk: () => {
+              this.$emit("selectHandler",select);
+            },
+            onCancel: () => {
+              return null;
+            }
+          });
+
+
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
@@ -172,8 +188,11 @@ export default {
       font-size: 1rem;
       color: #ccc;
       &:hover {
+        background-color: #ddd;
+        color: red;
         .handler.current {
           height: 30px;
+
         }
       }
       &.current {

@@ -3,7 +3,7 @@ Modal(v-model="modal6" :transfer="false"  :width="850"
         title="时间选择器"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
-  timeline(ref="timeline")
+  timeline(ref="timeline" @selectHandler="selectHandler")
 </template>
 <script>
 import timeline from "./main"
@@ -26,6 +26,10 @@ import timeline from "./main"
         },
 
         methods: {
+          selectHandler(date) {
+            this.$emit("selectHandler",date);
+            this.asyncOK();
+          },
             asyncOK () {
 
                     this.$emit("close", this.modelId);

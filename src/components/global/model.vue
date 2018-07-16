@@ -27,7 +27,8 @@ import timeline from "./Time"
 
         methods: {
             asyncOK () {
-
+                    this.$refs.timeline.buttonFlag= true;
+                    this.$refs.timeline.value = 0;
                     this.$emit("close", this.modelId);
                     this.modal6 = false;
 

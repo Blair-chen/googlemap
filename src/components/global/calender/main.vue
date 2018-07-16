@@ -13,7 +13,7 @@
       div.px2.absolute.pos-fit.overflow-auto
         Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")
           Col.h-100p(span="8" v-for="(date,index) in item" :key="index")
-            calendar(:date="date" @on-add="addHandler"  @on-cancel="cancelhandler")
+            calendar(:date="date" @on-add="addHandler"  @on-cancel="cancelhandler" @selectHandler="selectHandler")
 </template>
 
 <script>
@@ -53,6 +53,9 @@ export default {
     },
   },
   methods: {
+    selectHandler(date) {
+      this.$emit("selectHandler",date);
+    },
     get() {
      // this.$store.dispatch(GET, this.year.getFullYear());
     },
