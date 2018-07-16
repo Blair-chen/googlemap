@@ -1,18 +1,18 @@
 <template lang="pug">
- div
-      div.clearfix.px3.pt2(slot="top1")
-        div.right(style="margin-left: 10px;margin-top: 10px;")
-          Date-picker.mr1.inline-block(type="year" v-model="year" :clearable="false" placeholder="选择年份" style="width:80px")
-          Button-group
-            Button(@click="isNext=false")
-              Icon.mr1(type="chevron-left")
-              span 上半年
-            Button(@click="isNext=true")
-              span 下半年
-              Icon.ml1(type="chevron-right")
-      div.px2.absolute.pos-fit.overflow-auto
-        Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")
-          Col.h-100p(span="8" v-for="(date,index) in item" :key="index")
+div
+  div.clearfix.px3.pt2(slot="top1")
+    div.right(style="margin-left: 10px;margin-top: 10px;")
+      Date-picker.mr1.inline-block(type="year" v-model="year" :clearable="false" placeholder="选择年份" style="width:80px")
+      Button-group
+        Button(@click="isNext=false")
+          Icon.mr1(type="chevron-left")
+          span 上半年
+        Button(@click="isNext=true")
+          span 下半年
+          Icon.ml1(type="chevron-right")
+  div.px2.absolute.pos-fit.overflow-auto
+    Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")
+      Col.h-100p(span="8" v-for="(date,index) in item" :key="index")
             calendar(:date="date" @selectHandler="selectHandler")
 </template>
 

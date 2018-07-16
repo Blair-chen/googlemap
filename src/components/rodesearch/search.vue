@@ -79,8 +79,6 @@ export default {
     },
     closeModel() {
       this.display = false;
-
-
     },
     addLatLng(event, value) {
       this.display = true

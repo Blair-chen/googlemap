@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal6" :transfer="false"  :width="850" title="时间选择器" :loading="loading"
+Modal(v-model="modal" :transfer="false"  :width="850" title="时间选择器" :loading="loading"
       @on-ok="asyncOK" @on-cancel="asyncOK")
   timeline(ref="timeline" @selectHandler="selectHandler")
 </template>
@@ -12,13 +12,13 @@ export default {
   },
   data() {
     return {
-      modal6: false,
+      modal: false,
       loading: true
     };
   },
   watch: {
     modelId(nv) {
-      this.modal6 = nv;
+      this.modal = nv;
     }
   },
   methods: {
@@ -28,7 +28,7 @@ export default {
     },
     asyncOK() {
       this.$emit("close", this.modelId);
-      this.modal6 = false;
+      this.modal = false;
     }
   }
 };

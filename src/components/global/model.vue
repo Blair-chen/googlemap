@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal6" :transfer="false"
+Modal(v-model="modal" :transfer="false"
         title="过往历史速度"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
@@ -14,14 +14,13 @@ import timeline from "./Time"
         },
         data () {
             return {
-                modal6: false,
+                modal: false,
                 loading: true
             }
         },
         watch: {
            modelId(nv){
-
-             this.modal6 = nv;
+             this.modal = nv;
            }
         },
 
@@ -30,7 +29,7 @@ import timeline from "./Time"
                     this.$refs.timeline.buttonFlag= true;
                     this.$refs.timeline.value = 0;
                     this.$emit("close", this.modelId);
-                    this.modal6 = false;
+                    this.modal = false;
 
             }
         }

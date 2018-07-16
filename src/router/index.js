@@ -6,10 +6,6 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/helloworld',
-      component: () => System.import('@/components/HelloWorld'),
-    },
-    {
       path: '/googleMapTest',
       component: () => System.import('@/components/google-map/GoogleMap.vue'),
     },

@@ -12,7 +12,6 @@
             Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)")
               div( @click="selectHandler(date)" :class="{lunar:compareDate(date)}") {{date.getDate()}}
             div(v-if="compareDate(date)&&isCurrentMonth(date)" :class="{lunar:compareDate(date)}")  {{date.getDate()}}
-
 </template>
 
 <script>
