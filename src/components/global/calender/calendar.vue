@@ -5,12 +5,14 @@
       colgroup
         col(v-for="n in 7" :width="100/7+'%'")
       thead
-        th.py1(v-for="(item,index) in week" :class="{stress:index>=5}") {{item}}
+        th.py1(v-for="(item,index) in week" ) {{item}}
       tbody
         tr(v-for="(row,index) in vdata")
-          td.relative.calendar-cell(v-for="(date,index) in row" :class="{current:isCurrentMonth(date),stress:index>=5&&isCurrentMonth(date)}")
-            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="isCurrentMonth(date)")
-              div(@click="selectHandler(date)") {{date.getDate()}}
+          td.relative.calendar-cell(v-for="(date,index) in row" :class="{current:isCurrentMonth(date)}")
+            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)")
+              div( @click="selectHandler(date)" :class="{lunar:compareDate(date)}") {{date.getDate()}}
+            div(v-if="compareDate(date)&&isCurrentMonth(date)" :class="{lunar:compareDate(date)}")  {{date.getDate()}}
+
 </template>
 
 <script>
@@ -73,6 +75,12 @@ export default {
     }
   },
   methods: {
+    compareDate(date) {
+      if (date>new Date()) {
+        return true;
+      }
+      return false;
+    },
     getDate(date) {
        let selectMonth = date.getMonth()+1;
       return date.getFullYear()+"年"+selectMonth+"月"+ date.getDate() +"日";
@@ -92,8 +100,6 @@ export default {
               return null;
             }
           });
-
-
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
@@ -119,48 +125,9 @@ export default {
     isCurrentMonth(date) {
       return date.getMonth() === this.date.getMonth();
     },
-    convertToLunar(date) {
-      const converter = new window.CalendarConverter();
-      const result = converter.solar2lunar(date);
-      return result;
-    },
     isWeekend(date) {
       const day = date.getDay();
       return day === 6 || day === 0;
-    },
-    formatLunar(result) {
-      if (result.lunarFestival) {
-        return result.lunarFestival;
-      }
-      if (result.solarTerms) {
-        return result.solarTerms;
-      }
-      if (result.solarFestival) {
-        return result.solarFestival;
-      };
-      if (result.lunarDay === '初一') {
-        return (result.isLeap ? '闰' : '') + result.lunarMonth + '月';
-      }
-      return result.lunarDay;
-    },
-    settingHandler(date) {
-      let setting = date.setting || {};
-      if (_.isEmpty(setting)) {
-        setting.sfjr = !this.isWeekend(date);
-      } else {
-        setting.sfjr = !setting.sfjr;
-      }
-      setting.rq = date;
-      this.$emit('on-add', setting);
-      this.settingData = _.unionBy(_.cloneDeep(this.settingData), [setting], item => {
-        return moment(item.rq).format('YYYY-MM-DD');
-      });
-    },
-    cancelHandler(date) {
-      this.$emit('on-cancel', date);
-      this.settingData = _.filter(_.cloneDeep(this.settingData), item => {
-        return !this.equalDate(date, item.rq);
-      });
     }
   }
 };
@@ -202,6 +169,7 @@ export default {
       .lunar {
         font-weight: normal;
         font-size: 1rem;
+        color: #888
       }
       .tag {
         position: absolute;
