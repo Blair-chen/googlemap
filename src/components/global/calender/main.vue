@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   div.clearfix.px3.pt2(slot="top1")
-    div.right(style="margin-left: 10px;margin-top: 10px;")
+    div.right(style="margin-left: 590px;margin-bottom: 10px;")
       Date-picker.mr1.inline-block(type="year" v-model="year" :clearable="false" placeholder="选择年份" style="width:80px")
       Button-group
         Button(@click="isNext=false")

@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  gmap-map(@click="test" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index" :valueitem="m" :path="m.positions" :strokeColor="m.color"
@@ -43,9 +43,6 @@ export default {
     });
   },
   methods: {
-    test(event) {
-      debugger
-    },
     async mapLoadHandler() {
       let northeast = this.$refs.googleMap.$mapObject
         .getBounds()

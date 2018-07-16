@@ -8,16 +8,16 @@
         th.py1(v-for="(item,index) in week" ) {{item}}
       tbody
         tr(v-for="(row,index) in vdata")
-          td.relative.calendar-cell(v-for="(date,index) in row" :class="{current:isCurrentMonth(date)}")
+          td.relative.calendar-cell(v-for="(date,index) in row" )
             Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)")
-              div( @click="selectHandler(date)" :class="{lunar:compareDate(date)}") {{date.getDate()}}
-            div(v-if="compareDate(date)&&isCurrentMonth(date)" :class="{lunar:compareDate(date)}")  {{date.getDate()}}
+              div.current( @click="selectHandler(date)" ) {{date.getDate()}}
+            div.lunar(v-if="compareDate(date)&&isCurrentMonth(date)" )  {{date.getDate()}}
 </template>
 
 <script>
-import moment from 'moment';
-import _ from 'lodash';
-import './calendar-converter';
+import moment from "moment";
+import _ from "lodash";
+import "./calendar-converter";
 
 export default {
   props: {
@@ -36,21 +36,23 @@ export default {
   },
   data() {
     return {
-      week: ['一', '二', '三', '四', '五', '六', '日'],
+      week: ["一", "二", "三", "四", "五", "六", "日"],
       settingData: this.initSettingData
     };
   },
   computed: {
     month() {
-      return this.date.getMonth()+1 +"月"
+      return this.date.getMonth() + 1 + "月";
     },
     vdata() {
       const lastDates = this.lastMonthDates;
       const currentDates = this.currentMonthDates;
       const nextDates = this.nextMonthDates;
-      const weekDayOfFirstDay = this.mapDayToZhCN(_.first(currentDates).getDay());// 第一天是星期几
+      const weekDayOfFirstDay = this.mapDayToZhCN(
+        _.first(currentDates).getDay()
+      ); // 第一天是星期几
       const lastDayNeeds = _.takeRight(lastDates, weekDayOfFirstDay - 1);
-      const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay());// 最后一天是星期几
+      const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); // 最后一天是星期几
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
 
       let dates = lastDayNeeds.concat(currentDates).concat(nextDayNeeds);
@@ -65,44 +67,52 @@ export default {
       return this.getMonthDates(this.date);
     },
     lastMonthDates() {
-      const lastMonth = moment(this.date).subtract(1, 'M').toDate();
+      const lastMonth = moment(this.date)
+        .subtract(1, "M")
+        .toDate();
       return this.getMonthDates(lastMonth);
     },
     nextMonthDates() {
-      const nextMonth = moment(this.date).add(1, 'M').toDate();
+      const nextMonth = moment(this.date)
+        .add(1, "M")
+        .toDate();
       return this.getMonthDates(nextMonth);
     }
   },
   methods: {
     compareDate(date) {
-      if (date>new Date()) {
+      if (date > new Date()) {
         return true;
       }
       return false;
     },
     getDate(date) {
-       let selectMonth = date.getMonth()+1;
-      return date.getFullYear()+"年"+selectMonth+"月"+ date.getDate() +"日";
+      let selectMonth = date.getMonth() + 1;
+      return (
+        date.getFullYear() + "年" + selectMonth + "月" + date.getDate() + "日"
+      );
     },
-    selectHandler(date){
+    selectHandler(date) {
       let selectYear = date.getFullYear();
-      let selectMonth = date.getMonth()+1;
+      let selectMonth = date.getMonth() + 1;
       let selectDay = date.getDate();
-      let select = selectYear+"年"+selectMonth+"月"+selectDay +"日";
-          this.$Modal.confirm({
-            title: '提示',
-            content: '选择时间为'+select,
-            onOk: () => {
-              this.$emit("selectHandler",select);
-            },
-            onCancel: () => {
-              return null;
-            }
-          });
+      let select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
+      this.$Modal.confirm({
+        title: "提示",
+        content: "选择时间为" + select,
+        onOk: () => {
+          this.$emit("selectHandler", select);
+        },
+        onCancel: () => {
+          return null;
+        }
+      });
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
-      const lastDay = moment(date).endOf('month').date();
+      const lastDay = moment(date)
+        .endOf("month")
+        .date();
       const month = date.getMonth();
       const year = date.getFullYear();
       let calendar = _.map(new Array(lastDay), (item, index) => {
@@ -115,7 +125,7 @@ export default {
       return day;
     },
     equalDate(date1, date2) {
-      const format = 'YYYY-MM-DD';
+      const format = "YYYY-MM-DD";
       return moment(date1).format(format) === moment(date2).format(format);
     },
     getSetting(date) {
@@ -140,61 +150,40 @@ export default {
     border-collapse: collapse;
     td,
     th {
-      border: 1px solid #DDD;
+      border: 1px solid #ddd;
       font-weight: bold;
     }
     th {
       border-bottom-width: 2px;
     }
-    .stress {
-      color: #e02d2d !important;
-    }
     .calendar-cell {
       text-align: center;
-      font-size: 1rem;
-      color: #ccc;
-      &:hover {
-        background-color: #ddd;
-        color: red;
-        .handler.current {
-          height: 30px;
-
-        }
-      }
-      &.current {
-        color: #333;
+      .current {
+        text-align: center;
+        width: 37px;
+        height: 25px;
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.8rem;
+        color: black;
         cursor: pointer;
+        &:hover {
+          background-color: #ddd;
+          color: red;
+          .handler.current {
+            height: 30px;
+          }
+        }
       }
       .lunar {
+        display: inline-block;
+        padding: 0.2rem 0.5rem;
+        text-align: center;
+        width: 37px;
+        height: 25px;
         font-weight: normal;
-        font-size: 1rem;
-        color: #888
-      }
-      .tag {
-        position: absolute;
-        padding: 2px;
-        top: 0;
-        left: 0;
-        font-size: 1rem;
-        color: #FFF;
-        font-weight: normal;
-        background-color: #888;
-        &.holiday {
-          background-color: #e02d2d;
-        }
-      }
-      .handler {
-        position: absolute;
-        bottom: 0;
-        font-size: 1rem;
-        color: #333;
-        font-weight: normal;
-        width: 100%;
-        background-color: wheat;
-        height: 0;
-        overflow: hidden;
-        line-height: 30px;
-        transition: height 0.3s ease-out;
+        font-size: 0.8rem;
+        color: #888;
       }
     }
   }
