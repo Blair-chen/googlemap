@@ -27,17 +27,17 @@ export default {
         return new Date();
       }
     },
-    initSettingData: {
-      type: Array,
-      default() {
-        return [];
-      }
-    }
+    // initSettingData: {
+    //   type: Array,
+    //   default() {
+    //     return [];
+    //   }
+    // }
   },
   data() {
     return {
       week: ["一", "二", "三", "四", "五", "六", "日"],
-      settingData: this.initSettingData
+      // settingData: this.initSettingData
     };
   },
   computed: {
@@ -56,10 +56,10 @@ export default {
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
 
       let dates = lastDayNeeds.concat(currentDates).concat(nextDayNeeds);
-      dates = _.map(dates, item => {
-        item.setting = this.getSetting(item);
-        return item;
-      });
+      // dates = _.map(dates, item => {
+      //   item.setting = this.getSetting(item);
+      //   return item;
+      // });
 
       return _.chunk(dates, 7);
     },
@@ -97,16 +97,7 @@ export default {
       let selectMonth = date.getMonth() + 1;
       let selectDay = date.getDate();
       let select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
-      this.$Modal.confirm({
-        title: "提示",
-        content: "选择时间为" + select,
-        onOk: () => {
-          this.$emit("selectHandler", select);
-        },
-        onCancel: () => {
-          return null;
-        }
-      });
+      this.$emit("selectHandler", select);
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
@@ -128,9 +119,9 @@ export default {
       const format = "YYYY-MM-DD";
       return moment(date1).format(format) === moment(date2).format(format);
     },
-    getSetting(date) {
-      return _.find(this.settingData, item => this.equalDate(date, item.rq));
-    },
+    // getSetting(date) {
+    //   return _.find(this.settingData, item => this.equalDate(date, item.rq));
+    // },
     isCurrentMonth(date) {
       return date.getMonth() === this.date.getMonth();
     },

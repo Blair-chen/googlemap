@@ -4,7 +4,7 @@ div
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index" :valueitem="m" :path="m.positions" :strokeColor="m.color"
-  :strokeWeight="8" :events="event"  @onclick="addLatLng" :editable="false")
+  :strokeWeight="5" :events="event"  @onclick="addLatLng" :editable="false")
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
   modelView(ref="model" :modelId="display" @close="closeModel")
 </template>
@@ -21,13 +21,13 @@ export default {
 
   data() {
     return {
-      center: { lat: 31.211245659387767, lng: 121.40444739359441 },
+      center: { lat: -33.88658145569154, lng: 151.13988831025813},
       key: null,
       ploys: [],
       map: null,
       event: { click: "onclick" },
       marks: [],
-      zoom: 18,
+      zoom: 13,
       color: "#0000FF",
       display: false
     };
@@ -44,18 +44,21 @@ export default {
   },
   methods: {
     async mapLoadHandler() {
-      let northeast = this.$refs.googleMap.$mapObject
+       this.ploys = [];
+      let mapObject = this.$refs.googleMap.$mapObject;
+      let northeast =mapObject
         .getBounds()
         .getNorthEast();
-      let sourthwest = this.$refs.googleMap.$mapObject
+      let sourthwest = mapObject
         .getBounds()
         .getSouthWest();
       let params = {
-        zoom: zoomMapping(this.$refs.googleMap.$mapObject.getZoom()),
+        zoom: zoomMapping(mapObject.getZoom()),
         northeast: { lat: northeast.lat(), lng: northeast.lng() },
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
       let response = await api.search(params);
+
       if (response.status === 200) {
         _.each(response.data, item => {
           item.color = colorMapping(item.flow);

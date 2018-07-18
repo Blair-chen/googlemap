@@ -48,6 +48,7 @@ export default {
   mounted() {
     this.loadinit();
   },
+
   destroyed() {
     this.$polyline.setMap(null);
     google.maps.event.clearInstanceListeners(this.$polyline);

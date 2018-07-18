@@ -1,19 +1,19 @@
 import axios from "axios";
 export const zoomMapping = (zoom) => {
   if (1<=zoom&&zoom<=5) {
+    return 0;
+  }
+  if (6<=zoom&&zoom<=11) {
     return 1;
   }
-  if (6<=zoom&&zoom<=10) {
+  if (13<=zoom&&zoom<=15) {
     return 2;
   }
-  if (11<=zoom&&zoom<=15) {
+  if (16<=zoom&&zoom<=19) {
     return 3;
   }
-  if (16<=zoom&&zoom<=19) {
-    return 4;
-  }
   if (20<=zoom&&zoom<=22) {
-    return 5;
+    return 4;
   }
 };
 export const colorMapping =(flow)=>{

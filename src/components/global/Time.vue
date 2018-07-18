@@ -3,8 +3,8 @@
     Button(v-if="buttonFlag" type="primary" @click="modelId=true" style="margin-top: 80px;margin-left: 200px;") 选择时间
     div(v-else)
       Button( type="primary" @click="modelId=true" style="margin-left: 200px;") 重选时间
-      Slider( v-model="value" :min="0" :max="1440" style="margin-top: 80px" :tip-format="format")
-      div {{date}}
+      Slider( v-model="value" :min="0" :max="1440" style="margin-top: 60px" :tip-format="format")
+      div(style="font-size:1rem;margin-top: 20px;text-align:center") {{format(value)}}
     time-select(ref="timeSelect"  :modelId="modelId" @close="closeHandler" @selectHandler="selectHandler")
 </template>
 <script>
@@ -37,7 +37,7 @@ methods:{
         minute ="0"+minute;
       }
       //将0-100和时间列一个对应关系
-      return '时间：'+hour+':'+minute+';速度：xx';
+      return '时间：'+ this.date+hour+':'+minute+'；速度：xx';
     },
 }
     }
