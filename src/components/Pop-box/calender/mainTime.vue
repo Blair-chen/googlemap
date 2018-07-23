@@ -21,7 +21,6 @@ export default {
     modelId(nv) {
       this.modal = nv;
     },
-
   },
   methods: {
     selectHandler(date) {

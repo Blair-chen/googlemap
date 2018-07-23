@@ -1,7 +1,6 @@
 <template lang="pug">
 div
   gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
-
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
@@ -86,8 +85,6 @@ export default {
           this.zoom = 18;
           this.$refs.googleMap.$mapObject.setCenter(response.data[0].positions[0]);
         }
-
-
       }
     },
     closeModel() {
@@ -96,12 +93,6 @@ export default {
     onlickHandler(event, value) {
       this.item = value;
       this.display = true;
-      // let item = {
-      //   position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
-      //   positions: value.positions,
-      //   content: "这是标记" + event.latLng.lat() + "维度" + event.latLng.lng()
-      // };
-      // this.marks.push(item);
     }
   }
 };

@@ -25,18 +25,14 @@ export default {
       type: Date,
       default() {
         return new Date();
-      },
-
-
+      }
     },
     dates:Array
-
   },
 
   data() {
     return {
-      week: ["一", "二", "三", "四", "五", "六", "日"],
-      // settingData: this.initSettingData
+      week: ["一", "二", "三", "四", "五", "六", "日"]
     };
   },
   computed: {
@@ -53,13 +49,7 @@ export default {
       const lastDayNeeds = _.takeRight(lastDates, weekDayOfFirstDay - 1);
       const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); // 最后一天是星期几
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
-
       let dates = lastDayNeeds.concat(currentDates).concat(nextDayNeeds);
-      // dates = _.map(dates, item => {
-      //   item.setting = this.getSetting(item);
-      //   return item;
-      // });
-
       return _.chunk(dates, 7);
     },
     currentMonthDates() {
@@ -80,7 +70,8 @@ export default {
   },
   methods: {
     compareExistHandler(date) {
-      let strDate = this.date2Str(date);
+      const format = "YYYY-MM-DD";
+      let strDate =  moment(date).format(format);
      if(_.findIndex(this.dates,item=> strDate === item) === -1) {
        return false;
      }
@@ -92,14 +83,6 @@ export default {
       }
       return false;
     },
-    date2Str(date) {
-    const y = date.getFullYear();
-    let m = date.getMonth() + 1;
-    m = m < 10 ? ('0' + m) : m;
-    let d = date.getDate();
-    d = d < 10 ? ('0' + d) : d;
-    return y + '-' + m + '-' + d;
-    },
     getDate(date) {
       let selectMonth = date.getMonth() + 1;
       return (
@@ -107,10 +90,6 @@ export default {
       );
     },
     selectHandler(date) {
-      let selectYear = date.getFullYear();
-      let selectMonth = date.getMonth() + 1;
-      let selectDay = date.getDate();
-      let select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
       this.$emit("selectHandler", date);
     },
     // 获取一个月每天的一个数组
@@ -133,9 +112,6 @@ export default {
       const format = "YYYY-MM-DD";
       return moment(date1).format(format) === moment(date2).format(format);
     },
-    // getSetting(date) {
-    //   return _.find(this.settingData, item => this.equalDate(date, item.rq));
-    // },
     isCurrentMonth(date) {
       return date.getMonth() === this.date.getMonth();
     },

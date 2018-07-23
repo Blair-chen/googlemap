@@ -10,79 +10,79 @@
 <script>
 import timeSelect from "./calender/mainTime";
 import api from "store/search/api/index.js";
-    export default {
-      components: {timeSelect},
-       props:{
-          item:{
-            type:Object
-          }
-        },
-      data(){
-        return{
-           modelId:false,
-           buttonFlag:true,
-           value:0,
-           date:null,
-           dates:null,
-           speeds:[],
-        }
-      },
-methods:{
-  async TimeHandler() {
-    let response = await api.loadTime(this.item.wayid);
-    if (response.status === 200) {
-      this.dates = response.data;
+export default {
+  components: {timeSelect},
+  props:{
+    item:{
+      type:Object
     }
-    this.modelId=true;
+  },
+  data(){
+    return{
+      modelId:false,
+      buttonFlag:true,
+      value:0,
+      date:null,
+      dates:null,
+      speeds:[],
+      prevSpeed:0
+    }
+  },
+  methods:{
+    async TimeHandler() {
+      this.value = 0;
+      this.prevSpeed = 0;
+      this.speeds = [];
+      let response = await api.loadTime(this.item.wayid);
+      if (response.status === 200) {
+        this.dates = response.data;
+      }
+      this.modelId=true;
   },
   closeHandler() {
     this.modelId = false;
-    },
+  },
   async selectHandler(date) {
       this.date = date;
-      let selectYear = this.date.getFullYear();
       let selectMonth = this.date.getMonth() + 1;
-      let selectDay = this.date.getDate();
-      let select = selectYear + "-" + selectMonth + "-" + selectDay ;
+      let select = this.date.getFullYear() + "-" + selectMonth + "-" +this.date.getDate() ;
       const response = await api.loadSpeed(this.item.wayid,select)
       if (response.status === 200) {
         _.each(response.data,item=>{
           let time =this.date2Str(item.dtime)
-
           this.speeds.push({time:time,speed:item.speed})
         })
       }
       this.buttonFlag = false;
   },
     format (val) {
-      let selectYear = this.date.getFullYear();
-      let selectMonth = this.date.getMonth() + 1;
-      let selectDay = this.date.getDate();
-      let select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
+      const selectYear = this.date.getFullYear();
+      const selectMonth = this.date.getMonth() + 1;
+      const selectDay = this.date.getDate();
+      const select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
       let hour=parseInt(this.value/60);
       let minute =this.value%60;
-      if(hour<10) {
-        hour = "0"+hour;
+      hour  = hour<10?('0'+hour):hour
+      minute = minute < 10 ? ('0' + minute) : minute;
+      const detailTime = hour+':'+minute
+      let speed = this.prevSpeed;
+      if (!_.isEmpty(_.find(this.speeds, { time:detailTime}))) {
+         speed = _.find(this.speeds, { time:detailTime}).speed;
+         this.prevSpeed = speed;
       }
-      if (minute <10) {
-        minute ="0"+minute;
-      }
-
-      let detailTime = hour+':'+minute
-      let speed = _.find(this.speeds, { time:detailTime})? _.find(this.speeds, { time:detailTime}).speed:0;
-
       //将0-100和时间列一个对应关系
       return '时间：'+ select+ detailTime+'；速度：'+speed;
     },
     date2Str(date) {
       date = new Date(date);
-    let h = date.getHours();
-    let minute = date.getMinutes();
-    minute = minute < 10 ? ('0' + minute) : minute;
-    return h+':'+minute;
+      let h = date.getHours();
+      h = h<10?('0'+h):h;
+      let minute = date.getMinutes();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      return h+':'+minute;
     }
+  }
 }
-    }
 </script>
 <style lang="less" scoped>
 .speed-box {
