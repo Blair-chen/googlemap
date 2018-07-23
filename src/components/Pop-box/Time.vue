@@ -20,6 +20,9 @@ import timeSelect from "./calender/mainTime"
         }
       },
 methods:{
+  TimeHandler() {
+
+  },
   closeHandler() {
     this.modelId = false;
     },

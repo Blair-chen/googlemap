@@ -1,13 +1,13 @@
 <template lang="pug">
   div.vue-map
-    search-rode
+    search
 </template>
 <script>
-import searchRode from '@/components/rodesearch/search'
+import search from '@/components/search/search'
 export default {
   name: 'app',
   components:{
-    searchRode
+    search
   }
 
 }

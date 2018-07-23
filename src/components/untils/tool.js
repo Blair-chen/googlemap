@@ -28,13 +28,3 @@ export const colorMapping =(flow)=>{
   }
 }
 
-export const findPosition=(params)=>{
-  axios
-  .post("http://localhost:8080/findPositions", params)
-  .then(function(response) {
-    return response;
-  })
-  .catch(function(response) {
-    console.log(response)
-  });
-}

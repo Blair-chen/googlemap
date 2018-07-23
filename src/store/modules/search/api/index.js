@@ -19,10 +19,7 @@ search(params) {
 
 loadroute(key) {
   return axios
-        .get("http://localhost:8080/findRoade", {
-          params: {
-            tile: key
-          },
+        .get("http://localhost:8080/findByWayId/"+key, {
           headers: {
             "Access-Control-Allow-Origin":
               "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "

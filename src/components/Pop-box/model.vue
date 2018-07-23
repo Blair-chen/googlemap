@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal" :transfer="false"
+Modal(v-model="modal" :transfer="false" :width="500"
         title="过往历史速度"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
