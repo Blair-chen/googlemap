@@ -13,7 +13,7 @@ div
   div.px2.absolute.pos-fit.overflow-auto
     Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")
       Col.h-100p(span="8" v-for="(date,index) in item" :key="index")
-            calendar(:date="date" @selectHandler="selectHandler")
+            calendar(:date="date" :dates="dates" @selectHandler="selectHandler")
 </template>
 
 <script>
@@ -24,6 +24,10 @@ export default {
   components: {
     calendar
   },
+   props: {
+    dates:Array
+  },
+
   data() {
     return {
       year: new Date(),

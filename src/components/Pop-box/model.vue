@@ -3,14 +3,17 @@ Modal(v-model="modal" :transfer="false" :width="500"
         title="过往历史速度"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
-  timeline(ref="timeline")
+  timeline(ref="timeline" :item="item")
 </template>
 <script>
 import timeline from "./Time"
     export default {
       components: {timeline},
         props:{
-          modelId:Boolean
+          modelId:Boolean,
+          item:{
+            type:Object
+          }
         },
         data () {
             return {

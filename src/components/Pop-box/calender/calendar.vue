@@ -9,9 +9,9 @@
       tbody
         tr(v-for="(row,index) in vdata")
           td.relative.calendar-cell(v-for="(date,index) in row" )
-            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)")
+            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)&&compareExistHandler(date)")
               div.current( @click="selectHandler(date)" ) {{date.getDate()}}
-            div.lunar(v-if="compareDate(date)&&isCurrentMonth(date)" )  {{date.getDate()}}
+            div.lunar(v-if="isCurrentMonth(date)&&!compareExistHandler(date)" )  {{date.getDate()}}
 </template>
 
 <script>
@@ -25,15 +25,14 @@ export default {
       type: Date,
       default() {
         return new Date();
-      }
+      },
+
+
     },
-    // initSettingData: {
-    //   type: Array,
-    //   default() {
-    //     return [];
-    //   }
-    // }
+    dates:Array
+
   },
+
   data() {
     return {
       week: ["一", "二", "三", "四", "五", "六", "日"],
@@ -80,11 +79,26 @@ export default {
     }
   },
   methods: {
+    compareExistHandler(date) {
+      let strDate = this.date2Str(date);
+     if(_.findIndex(this.dates,item=> strDate === item) === -1) {
+       return false;
+     }
+     return true;
+    },
     compareDate(date) {
       if (date > new Date()) {
         return true;
       }
       return false;
+    },
+    date2Str(date) {
+    const y = date.getFullYear();
+    let m = date.getMonth() + 1;
+    m = m < 10 ? ('0' + m) : m;
+    let d = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+    return y + '-' + m + '-' + d;
     },
     getDate(date) {
       let selectMonth = date.getMonth() + 1;
@@ -97,7 +111,7 @@ export default {
       let selectMonth = date.getMonth() + 1;
       let selectDay = date.getDate();
       let select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
-      this.$emit("selectHandler", select);
+      this.$emit("selectHandler", date);
     },
     // 获取一个月每天的一个数组
     getMonthDates(date) {
