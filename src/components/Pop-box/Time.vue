@@ -4,15 +4,15 @@
     div(v-else)
       Button( type="primary" @click="TimeHandler" style="margin-left: 200px;margin-bottom: 20px;") 重选时间
       div(style="margin-top:10px")
-        div(style="position: absolute;margin-top: -9px;font-size: 15px;") 时:
+        div.time-box 时:
         Slider( v-model="valueh" :min="0" :max="24" style="margin-left: 29px;" :tip-format="formatHour")
       div
-        div(style="position: absolute;margin-top: -9px;font-size: 15px;") 分:
+        div.time-box 分:
         Slider( v-model="valuem" :min="0" :max="60" style="margin-left: 29px;" :tip-format="formatMinute")
       div
-        div(style="position: absolute;margin-top: -9px;font-size: 15px;") 秒:
+        div.time-box 秒:
         Slider( v-model="values" :min="0" :max="60" style="margin-left: 29px;" :tip-format="formatSecond")
-      div(style="font-size:1rem;margin-top: 20px;text-align:center") {{ formatDateValue(valueh,valuem,values)}}
+      div.showing-box {{ formatDateValue(valueh,valuem,values)}}
     time-select(ref="timeSelect" :dates="dates" :modelId="modelId" @close="closeHandler" @selectHandler="selectHandler")
 </template>
 <script>
@@ -116,5 +116,15 @@ export default {
 <style lang="less" scoped>
 .speed-box {
   height: 200px;
+  .time-box{
+     position: absolute;
+     margin-top: -9px;
+     font-size: 15px;
+  }
+  .showing-box{
+    font-size:1rem;
+    margin-top: 20px;
+    text-align:center
+  }
 }
 </style>
