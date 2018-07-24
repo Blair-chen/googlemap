@@ -8,6 +8,7 @@
     time-select(ref="timeSelect" :dates="dates" :modelId="modelId" @close="closeHandler" @selectHandler="selectHandler")
 </template>
 <script>
+import moment from "moment";
 import timeSelect from "./calender/mainTime";
 import api from "store/search/api/index.js";
 export default {
@@ -25,7 +26,8 @@ export default {
       date:null,
       dates:null,
       speeds:[],
-      prevSpeed:0
+      prevSpeed:0,
+      prevTime:null
     }
   },
   methods:{
@@ -44,8 +46,8 @@ export default {
   },
   async selectHandler(date) {
       this.date = date;
-      let selectMonth = this.date.getMonth() + 1;
-      let select = this.date.getFullYear() + "-" + selectMonth + "-" +this.date.getDate() ;
+      const format = "YYYY-MM-DD";
+      let select = moment(date).format(format);
       const response = await api.loadSpeed(this.item.wayid,select)
       if (response.status === 200) {
         _.each(response.data,item=>{
@@ -56,10 +58,8 @@ export default {
       this.buttonFlag = false;
   },
     format (val) {
-      const selectYear = this.date.getFullYear();
-      const selectMonth = this.date.getMonth() + 1;
-      const selectDay = this.date.getDate();
-      const select = selectYear + "年" + selectMonth + "月" + selectDay + "日";
+      const format = "YYYY-MM-DD";
+      let select = moment(this.date).format(format);
       let hour=parseInt(this.value/60);
       let minute =this.value%60;
       hour  = hour<10?('0'+hour):hour
@@ -69,9 +69,17 @@ export default {
       if (!_.isEmpty(_.find(this.speeds, { time:detailTime}))) {
          speed = _.find(this.speeds, { time:detailTime}).speed;
          this.prevSpeed = speed;
+         this.prevTime =select+" "+ detailTime;
+        return '时间：'+ select+ " " +detailTime+'；速度：'+speed;
       }
-      //将0-100和时间列一个对应关系
-      return '时间：'+ select+ detailTime+'；速度：'+speed;
+      debugger
+     if(this.prevTime!==null&&moment(this.prevTime)<moment(select+" "+ detailTime) )
+     {
+       return '时间：'+this.prevTime+'-'+ select+" "+ detailTime+'；速度：'+speed
+     }else{
+       return '时间：'+ select+ "  "+detailTime+'；速度：'+speed;
+     }
+
     },
     date2Str(date) {
       date = new Date(date);
