@@ -64,17 +64,16 @@ export default {
       };
       let response = await api.search(params);
 
-      if (response.status === 200) {
-        _.each(response.data, item => {
+      if (response.status === 200&&this.isCurrentBound(response.data.bound)) {
+        _.each(response.data.listWay, item => {
           item.color = colorMapping(item.flow);
         });
-        this.ploys = response.data;
+        this.ploys = response.data.listWay;
       }
     },
     async search() {
       let response = await api.loadroute(this.key);
       if (response.status === 200) {
-        debugger;
         if (_.isEmpty(response.data)) {
           this.$Message.warning("此id没有对应的路段");
         } else {
@@ -93,6 +92,24 @@ export default {
     onlickHandler(event, value) {
       this.item = value;
       this.display = true;
+    },
+    isCurrentBound(bound) {
+      let mapObject = this.$refs.googleMap.$mapObject;
+      let northeast = mapObject.getBounds().getNorthEast();
+      let sourthwest = mapObject.getBounds().getSouthWest();
+      if (this.isCatains(northeast.lat(), bound.northeast.lat )&&this.isCatains( northeast.lng(),bound.northeast.lng)
+      &&this.isCatains(sourthwest.lat() ,bound.sourthwest.lat) && this.isCatains(sourthwest.lng(),bound.sourthwest.lng )){
+        return true;
+      }
+      return false;
+    },
+    isCatains(source,target) {
+      let sourceright = source+1;
+      let sourceleft = source-1;
+      if(target>sourceleft&&target<sourceright) {
+        return true;
+      }
+      return false;
     }
   }
 };
