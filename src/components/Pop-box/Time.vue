@@ -82,9 +82,9 @@ export default {
       const selectMonth = this.date.getMonth() + 1;
       const selectDay = this.date.getDate();
       const currentTime = selectYear + "-" + selectMonth +  "-" +selectDay + " " + valueh +  ":" +valuem +":" + values;
-    let speed = this.findRecentTime(this.speeds,currentTime);
+      let speed = this.findRecentTime(this.speeds,currentTime);
       if (speed !=null) {
-        if (moment(speed.dtime)===moment(currentTime)){
+        if (moment(speed.dtimeStr)===moment(currentTime)){
           return '时间:'+currentTime+';速度:'+speed.speed;
         }
          const format = "YYYY-MM-DD HH:mm:ss";
@@ -97,13 +97,16 @@ export default {
       let RecentPrev = null;
       let deviation = null;
       _.each(speeds, item => {
-        if (moment(item.dtime) <= moment(date)) {
+        if(moment(item.dtimeStr).isSame(date)) {
+          RecentPrev = item;
+        }
+        if (moment(item.dtimeStr) < moment(date)) {
           if (deviation === null) {
-            deviation = moment(date) - moment(item.dtime);
+            deviation = moment(date) - moment(item.dtimeStr);
             RecentPrev = item;
           }
-          if (moment(date) - moment(item.dtime) < deviation) {
-            deviation = moment(date) - moment(item.dtime);
+          if (moment(date) - moment(item.dtimeStr) < deviation) {
+            deviation = moment(date) - moment(item.dtimeStr);
             RecentPrev = item;
           }
         }
