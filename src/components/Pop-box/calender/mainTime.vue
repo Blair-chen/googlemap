@@ -1,12 +1,12 @@
 <template lang="pug">
 Modal(v-model="modal" :transfer="false"  :width="850" title="时间选择器" :loading="loading"
       @on-ok="asyncOK" @on-cancel="asyncOK")
-  timeline(ref="timeline" :dates="dates" @selectHandler="selectHandler")
+  time-calender(ref="timeline" :dates="dates" @selectHandler="selectHandler")
 </template>
 <script>
-import timeline from "./main";
+import timeCalender from "./main";
 export default {
-  components: { timeline },
+  components: { timeCalender },
   props: {
     modelId: Boolean,
     dates:Array

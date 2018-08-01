@@ -1,9 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
-
-const urls = {
-  findRoade: 'http://localhost:8080/findRoade'
-};
 export default {
 
   search(params) {
@@ -62,8 +57,5 @@ export default {
     }).catch(function(response){
       console.log(response);
     })
-
   }
-
-
 };

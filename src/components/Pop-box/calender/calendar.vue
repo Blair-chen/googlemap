@@ -40,12 +40,13 @@ export default {
       return this.date.getMonth() + 1 + "月";
     },
     vdata() {
+      debugger
       const lastDates = this.lastMonthDates;
       const currentDates = this.currentMonthDates;
       const nextDates = this.nextMonthDates;
       const weekDayOfFirstDay = this.mapDayToZhCN(
         _.first(currentDates).getDay()
-      ); // 第一天是星期几
+      );
       const lastDayNeeds = _.takeRight(lastDates, weekDayOfFirstDay - 1);
       const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); // 最后一天是星期几
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
@@ -92,7 +93,6 @@ export default {
     selectHandler(date) {
       this.$emit("selectHandler", date);
     },
-    // 获取一个月每天的一个数组
     getMonthDates(date) {
       const lastDay = moment(date)
         .endOf("month")
@@ -108,16 +108,8 @@ export default {
       if (day === 0) return 7;
       return day;
     },
-    equalDate(date1, date2) {
-      const format = "YYYY-MM-DD";
-      return moment(date1).format(format) === moment(date2).format(format);
-    },
     isCurrentMonth(date) {
       return date.getMonth() === this.date.getMonth();
-    },
-    isWeekend(date) {
-      const day = date.getDay();
-      return day === 6 || day === 0;
     }
   }
 };

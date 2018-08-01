@@ -79,6 +79,7 @@ export default {
       }
       return "时间" + currentTime + ";速度:" + 0;
     },
+    //Get current speed or recent speed
     binSearch(arr, start, end, key) {
       if (start < 0 || end < 0) {
         return null;

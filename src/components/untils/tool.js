@@ -1,4 +1,4 @@
-import axios from "axios";
+//Googlemap's zoom corresponds to zoomlevel
 export const zoomMapping = (zoom) => {
   if (1<=zoom&&zoom<=5) {
     return 0;
@@ -16,6 +16,7 @@ export const zoomMapping = (zoom) => {
     return 4;
   }
 };
+//traffic flow corresponds to color
 export const colorMapping =(flow)=>{
   if (0<=flow && flow<4) {
     return "#33FF44"

@@ -13,7 +13,7 @@ div
   div.px2.absolute.pos-fit.overflow-auto
     Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")
       Col.h-100p(span="8" v-for="(date,index) in item" :key="index")
-            calendar(:date="date" :dates="dates" @selectHandler="selectHandler")
+        calendar(:date="date" :dates="dates" @selectHandler="selectHandler")
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
       let dates = _.map(new Array(6), (item, index) => {
         return new Date(year, index + startMonth - 1, 1);
       });
+      //_.chunk([1,2,3,4],2)=>[[1,2],[3,4]]
       return _.chunk(dates, 3);
     },
   },

@@ -4,7 +4,8 @@ div
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
-  vue-googlemap-polyline( ref="ployline" v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index" :valueitem="m" :path="m.positions" :strokeColor="m.color"
+  vue-googlemap-polyline( ref="ployline" v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index"
+  :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
