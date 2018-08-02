@@ -1,6 +1,7 @@
 <template lang="pug">
 div
   gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  Spin.ivu-spin-table(size="large"  v-if="loading" fix)
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
@@ -25,6 +26,7 @@ export default {
     return {
       center: { lat: -33.88658145569154, lng: 151.13988831025813 },
       key: null,
+      loading:false,
       ploys: [],
       map: null,
       event: { click: "onclick" },
@@ -54,6 +56,7 @@ export default {
       if (this.key) {
         return null;
       }
+      this.loading =true;
       this.ploys = [];
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
@@ -71,6 +74,7 @@ export default {
         });
         this.ploys = response.data.listWay;
       }
+      this.loading = false;
     },
     async search() {
       let response = await api.loadroute(this.key);

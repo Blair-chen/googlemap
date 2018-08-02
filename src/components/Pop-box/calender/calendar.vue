@@ -12,6 +12,7 @@
             Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)&&compareExistHandler(date)")
               div.current( @click="selectHandler(date)" ) {{date.getDate()}}
             div.lunar(v-if="isCurrentMonth(date)&&!compareExistHandler(date)" )  {{date.getDate()}}
+
 </template>
 
 <script>
@@ -40,7 +41,6 @@ export default {
       return this.date.getMonth() + 1 + "月";
     },
     vdata() {
-      debugger
       const lastDates = this.lastMonthDates;
       const currentDates = this.currentMonthDates;
       const nextDates = this.nextMonthDates;
@@ -51,6 +51,7 @@ export default {
       const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); // 最后一天是星期几
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
       let dates = lastDayNeeds.concat(currentDates).concat(nextDayNeeds);
+
       return _.chunk(dates, 7);
     },
     currentMonthDates() {
