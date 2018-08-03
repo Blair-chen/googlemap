@@ -1,11 +1,10 @@
 <template lang="pug">
 div
   gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
-  Spin.ivu-spin-table(size="large"  v-if="loading" fix)
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
-  vue-googlemap-polyline( ref="ployline" v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index"
+  vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
@@ -26,8 +25,7 @@ export default {
     return {
       center: { lat: -33.88658145569154, lng: 151.13988831025813 },
       key: null,
-      loading:false,
-      ploys: [],
+      lines: [],
       map: null,
       event: { click: "onclick" },
       marks: [],
@@ -38,11 +36,11 @@ export default {
     };
   },
   mounted() {
-    const vm = this;
     VueGoogleMaps.loaded.then(() => {
       setTimeout(() => {
-        if (vm.$refs.googleMap.$mapObject) {
-          vm.map = vm.$refs.googleMap.$mapObject;
+        const vm = this.$refs.googleMap.$mapObject;
+        if (vm) {
+          this.map = vm;
         }
       }, 1000);
     });
@@ -56,8 +54,7 @@ export default {
       if (this.key) {
         return null;
       }
-      this.loading =true;
-      this.ploys = [];
+      this.lines = [];
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
@@ -72,9 +69,8 @@ export default {
         _.each(response.data.listWay, item => {
           item.color = colorMapping(item.flow);
         });
-        this.ploys = response.data.listWay;
+        this.lines = response.data.listWay;
       }
-      this.loading = false;
     },
     async search() {
       let response = await api.loadroute(this.key);
@@ -85,7 +81,7 @@ export default {
           _.each(response.data, item => {
             item.color = colorMapping(item.flow);
           });
-          this.ploys = response.data;
+          this.lines = response.data;
           this.zoom = 18;
           this.$refs.googleMap.$mapObject.setCenter(response.data[0].positions[0]);
         }

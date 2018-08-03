@@ -37,19 +37,20 @@ export default {
     zIndex: Number,
     events: Object
   },
-  watch: {
-    map(nv) {
-      this.loadinit();
-    },
-    path(nv) {
-       this.loadinit();
-    }
-  },
+  // watch: {
+  //   map(nv) {
+  //     this.loadinit();
+  //   },
+  //   path(nv) {
+  //      this.loadinit();
+  //   }
+  // },
   mounted() {
     this.loadinit();
   },
 
   destroyed() {
+    this.$polyline.setVisible(false);
     this.$polyline.setMap(null);
     google.maps.event.clearInstanceListeners(this.$polyline);
   },
@@ -78,6 +79,7 @@ export default {
       this.$polyline.setMap(this.$map);
       this.registerEvents();
     },
+    //event
     registerEvents() {
       const path = this.$polyline.getPath();
       path.addListener("insert_at", o => {
