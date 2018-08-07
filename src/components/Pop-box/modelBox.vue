@@ -49,9 +49,7 @@ export default {
       this.loading =true;
       this.date = date;
       let format = "YYYY-MM-DD";
-
       let select = moment(date).format(format);
-
       const response = await api.loadSpeed(this.item.wayid, select);
       if (response.status === 200) {
         this.speeds = response.data;
@@ -89,11 +87,9 @@ export default {
         parseInt(value % 60) < 10
           ? "0" + parseInt(value % 60)
           : parseInt(value % 60);
-      const selectYear = this.date.getFullYear();
-      const selectMonth = this.date.getMonth() + 1;
-      const selectDay = this.date.getDate();
-      const currentTime =  selectYear +  "-" +  selectMonth +   "-" +  selectDay +   " " +   hour +  ":" +  minute;
-
+          const format = "YYYY-MM-DD";
+        let selectTime = moment(this.date).format(format);
+      const currentTime =  selectTime +   " " +   hour +  ":" +  minute;
       return currentTime;
     },
     //Get current speed or recent speed

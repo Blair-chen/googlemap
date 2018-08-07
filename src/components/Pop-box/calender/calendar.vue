@@ -33,8 +33,21 @@ export default {
 
   data() {
     return {
-      week: ["一", "二", "三", "四", "五", "六", "日"]
+      week: ["一", "二", "三", "四", "五", "六", "日"],
+      MonthDates:[]
     };
+  },
+  watch:{
+    dates(nv){
+      const format="YYYY-MM";
+      const month = moment(this.date).format(format);
+      const vm=this;
+      _.each(nv,item=>{
+         if (month === moment(item).format(format)) {
+           vm.MonthDates.push(item);
+         }
+      })
+    }
   },
   computed: {
     month() {
@@ -74,7 +87,7 @@ export default {
     compareExistHandler(date) {
       const format = "YYYY-MM-DD";
       let strDate =  moment(date).format(format);
-     if(_.findIndex(this.dates,item=> strDate === item) === -1) {
+     if(_.findIndex(this.MonthDates,item=> strDate === item) === -1) {
        return false;
      }
      return true;

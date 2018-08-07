@@ -74,6 +74,7 @@ export default {
       }
     },
     async search() {
+       this.lines=[];
       let response = await api.loadroute(this.key);
       if (response.status === 200) {
         if (_.isEmpty(response.data)) {

@@ -34,7 +34,6 @@ export default {
   },
   methods:{
     ClickHandler(router){
-      debugger
      this.$router.push('/'+router);
     }
   }

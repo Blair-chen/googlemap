@@ -44,7 +44,7 @@ export default {
       let dates = _.map(new Array(6), (item, index) => {
         return new Date(year, index + startMonth - 1, 1);
       });
-      //_.chunk([1,2,3,4],2)=>[[1,2],[3,4]]
+      //_.chunk([1,2,3,4,5,6],2)=>[[1,2,3],[4,5,6]]
       return _.chunk(dates, 3);
     },
   },
