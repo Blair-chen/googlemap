@@ -136,4 +136,12 @@ export default MapComponent.extend({
   }
 });
 </script>
+<style lang="less" scoped>
+.tabtop13 td{
+	background-color:#ffffff;
+	height:25px;
+	line-height:150%;
+}
+</style>
+
 

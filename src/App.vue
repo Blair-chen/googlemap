@@ -1,6 +1,7 @@
-<template lang="pug">
-  div.vue-map
-    search
+<template >
+ <div>
+   <router-view></router-view>
+ </div>
 </template>
 <script>
 import search from '@/components/search/search'

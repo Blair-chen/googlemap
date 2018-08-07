@@ -4,22 +4,23 @@ div
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
+  div.menu
+    nav-menu(ref="menu")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
-  vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
 </template>
 <script>
+import navMenu from "../menu/main"
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
-import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import { zoomMapping, colorMapping, findPosition } from "../untils/tool.js";
 
 export default {
-  components: { vueGooglemapPolyline, vueGoogleInfoWindow, modelView },
+  components: { vueGooglemapPolyline, modelView,navMenu },
 
   data() {
     return {
@@ -32,7 +33,7 @@ export default {
       zoom: 19,
       color: "#0000FF",
       display: false,
-      item: null,
+      item: null
     };
   },
   mounted() {
@@ -46,7 +47,7 @@ export default {
     });
   },
   methods: {
-    refresh(){
+    refresh() {
       this.key = null;
       this.mapLoadHandler();
     },
@@ -65,7 +66,7 @@ export default {
       };
       let response = await api.search(params);
 
-      if (response.status === 200&&this.isCurrentBound(response.data.bound)) {
+      if (response.status === 200 && this.isCurrentBound(response.data.bound)) {
         _.each(response.data.listWay, item => {
           item.color = colorMapping(item.flow);
         });
@@ -83,7 +84,9 @@ export default {
           });
           this.lines = response.data;
           this.zoom = 18;
-          this.$refs.googleMap.$mapObject.setCenter(response.data[0].positions[0]);
+          this.$refs.googleMap.$mapObject.setCenter(
+            response.data[0].positions[0]
+          );
         }
       }
     },
@@ -98,16 +101,20 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      if (this.isCatains(northeast.lat(), bound.northeast.lat )&&this.isCatains( northeast.lng(),bound.northeast.lng)
-      &&this.isCatains(sourthwest.lat() ,bound.sourthwest.lat) && this.isCatains(sourthwest.lng(),bound.sourthwest.lng )){
+      if (
+        this.isCatains(northeast.lat(), bound.northeast.lat) &&
+        this.isCatains(northeast.lng(), bound.northeast.lng) &&
+        this.isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
+        this.isCatains(sourthwest.lng(), bound.sourthwest.lng)
+      ) {
         return true;
       }
       return false;
     },
-    isCatains(source,target) {
-      let sourceright = source+1;
-      let sourceleft = source-1;
-      if(target>sourceleft&&target<sourceright) {
+    isCatains(source, target) {
+      let sourceright = source + 1;
+      let sourceleft = source - 1;
+      if (target > sourceleft && target < sourceright) {
         return true;
       }
       return false;
@@ -118,6 +125,10 @@ export default {
 <style lang="less" scoped>
 .search-box {
   display: block;
+}
+.menu{
+  margin-top: -6px;
+  margin-left: 239px;
 }
 .google-ployline {
   cursor: pointer;
