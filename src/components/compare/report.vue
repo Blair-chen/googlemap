@@ -3,53 +3,26 @@ div.report-box
   div.report-detail
     div.tip-list(style="height:0px")
       h3(style="  text-align: center; margin-top: 15px;") 数据来源分析
-    Table.detail-table( style="" :columns="columns1" :data="data1")
+    formReport.detail-table(ref="formReport" :data="model")
     Icon.icon-box(type="ios-arrow-forward" style=" margin-left: 10px;")
-    div.tip-list
+    div.tip-list.mt5
       h3(style="  text-align: center") 路段颜色
-      p(style="font-size:15px") 1,autonavi存在traffic palmgo不存在颜色为绿色，palmgo存在autonavi不存在显示蓝色。
-      p(style="font-size:15px") 2,autonavi与palmgo的traffic_level不同显示红色。
-      p(style="font-size:15px") 3,autonavi与palmgo速度相差超过20%显示黄色
+      p(style="font-size:15px") autonavi与palmgo的traffic_level不同显示红色。
+
 </template>
 <script>
+import formReport from './form';
 export default {
+  components:{
+    formReport
+  },
   props:{
-    data:Array
+    data:Object
   },
   data() {
     return {
-      model:[],
+      model:{},
       isShowRight: true,
-      columns1: [
-        {
-          title: "Type",
-          key: "name",
-          width: 100,
-          fixed: 'left'
-        },
-        {
-          title: "Autonavi",
-          key: "autonavi",
-          width: 100,
-
-        },
-          {
-          title: "Palmgo",
-          key: "palmgo",
-          width: 100,
-
-        }
-      ],
-      data1:[
-        {
-          name:"differentLevel",
-        autonavi:"fedsf",
-         palmgo:'',
-        cellClassName: {
-             autonavi : 'demo-table-info-cell-auto',
-           }
-        }
-      ]
 
     };
   },

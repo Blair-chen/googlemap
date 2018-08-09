@@ -16,7 +16,7 @@ export default new Router({
     },
     {
       path:'/menu',
-      component:() =>System.import('@/components/compare/test.vue')
+      component:() =>System.import('@/components/compare/form.vue')
     }
   ]
 })

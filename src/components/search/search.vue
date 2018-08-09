@@ -74,6 +74,9 @@ export default {
       }
     },
     async search() {
+      if (this.key === null) {
+        return null;
+      }
        this.lines=[];
       let response = await api.loadroute(this.key);
       if (response.status === 200) {

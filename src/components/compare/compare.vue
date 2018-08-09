@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  gmap-map(ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map(ref="googleMap" @tilesloaded="mapLoadHandler"  :center="center" :zoom="zoom" )
   div.menu
     nav-menu(ref="menu")
   report-view(ref="report" :data="data")
@@ -33,7 +33,7 @@ export default {
       map: null,
       event: { click: "onclick" },
       marks: [],
-      zoom: 16,
+      zoom: 13,
       item: null,
       data:null,
     };
@@ -53,11 +53,14 @@ export default {
   methods: {
     cycleHandler() {
       this.mapLoadHandler();
-      // setInterval(() => {
-      //   this.mapLoadHandler();
-      // }, 60000);
+      setInterval(() => {
+        this.mapLoadHandler();
+      }, 120000);
     },
     async mapLoadHandler() {
+      if(this.map === null) {
+        return null;
+      }
       this.lines = [];
       let mapObject = this.map;
       let northeast = mapObject.getBounds().getNorthEast();
@@ -68,16 +71,11 @@ export default {
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
       let response = await api.searchCompare(params);
-
       if (response.status === 200 ) {
         if (this.isCurrentBound(response.data.bound)) {
-        //    _.each(response.data.listWay, item => {
-        //      item.color = colorMapping(item.flow);
-        //   });
-        //  this.lines = response.data.listWay;
+         this.lines = response.data.roadeslist;
         }
-
-       this.data = this.data2Array(response.data);
+       this.data = response.data;
       }
     },
 
@@ -116,49 +114,6 @@ export default {
         return true;
       }
       return false;
-    },
-    data2Array(value) {
-      let result = [];
-      const count={
-        name:"count",
-        autonavi:value.autonaviCount,
-        palmgo:value.palmgoCount
-      };
-      result.push(count);
-      const compare={
-        name:"compare",
-        autonavi:value.inAutoNaviButNotInPalmgo,
-        palmgo:value.inPalmgoButNotInAutoNavi
-      };
-      result.push(compare);
-       const same={
-        name:"same",
-        autonavi:value.same,
-        palmgo:'',
-        cellClassName: {
-             "autonavi" : 'demo-table-info-cell-age',
-           }
-      };
-      result.push(same);
-       const level={
-        name:"differentLevel",
-        autonavi:value.differentLevelCount,
-         palmgo:'',
-        cellClassName: {
-             autonavi : 'demo-table-info-cell-age',
-           }
-      };
-      result.push(level);
-       const speed={
-        name:"different Speed",
-        autonavi:value.differentSpeedCount,
-        palmgo:'',
-        cellClassName: {
-             autonavi : 'demo-table-info-cell-age',
-           }
-      };
-      result.push(speed);
-      return result;
     }
   }
 };
