@@ -3,7 +3,7 @@ Modal(v-model="modal" :transfer="false" :width="500"
         title="过往历史速度"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
-  model-box(ref="timeline" :item="item")
+  model-box(ref="modelBox" :item="item")
 </template>
 <script>
 import modelBox from "./modelBox"
@@ -28,8 +28,8 @@ export default {
   },
   methods: {
     asyncOK () {
-      this.$refs.timeline.buttonFlag= true;
-      this.$refs.timeline.value = 0;
+      this.$refs.modelBox.buttonFlag= true;
+      this.$refs.modelBox.value = 0;
       this.$emit("close", this.modelId);
       this.modal = false;
     }

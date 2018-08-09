@@ -47,15 +47,6 @@
     0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0];
 
 
-
-
-
-
-
-
-
-
-
   /*
    * example:
    * var cc  =new CalendarConverter;

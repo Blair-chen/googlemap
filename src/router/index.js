@@ -14,9 +14,9 @@ export default new Router({
       path:'/search',
       component:() =>System.import('@/components/search/search.vue')
     },
-    // {
-    //   path:'/menu',
-    //   component:() =>System.import('@/components/compare/test.vue')
-    // }
+    {
+      path:'/menu',
+      component:() =>System.import('@/components/compare/test.vue')
+    }
   ]
 })

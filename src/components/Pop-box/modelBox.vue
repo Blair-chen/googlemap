@@ -56,6 +56,7 @@ export default {
       }
       this.loading =false;
     },
+    //
     format(){
       let currentTime = this.getCurrentTime();
       let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
@@ -77,6 +78,7 @@ export default {
       }
       return "时间" + currentTime + ";速度:" + 0;
     },
+    //Time to resolve the slider
     getCurrentTime() {
       let value = this.value;
       let hour =

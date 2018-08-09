@@ -3,7 +3,7 @@ div
   gmap-map(ref="googleMap"  :center="center" :zoom="zoom" )
   div.menu
     nav-menu(ref="menu")
-  report-view(ref="report")
+  report-view(ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
@@ -34,7 +34,8 @@ export default {
       event: { click: "onclick" },
       marks: [],
       zoom: 16,
-      item: null
+      item: null,
+      data:null,
     };
   },
   mounted() {
@@ -45,7 +46,6 @@ export default {
           this.map =vm.$refs.googleMap.$mapObject;
           this.cycleHandler();
         }
-
       }, 1000);
     });
 
@@ -53,9 +53,9 @@ export default {
   methods: {
     cycleHandler() {
       this.mapLoadHandler();
-      setInterval(() => {
-        this.mapLoadHandler();
-      }, 60000);
+      // setInterval(() => {
+      //   this.mapLoadHandler();
+      // }, 60000);
     },
     async mapLoadHandler() {
       this.lines = [];
@@ -68,13 +68,17 @@ export default {
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
       let response = await api.searchCompare(params);
-      this.lines = response;
-      // if (response.status === 200 && this.isCurrentBound(response.data.bound)) {
-      //   _.each(response.data.listWay, item => {
-      //     item.color = colorMapping(item.flow);
-      //   });
-      //   this.lines = response.data.listWay;
-      // }
+
+      if (response.status === 200 ) {
+        if (this.isCurrentBound(response.data.bound)) {
+        //    _.each(response.data.listWay, item => {
+        //      item.color = colorMapping(item.flow);
+        //   });
+        //  this.lines = response.data.listWay;
+        }
+
+       this.data = this.data2Array(response.data);
+      }
     },
 
     onlickHandler(event, value) {
@@ -112,6 +116,49 @@ export default {
         return true;
       }
       return false;
+    },
+    data2Array(value) {
+      let result = [];
+      const count={
+        name:"count",
+        autonavi:value.autonaviCount,
+        palmgo:value.palmgoCount
+      };
+      result.push(count);
+      const compare={
+        name:"compare",
+        autonavi:value.inAutoNaviButNotInPalmgo,
+        palmgo:value.inPalmgoButNotInAutoNavi
+      };
+      result.push(compare);
+       const same={
+        name:"same",
+        autonavi:value.same,
+        palmgo:'',
+        cellClassName: {
+             "autonavi" : 'demo-table-info-cell-age',
+           }
+      };
+      result.push(same);
+       const level={
+        name:"differentLevel",
+        autonavi:value.differentLevelCount,
+         palmgo:'',
+        cellClassName: {
+             autonavi : 'demo-table-info-cell-age',
+           }
+      };
+      result.push(level);
+       const speed={
+        name:"different Speed",
+        autonavi:value.differentSpeedCount,
+        palmgo:'',
+        cellClassName: {
+             autonavi : 'demo-table-info-cell-age',
+           }
+      };
+      result.push(speed);
+      return result;
     }
   }
 };

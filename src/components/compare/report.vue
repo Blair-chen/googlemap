@@ -13,49 +13,60 @@ div.report-box
 </template>
 <script>
 export default {
+  props:{
+    data:Array
+  },
   data() {
     return {
+      model:[],
       isShowRight: true,
       columns1: [
         {
           title: "Type",
-          key: "type",
+          key: "name",
           width: 100,
           fixed: 'left'
         },
         {
-          title: "Coverage",
-          key: "coverage",
+          title: "Autonavi",
+          key: "autonavi",
           width: 100,
 
         },
           {
-          title: "Speed",
-          key: "speed",
+          title: "Palmgo",
+          key: "palmgo",
           width: 100,
 
-        },
-          {
-          title: "tp",
-          key: "tp",
-          width: 100,
         }
       ],
-      data1: [
+      data1:[
         {
-          type: "高德",
-          coverage: '50%'
-        },
-        {
-          type: "gp",
-          coverage: '50%'
+          name:"differentLevel",
+        autonavi:"fedsf",
+         palmgo:'',
+        cellClassName: {
+             autonavi : 'demo-table-info-cell-auto',
+           }
         }
       ]
+
     };
+  },
+  watch:{
+    data(nv){
+      if(nv){
+        this.model = nv;
+      }
+    }
   }
 };
 </script>
 <style lang="less" scoped>
+ .ivu-table .demo-table-info-cell-auto {
+        text-align:right;
+        background-color: #2db7f5;
+    }
 .report-box {
   position: absolute;
   .report-detail {
@@ -88,7 +99,7 @@ export default {
     .detail-table {
       margin-top: 50px;
       display: none;
-      width: 380px;
+      width: 300px;
       margin-left: 10px;
       border-collapse: collapse;
       .caption {
