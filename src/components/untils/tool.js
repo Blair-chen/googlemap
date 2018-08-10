@@ -29,3 +29,12 @@ export const colorMapping =(flow)=>{
   }
 }
 
+export const isCatains=(source, target)=>{
+  let sourceright = source + 1;
+  let sourceleft = source - 1;
+  if (target > sourceleft && target < sourceright) {
+    return true;
+  }
+  return false;
+}
+

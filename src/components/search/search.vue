@@ -17,7 +17,7 @@ import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import { zoomMapping, colorMapping, findPosition } from "../untils/tool.js";
+import { zoomMapping, colorMapping,isCatains } from "../untils/tool.js";
 
 export default {
   components: { vueGooglemapPolyline, modelView,navMenu },
@@ -106,23 +106,23 @@ export default {
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
       if (
-        this.isCatains(northeast.lat(), bound.northeast.lat) &&
-        this.isCatains(northeast.lng(), bound.northeast.lng) &&
-        this.isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
-        this.isCatains(sourthwest.lng(), bound.sourthwest.lng)
+        isCatains(northeast.lat(), bound.northeast.lat) &&
+        isCatains(northeast.lng(), bound.northeast.lng) &&
+        isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
+        isCatains(sourthwest.lng(), bound.sourthwest.lng)
       ) {
         return true;
       }
       return false;
     },
-    isCatains(source, target) {
-      let sourceright = source + 1;
-      let sourceleft = source - 1;
-      if (target > sourceleft && target < sourceright) {
-        return true;
-      }
-      return false;
-    }
+    // isCatains(source, target) {
+    //   let sourceright = source + 1;
+    //   let sourceleft = source - 1;
+    //   if (target > sourceleft && target < sourceright) {
+    //     return true;
+    //   }
+    //   return false;
+    // }
   }
 };
 </script>

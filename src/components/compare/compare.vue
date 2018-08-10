@@ -3,6 +3,8 @@ div
   gmap-map(ref="googleMap" @tilesloaded="mapLoadHandler"  :center="center" :zoom="zoom" )
   div.menu
     nav-menu(ref="menu")
+  div.features
+    features.ml10(ref="features" :data="featuresData" @featuresHandler="featuresHandler" )
   report-view(ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
@@ -10,24 +12,27 @@ div
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
 </template>
 <script>
+import features from "./features";
 import reportView from "./report";
 import navMenu from "../menu/main";
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import { zoomMapping,  findPosition } from "../untils/tool.js";
+import { zoomMapping, isCatains } from "../untils/tool.js";
 
 export default {
   components: {
     vueGooglemapPolyline,
     vueGoogleInfoWindow,
     navMenu,
-    reportView
+    reportView,
+    features
   },
 
   data() {
     return {
+      featuresData:'differentLevel',
       center: { lat: 39.9042, lng: 116.4074 },
       lines: [],
       map: null,
@@ -36,6 +41,7 @@ export default {
       zoom: 13,
       item: null,
       data:null,
+      interval:null
     };
   },
   mounted() {
@@ -50,10 +56,13 @@ export default {
     });
 
   },
+  beforeDestroy() {
+  clearTimeout( this.interval);
+},
   methods: {
     cycleHandler() {
       this.mapLoadHandler();
-      setInterval(() => {
+      this.interval =setInterval(() => {
         this.mapLoadHandler();
       }, 120000);
     },
@@ -70,7 +79,7 @@ export default {
         northeast: { lat: northeast.lat(), lng: northeast.lng() },
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
-      let response = await api.searchCompare(params);
+      let response = await api[this.featuresData](params);
       if (response.status === 200 ) {
         if (this.isCurrentBound(response.data.bound)) {
          this.lines = response.data.roadeslist;
@@ -98,22 +107,22 @@ export default {
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
       if (
-        this.isCatains(northeast.lat(), bound.northeast.lat) &&
-        this.isCatains(northeast.lng(), bound.northeast.lng) &&
-        this.isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
-        this.isCatains(sourthwest.lng(), bound.sourthwest.lng)
+        isCatains(northeast.lat(), bound.northeast.lat) &&
+        isCatains(northeast.lng(), bound.northeast.lng) &&
+        isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
+        isCatains(sourthwest.lng(), bound.sourthwest.lng)
       ) {
         return true;
       }
       return false;
     },
-    isCatains(source, target) {
-      let sourceright = source + 1;
-      let sourceleft = source - 1;
-      if (target > sourceleft && target < sourceright) {
-        return true;
-      }
-      return false;
+
+    async loadData(params) {
+      return await api[this.featuresData](params);
+    },
+    featuresHandler(value){
+      this.featuresData = value;
+      this.mapLoadHandler();
     }
   }
 };
@@ -122,7 +131,10 @@ export default {
 .search-box {
   display: block;
 }
-
+.features{
+      margin-top: -33px;
+      display: block;
+}
 .google-ployline {
   cursor: pointer;
   &:hover {

@@ -1,13 +1,9 @@
 import axios from 'axios';
 export default {
-  searchCompare(params){
-    // return [{
-    //   color:'#FF4933',
-    //   positions:[{lat:39.9042,lng:116.4074},{lat:39.9,lng:116.4074}],
-    //   listSource:[{type:"autonavi",id:12345,reportTime:"2018-07-26",speed:12,level:3},{type:"palmgo",id:12345,reportTime:"2018-07-26",speed:12,level:3}]},
-    // {color:'#FFB833',
-    // positions:[{lat:39.9046,lng:116.7074},{lat:39.9,lng:116.4074}],
-    // listSource:[{type:"autonavi",id:12345,reportTime:"2018-07-26",speed:12,level:3},{type:"palmgo",id:12345,reportTime:"2018-07-26",speed:12,level:3}]}]
+  differentSpeed(params){
+    return "fdsafd"
+  },
+  differentLevel(params){
     return axios
     .post("http://localhost:8080/getCompareRepotrByTile", params)
     .then(function (response) {
@@ -16,6 +12,22 @@ export default {
     .catch(function (response) {
       console.log(response)
     });
+  },
+  inPalmgoButNotInAutoNavi(){
+
+  },
+  inAutoNaviButNotInPalmgo(){
+
+  },
+  searchCompare(params){
+    // return [{
+    //   color:'#FF4933',
+    //   positions:[{lat:39.9042,lng:116.4074},{lat:39.9,lng:116.4074}],
+    //   listSource:[{type:"autonavi",id:12345,reportTime:"2018-07-26",speed:12,level:3},{type:"palmgo",id:12345,reportTime:"2018-07-26",speed:12,level:3}]},
+    // {color:'#FFB833',
+    // positions:[{lat:39.9046,lng:116.7074},{lat:39.9,lng:116.4074}],
+    // listSource:[{type:"autonavi",id:12345,reportTime:"2018-07-26",speed:12,level:3},{type:"palmgo",id:12345,reportTime:"2018-07-26",speed:12,level:3}]}]
+
   },
   search(params) {
     return axios
