@@ -1,7 +1,7 @@
 
 <template lang="pug">
   gmap-map(ref="googleMapPolygon" @click="mapClick($event)" :id="mapName" :center="center" :zoom="5" style="width: 1500px; height: 700px")
-    google-play-gon(v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index" :path="m" :strokeWeight="10" :events="event" @ploylineClick="addLatLng" @onclick="addLatLng" :editable="false")
+    google-play-gon(v-for="(m, index) in ploys" class="google-ployline" :map="map" :key="index" :path="m" :strokeWeight="5" :events="event" @ploylineClick="addLatLng" @onclick="addLatLng" :editable="false")
 </template>
 <script>
 import googlePlayGon from "../global/vuePlayGon";

@@ -4,11 +4,13 @@ div.report-box
     div.tip-list(style="height:0px")
       h3(style="  text-align: center; margin-top: 15px;") 数据来源分析
     formReport.detail-table(ref="formReport" :data="model")
+    Table.table-box(:columns="columns1" :data="data1")
     Icon.icon-box(type="ios-arrow-forward" style=" margin-left: 10px;")
     div.tip-list.mt5
       h3(style="  text-align: center") 路段颜色
-      p(style="font-size:15px") autonavi与palmgo的traffic_level不同显示红色。
-
+      p(style="font-size:15px") 1,autonavi与palmgo的traffic_level不同显示红色。
+      p(style="font-size:15px") 1,autonavi有palmgo没有显示绿色。
+      p(style="font-size:15px") 1,palmgo有autonavi没有显示蓝色。
 </template>
 <script>
 import formReport from './form';
@@ -23,28 +25,61 @@ export default {
     return {
       model:{},
       isShowRight: true,
-
+      columns1:[{
+        title: 'Type',
+        key: 'name',
+        width: 180,
+        fixed: 'left'
+      },{
+        title:'Zero',
+        key:'functionClassZero',
+         width: 100,
+      },{
+        title:'One',
+        key:'functionClassOne',
+         width: 100,
+      },{
+        title:'Two',
+        key:'functionClassTwo',
+         width: 100,
+      },{
+        key:'functionClassThree',
+        title:'Three',
+         width: 100,
+      },{
+        title:'Four',
+        key:'functionClassFour',
+         width: 100,
+      },{
+        title:'total',
+        key:'total',
+        width:100
+      }
+      ],
+      data1:[]
     };
   },
   watch:{
     data(nv){
       if(nv){
         this.model = nv;
+        _.each(nv.functionClasslist,item=>{
+
+          item.total = item.functionClassZero+item.functionClassOne+item.functionClassTwo+item.functionClassThree+item.functionClassFour;
+        });
+        this.data1 = nv.functionClasslist;
+
       }
     }
   }
 };
 </script>
 <style lang="less" scoped>
- .ivu-table .demo-table-info-cell-auto {
-        text-align:right;
-        background-color: #2db7f5;
-    }
 .report-box {
   position: absolute;
   .report-detail {
     position: absolute;
-    height: 600px;
+    height: 650px;
     background-color: white;
     width: 20px;
     cursor: pointer;
@@ -60,6 +95,9 @@ export default {
       .detail-table {
         display: block;
       }
+      .table-box {
+        display: block;
+      }
       .tip-list{
         display: block
       }
@@ -68,6 +106,10 @@ export default {
       margin-top: 300px;
       font-size: 30px;
       cursor: pointer;
+    }
+    .table-box{
+       width: 380px;
+      display: none;
     }
     .detail-table {
       margin-top: 50px;

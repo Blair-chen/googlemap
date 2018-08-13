@@ -20,7 +20,7 @@ import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import { zoomMapping, isCatains } from "../untils/tool.js";
-
+require('gmaps-marker-clusterer');
 export default {
   components: {
     vueGooglemapPolyline,
@@ -62,9 +62,18 @@ export default {
   methods: {
     cycleHandler() {
       this.mapLoadHandler();
+      this.ComapreReport();
       this.interval =setInterval(() => {
-        this.mapLoadHandler();
+         this.mapLoadHandler();
+        this.ComapreReport();
+
       }, 120000);
+    },
+    async ComapreReport(){
+      let response = await api.getCompareReport();
+      if ( response.status === 200){
+         this.data = response.data;
+      }
     },
     async mapLoadHandler() {
       if(this.map === null) {
@@ -84,10 +93,8 @@ export default {
         if (this.isCurrentBound(response.data.bound)) {
          this.lines = response.data.roadeslist;
         }
-       this.data = response.data;
       }
     },
-
     onlickHandler(event, value) {
       let str="<table  border='1' cellspacing='0' > <tr><th width='70px'>type</th><th width='70px'>speed</th><th width='70px'>level</th><th width='70px'>reportTime</th></tr>"
       if (value.listSource) {
@@ -103,7 +110,7 @@ export default {
       this.marks.push(item);
     },
     isCurrentBound(bound) {
-      let mapObject = this.$refs.googleMap.$mapObject;
+      let mapObject = this.map;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
       if (

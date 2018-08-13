@@ -6,8 +6,15 @@
           Form-item(label="Autonavi Count" prop="autonaviCount" )
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.autonaviCount" placeholder='autonaviCount' :maxlength="20")
         Col(span='12')
-          Form-item(label="Palmgo Count" prop="palmgoCount" )
-            Input(type="text" style="text-align:center" :readonly="true" v-model="model.palmgoCount" placeholder='palmgoCount' :maxlength="20")
+          Form-item(label="PalmgoTotalCount" prop="palmgoTotalCount" )
+            Input(type="text" style="text-align:center" :readonly="true" v-model="model.palmgoTotalCount" placeholder='palmgoTotalCount' :maxlength="20")
+      Row
+        Col(span='12')
+          Form-item(label="PalmgoCurrentCount" prop="PalmgoCurrentCount")
+            Input(type="text" style="text-align=center" :readonly="true" v-model="model.palmgoCurrentCount" placeholder="palmgoCurrentCount")
+        Col(span='12')
+          Form-item(label="sameCount" prop="sameCount"  )
+            Input(type="text" style="text-align:center" :readonly="true" v-model="model.sameCount" placeholder='sameCount' :maxlength="20")
       Row
         Col(span='12')
           Form-item(label="different Level Count" prop="differentLevelCount" )
@@ -17,16 +24,13 @@
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.differentSpeedCount" placeholder='differentSpeedCount' :maxlength="20")
       Row
         Col(span='24')
-          Form-item(label="inPalmgoButNotInAutoNavi" :label-width=150  prop="inPalmgoButNotInAutoNavi" )
-            Input(type="text" style="text-align:center" :readonly="true" v-model="model.inPalmgoButNotInAutoNavi" placeholder='inPalmgoButNotInAutoNavi' :maxlength="20")
+          Form-item(label="inPalmgoButNotInAutoNaviCount" :label-width=180  prop="inPalmgoButNotInAutoNaviCount" )
+            Input(type="text" style="text-align:center" :readonly="true" v-model="model.inPalmgoButNotInAutoNaviCount" placeholder='inPalmgoButNotInAutoNaviCount' :maxlength="20")
       Row
         Col(span='24')
-          Form-item(label="inAutoNaviButNotInPalmgo" :label-width=150 prop="inAutoNaviButNotInPalmgo" )
-            Input(type="text" style="text-align:center" :readonly="true" v-model="model.inAutoNaviButNotInPalmgo" placeholder='inAutoNaviButNotInPalmgo' :maxlength="20")
-      Row
-        Col(span='24')
-          Form-item(label="same" prop="same" :label-width=150 )
-            Input(type="text" style="text-align:center" :readonly="true" v-model="model.same" placeholder='palmgoCount' :maxlength="20")
+          Form-item(label="inAutoNaviButNotInPalmgoCount" :label-width=180 prop="inAutoNaviButNotInPalmgoCount" )
+            Input(type="text" style="text-align:center" :readonly="true" v-model="model.inAutoNaviButNotInPalmgoCount" placeholder='inAutoNaviButNotInPalmgoCount' :maxlength="20")
+
 </template>
 <script>
 export default {

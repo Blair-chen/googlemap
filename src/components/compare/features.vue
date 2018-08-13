@@ -20,11 +20,8 @@ export default {
           value: 'differentSpeed',
           label: 'differentSpeed'
         },{
-          value : 'inPalmgoButNotInAutoNavi',
-          label:'inPalmgoButNotInAutoNavi'
-        },{
-          value:'inAutoNaviButNotInPalmgo',
-          label:'inAutoNaviButNotInPalmgo'
+          value : 'inSomethingButNotInOther',
+          label:'inSomethingButNotInOther'
         }
       ]
     }

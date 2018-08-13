@@ -1,40 +1,56 @@
 <template lang="pug">
-  gmap-map(ref="googleMapPolyline" @click="mapClick($event)" :id="mapName" :center="center" :zoom="zoom" style="width: 1500px; height: 700px")
+  gmap-map(ref="googleMap" @click="mapClick($event)" :id="mapName" :center="center" :zoom="zoom" style="width: 1500px; height: 700px")
 
 </template>
 <script>
+import * as VueGoogleMaps from "vue2-google-maps";
 export default {
   data() {
     return {
       Flag: false,
       name: 'shing chen',
       mapName: this.name + '-map',
-      center: { lat: 10.0, lng: 10.0 },
+      center: { lat: 25.034962, lng: 121.564422 },
       ploys: [],
-      zoom:5
+      zoom:5,
+      map:null
     }
   },
   mounted() {
+     VueGoogleMaps.loaded.then(() => {
+      const vm = this;
+      setTimeout(() => {
+        if (vm.$refs.googleMap.$mapObject) {
+          this.map =vm.$refs.googleMap.$mapObject;
+          this.loadRectangle();
+        }
+      }, 1000);
+    });
+
 
   },
   methods: {
-    mapClick(event) {
+    loadRectangle() {
 
       // let amsterdam = new google.maps.LatLng(52.395715, 4.888916);
       // let london = new google.maps.LatLng(51.508742, -0.120850);
       // let myTrip = [ amsterdam, london];
-      let flightPath = new google.maps.Circle({
-        center: event.latLng,
-        radius: 200000,
-        strokeColor: "#0000FF",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#0000FF",
-        fillOpacity: 0.4
-      });
-      this.zoom = 7
+      let flightPath = new google.maps.Rectangle({
+    bounds: {
+      north: 25.034962,
+      south: 25.033115,
+      east: 121.565422,
+      west: 121.563523
+    },
+    strokeOpacity: 0,
+    fillColor: '#00f',
+    fillOpacity: 0.35,
+    editable: true,
+    map: this.map
+  });
+      this.zoom = 17
 
-      flightPath.setMap(this.$refs.googleMapPolyline.$mapObject);
+      flightPath.setMap(this.map);
     }
 
 
