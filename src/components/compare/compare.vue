@@ -67,11 +67,11 @@ export default {
          this.mapLoadHandler();
         this.ComapreReport();
 
-      }, 120000);
+      }, 180000);
     },
     async ComapreReport(){
       let response = await api.getCompareReport();
-      if ( response.status === 200){
+      if ( response.status === 200&&response.data!=""&&!_.isEmpty(response.data)){
          this.data = response.data;
       }
     },
@@ -90,9 +90,14 @@ export default {
       };
       let response = await api[this.featuresData](params);
       if (response.status === 200 ) {
-        if (this.isCurrentBound(response.data.bound)) {
-         this.lines = response.data.roadeslist;
+        if (response.data){
+          if (this.isCurrentBound(response.data.bound)) {
+            this.lines = response.data.roadeslist;
+          }
+        }else{
+         this.$Message.error("服务器读取文件失败");
         }
+
       }
     },
     onlickHandler(event, value) {
@@ -101,6 +106,8 @@ export default {
          _.each(value.listSource,item=>{
            str+="<tr><td align='center'>"+ item.type+"</td><td align='center'>"+ item.speed+"</td><td align='center'>"+ item.level+"</td><td align='center'>"+ item.reportTime+"</td></tr>"
          })
+      }else{
+        str+="<tr><td colspan='4' align='center'>暂无数据</td></tr>"
       }
       str+="</table>"
       let item = {

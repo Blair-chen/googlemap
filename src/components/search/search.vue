@@ -66,11 +66,17 @@ export default {
       };
       let response = await api.search(params);
 
-      if (response.status === 200 && this.isCurrentBound(response.data.bound)) {
-        _.each(response.data.listWay, item => {
-          item.color = colorMapping(item.flow);
-        });
-        this.lines = response.data.listWay;
+      if (response.status === 200 ) {
+        if(response.data!=""&&!_.isEmpty(response.data)){
+           if(this.isCurrentBound(response.data.bound)){
+              _.each(response.data.listWay, item => {
+                item.color = colorMapping(item.flow);
+               });
+           this.lines = response.data.listWay;
+            }
+        }else {
+          this.$Message.error("服务器读取文件失败");
+        }
       }
     },
     async search() {

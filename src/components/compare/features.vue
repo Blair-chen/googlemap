@@ -38,6 +38,7 @@ export default {
 .features-box{
   width: 200px;
   margin-left: 5px;
+  margin-top: 5px;
 }
 
 </style>

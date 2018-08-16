@@ -5,13 +5,23 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-
     {
-      path: '/compare',
+      path:'/',
+      component:()=>System.import ('@/components/menu/mainMebu.vue')
+    },
+    {
+      path: '/compareView',
       component: () => System.import('@/components/compare/compare.vue'),
     },
     {
+      path:'/compare',
+      component:()=>System.import('@/components/menu/graph/graphCompare.vue')
+    },{
       path:'/search',
+      component:()=>System.import ('@/components/menu/graph/graphSpeed.vue')
+    },
+    {
+      path:'/searchView',
       component:() =>System.import('@/components/search/search.vue')
     },
     {
