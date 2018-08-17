@@ -1,100 +1,35 @@
-import axios from 'axios';
+
+import ajax from './ajax';
+const url={
+  differentLevel:"/getCompareRepotrByTile",
+  inSomethingButNotInOther:"/getDifferentRoadeByTile",
+  getCompareReport:"/getCompareReport",
+  search:"/findByTile",
+  loadroute:"/findByWayId/",
+  loadTime:"/findWayAndDateById/",
+  loadSpeed:"/findSpeed"
+}
 export default {
-  differentSpeed(params){
-    return "fdsafd"
-  },
   differentLevel(params){
-    return axios
-    .post("http://localhost:8080/getCompareRepotrByTile", params)
-    .then(function (response) {
-      return response;
-    })
-    .catch(function (response) {
-      console.log(response)
-    });
+    return ajax.post(url.differentLevel,params);
   },
   inSomethingButNotInOther(params){
-    return axios.post("http://localhost:8080/getDifferentRoadeByTile",params)
-    .then(function (response) {
-      return response;
-    })
-    .catch(function (response) {
-      console.log(response)
-    });
+    return ajax.post(url.inSomethingButNotInOther,params);
   },
-
   getCompareReport(){
-   return axios
-   .get("http://localhost:8080/getCompareReport" , {
-    headers: {
-      "Access-Control-Allow-Origin":
-        "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
-    },
-    crossdomain: true
-  })
-  .then(function (response) {
-    return response;
-  })
-  .catch(function (response) {
-    console.log(response);
-  });
-
+    return ajax.get(url.getCompareReport);
   },
-  search(params) {
-    return axios
-      .post("http://localhost:8080/findByTile", params)
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (response) {
-        console.log(response)
-      });
+  search(params){
+    return ajax.post(url.search,params);
   },
-
-  loadroute(key) {
-    return axios
-      .get("http://localhost:8080/findByWayId/" + key, {
-        headers: {
-          "Access-Control-Allow-Origin":
-            "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
-        },
-        crossdomain: true
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (response) {
-        console.log(response);
-      });
+  loadroute(params){
+    return ajax.get(url.loadroute,params)
   },
-  loadTime(time) {
-    return axios
-
-      .get("http://localhost:8080/findWayAndDateById/" + time, {
-        headers: {
-          "Access-Control-Allow-Origin":
-            "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
-        },
-        crossdomain: true
-      })
-      .then(function (response) {
-        return response;
-      })
-      .catch(function (response) {
-        console.log(response);
-      });
+  loadTime(params){
+    return ajax.get(url.loadTime,params);
   },
   loadSpeed(wayid,date){
-    return axios.get("http://localhost:8080/findSpeed"+"?wayid="+wayid+"&date="+date,{
-      headers: {
-        "Access-Control-Allow-Origin":
-          "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
-      },
-      crossdomain: true
-    }).then(function(response){
-       return response;
-    }).catch(function(response){
-      console.log(response);
-    })
+   let urls = url.loadSpeed+"?wayid="+wayid+"&date="+date;
+   return ajax.get(urls);
   }
 };
