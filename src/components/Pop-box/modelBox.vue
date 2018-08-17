@@ -48,6 +48,7 @@ export default {
        this.buttonFlag = false;
       this.loading =true;
       this.date = date;
+      this.dates=[];
       let format = "YYYY-MM-DD";
       let select = moment(date).format(format);
       const response = await api.loadSpeed(this.item.wayid, select);
@@ -67,7 +68,7 @@ export default {
     },
     formatDateValue() {
       let currentTime = this.getCurrentTime();
-        let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
+      let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
       if (speed != null) {
         if (moment(speed.dtimeStr).isSame(currentTime)) {
           return "时间:" + currentTime + ";速度:" + speed.speed;

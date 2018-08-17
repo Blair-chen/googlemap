@@ -51,6 +51,10 @@ export default {
   methods: {
     selectHandler(date) {
       this.$emit("selectHandler",date);
+    },
+    reset(){
+      this.year = new Date(),
+      this.isNext=new Date().getMonth() > 5
     }
   }
 };

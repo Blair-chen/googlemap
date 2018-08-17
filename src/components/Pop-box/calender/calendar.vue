@@ -9,7 +9,7 @@
       tbody
         tr(v-for="(row,index) in vdata")
           td.relative.calendar-cell(v-for="(date,index) in row" )
-            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="!compareDate(date)&&isCurrentMonth(date)&&compareExistHandler(date)")
+            Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="isCurrentMonth(date)&&compareExistHandler(date)")
               div.current( @click="selectHandler(date)" ) {{date.getDate()}}
             div.lunar(v-if="isCurrentMonth(date)&&!compareExistHandler(date)" )  {{date.getDate()}}
 
@@ -28,25 +28,29 @@ export default {
         return new Date();
       }
     },
-    dates:Array
+    dates: Array
   },
 
   data() {
     return {
       week: ["一", "二", "三", "四", "五", "六", "日"],
-      MonthDates:[]
+      MonthDates: []
     };
   },
-  watch:{
-    dates(nv){
-      const format="YYYY-MM";
-      const month = moment(this.date).format(format);
-      const vm=this;
-      _.each(nv,item=>{
-         if (month === moment(item).format(format)) {
-           vm.MonthDates.push(item);
-         }
-      })
+  watch: {
+    dates(nv) {
+      if (nv.length > 0) {
+        const format = "YYYY-MM";
+        const month = moment(this.date).format(format);
+        const vm = this;
+        _.each(nv, item => {
+          if (month === moment(item).format(format)) {
+            vm.MonthDates.push(item);
+          }
+        });
+      } else {
+        this.MonthDates = [];
+      }
     }
   },
   computed: {
@@ -86,11 +90,11 @@ export default {
   methods: {
     compareExistHandler(date) {
       const format = "YYYY-MM-DD";
-      let strDate =  moment(date).format(format);
-     if(_.findIndex(this.MonthDates,item=> strDate === item) === -1) {
-       return false;
-     }
-     return true;
+      let strDate = moment(date).format(format);
+      if (_.findIndex(this.MonthDates, item => strDate === item) === -1) {
+        return false;
+      }
+      return true;
     },
     compareDate(date) {
       if (date > new Date()) {
@@ -105,6 +109,7 @@ export default {
       );
     },
     selectHandler(date) {
+      this.MonthDates = [];
       this.$emit("selectHandler", date);
     },
     getMonthDates(date) {

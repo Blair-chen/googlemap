@@ -29,9 +29,7 @@ export default {
       lines: [],
       map: null,
       event: { click: "onclick" },
-      marks: [],
       zoom: 19,
-      color: "#0000FF",
       display: false,
       item: null
     };

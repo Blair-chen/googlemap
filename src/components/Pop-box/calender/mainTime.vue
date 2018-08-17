@@ -20,7 +20,7 @@ export default {
   watch: {
     modelId(nv) {
       this.modal = nv;
-    },
+    }
   },
   methods: {
     selectHandler(date) {
@@ -28,6 +28,7 @@ export default {
       this.asyncOK();
     },
     asyncOK() {
+      this.$refs.timeline.reset();
       this.$emit("close", this.modelId);
       this.modal = false;
     }
