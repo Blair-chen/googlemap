@@ -31,13 +31,13 @@ export default {
   },
   methods: {
     asyncOK () {
-     this.emitHandler();
      this.data = true
       this.modal = false;
+      this.emitHandler();
     },
     asyncCancle(){
-     this.emitHandler();
       this.modal = false;
+      this.emitHandler();
     },
     emitHandler(){
       this.$emit('cilckHandler',this.data);

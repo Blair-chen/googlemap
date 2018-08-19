@@ -1,6 +1,6 @@
 <template lang="pug">
 div.menu-box
-  Dropdown(style="margin-left: 90%;margin-top:10px"   @on-click="ClickHandler" )
+  Dropdown(style="margin-left: 88%;margin-top:15px"   @on-click="ClickHandler" )
     Button(type="primary") 功能选择
       Icon(type="ios-arrow-down")
     DropdownMenu(slot="list")

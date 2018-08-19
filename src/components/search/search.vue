@@ -8,7 +8,7 @@ div
     nav-menu(ref="menu")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
-  :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
+  :strokeWeight="strokeWeight" :events="event"  @onclick="onlickHandler" :editable="false")
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
 </template>
 <script>
@@ -31,7 +31,8 @@ export default {
       event: { click: "onclick" },
       zoom: 19,
       display: false,
-      item: null
+      item: null,
+      strokeWeight:5
     };
   },
   mounted() {
@@ -40,11 +41,21 @@ export default {
         const vm = this.$refs.googleMap.$mapObject;
         if (vm) {
           this.map = vm;
+          this.cycleHandler();
         }
       }, 1000);
     });
   },
+  beforeDestroy() {
+  clearTimeout( this.interval);
+  },
   methods: {
+     cycleHandler() {
+      this.mapLoadHandler();
+      this.interval =setInterval(() => {
+         this.mapLoadHandler();
+      }, 180000);
+    },
     refresh() {
       this.key = null;
       this.mapLoadHandler();
@@ -70,6 +81,12 @@ export default {
               _.each(response.data.listWay, item => {
                 item.color = colorMapping(item.flow);
                });
+               let zoom = mapObject.getZoom();
+               if (zoom<16){
+                 this.strokeWeight =3;
+               }else{
+                  this.strokeWeight =5;
+               }
            this.lines = response.data.listWay;
             }
         }else {
@@ -118,20 +135,14 @@ export default {
         return true;
       }
       return false;
-    },
-    // isCatains(source, target) {
-    //   let sourceright = source + 1;
-    //   let sourceleft = source - 1;
-    //   if (target > sourceleft && target < sourceright) {
-    //     return true;
-    //   }
-    //   return false;
-    // }
+    }
   }
 };
 </script>
 <style lang="less" scoped>
 .search-box {
+  position: absolute;
+  margin-top: 50px;
   display: block;
 }
 .menu{

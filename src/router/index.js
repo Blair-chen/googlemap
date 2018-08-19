@@ -22,11 +22,12 @@ export default new Router({
     },
     {
       path:'/searchView',
+      name:'searchView',
       component:() =>System.import('@/components/search/search.vue')
     },
     {
       path:'/menu',
-      component:() =>System.import('@/components/test/testMap.vue')
+      component:() =>System.import('@/components/test/table.vue')
     }
   ]
 })

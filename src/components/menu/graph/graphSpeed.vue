@@ -2,25 +2,36 @@
   div.regin-chose
    span(style="position: absolute; margin-top: 17px;width: 100%;text-align: center;font-size:20px") 地区选择
    div.regin-all-box
-      div.regin-box
-        span.span-box 中国
-      div.regin-box(@click="onClickHandler")
-        span.span-box 澳大利亚
-      div.regin-box
-        span.span-box 北美
-      div.regin-box
-        span.span-box 南美
-      div.regin-box
-        span.span-box 欧洲
-      div.regin-box
-        span.span-box 韩国
+     div.regin-box(v-for="item in data" @click="onClickHandler(item)")
+       span.span-box {{item.name}}
+   Spin.ivu-spin-table(size="large"  v-if="loading" fix)
 
 </template>
 <script>
+import api from "store/search/api/index.js";
+import {getCenter} from "@/components/untils/tool.js"
 export default {
+  data(){
+    return {
+      data:null,
+      center:null,
+      loading:false
+    }
+  },
+  mounted(){
+    this.data = api.getGraph();
+  },
   methods: {
-    onClickHandler() {
-      this.$router.push("/searchView");
+    onClickHandler(value) {
+       this.loading = true;
+      let response = api.loadMap(value.key);
+      if(response){
+      this.center =getCenter(response) ;
+      this.loading = false;
+      this.$router.push({name:"searchView"});
+    // this.$router.push({name:"searchView",params: { center: this.center }});
+      }
+
     }
   }
 };
