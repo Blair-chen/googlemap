@@ -5,16 +5,7 @@ div.menu-box
       Icon(type="ios-arrow-down")
     DropdownMenu(slot="list")
       DropdownItem(v-for="(item,index) in authMenus" :name="item.router" :key="index") {{ item.title }}
-  // div fdsf
-  //  ul.user-pop
-  //     li.item
-  //       router-link(to="")
-  //         i.icon.icon-lock
-  //         span 对比报告
-  //     li.item
-  //       router-link(to="")
-  //         i.icon.icon-cog
-  //         span 个人配置
+
 </template>
 <script>
 

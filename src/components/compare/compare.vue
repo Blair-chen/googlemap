@@ -8,7 +8,7 @@ div
   report-view(ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
-  :strokeWeight="5" :events="event"  @onclick="onlickHandler" :editable="false")
+  :strokeWeight="3" :events="event"  @onclick="onlickHandler" :editable="false")
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
 </template>
 <script>

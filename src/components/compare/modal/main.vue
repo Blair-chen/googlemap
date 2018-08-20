@@ -6,45 +6,44 @@
     check-box(ref="checkBox")
 </template>
 <script>
-import checkBox from './checkBox'
+import checkBox from "./checkBox";
 export default {
-  components:{
+  components: {
     checkBox
   },
-  props:{
-    modelId:Boolean,
-    item:{
-      type:Object
+  props: {
+    modelId: Boolean,
+    item: {
+      type: Object
     }
   },
-   data () {
+  data() {
     return {
-      data:false,
-        modal: false,
-        loading: true
-    }
+      data: false,
+      modal: false,
+      loading: true
+    };
   },
   watch: {
-    modelId(nv){
+    modelId(nv) {
       this.modal = nv;
     }
   },
   methods: {
-    asyncOK () {
-     this.data = true
+    asyncOK() {
+      this.data = true;
       this.modal = false;
       this.emitHandler();
     },
-    asyncCancle(){
+    asyncCancle() {
       this.modal = false;
       this.emitHandler();
     },
-    emitHandler(){
-      this.$emit('cilckHandler',this.data);
+    emitHandler() {
+      this.$emit("cilckHandler", this.data);
     }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-
 </style>

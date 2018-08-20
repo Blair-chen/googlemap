@@ -17,9 +17,6 @@ export default {
           value :'differentLevel',
           label: 'differentLevel'
         },{
-          value: 'differentSpeed',
-          label: 'differentSpeed'
-        },{
           value : 'inSomethingButNotInOther',
           label:'inSomethingButNotInOther'
         }

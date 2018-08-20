@@ -6,11 +6,11 @@
           Form-item(label="Autonavi Count" prop="autonaviCount" )
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.autonaviCount" placeholder='autonaviCount' :maxlength="20")
         Col(span='12')
-          Form-item(label="PalmgoTotalCount" prop="palmgoTotalCount" )
+          Form-item(label="PalmgoTotal Count" prop="palmgoTotalCount" )
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.palmgoTotalCount" placeholder='palmgoTotalCount' :maxlength="20")
       Row
         Col(span='12')
-          Form-item(label="PalmgoCurrentCount" prop="PalmgoCurrentCount")
+          Form-item(label="PalmgoCurrent Count" prop="PalmgoCurrentCount")
             Input(type="text" style="text-align=center" :readonly="true" v-model="model.palmgoCurrentCount" placeholder="palmgoCurrentCount")
         Col(span='12')
           Form-item(label="sameCount" prop="sameCount"  )
@@ -24,11 +24,11 @@
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.differentSpeedCount" placeholder='differentSpeedCount' :maxlength="20")
       Row
         Col(span='24')
-          Form-item(label="inPalmgoButNotInAutoNaviCount" :label-width=180  prop="inPalmgoButNotInAutoNaviCount" )
+          Form-item(label="inPalmgoButNotInAutoNavi Count" :label-width=180  prop="inPalmgoButNotInAutoNaviCount" )
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.inPalmgoButNotInAutoNaviCount" placeholder='inPalmgoButNotInAutoNaviCount' :maxlength="20")
       Row
         Col(span='24')
-          Form-item(label="inAutoNaviButNotInPalmgoCount" :label-width=180 prop="inAutoNaviButNotInPalmgoCount" )
+          Form-item(label="inAutoNaviButNotInPalmgo Count" :label-width=180 prop="inAutoNaviButNotInPalmgoCount" )
             Input(type="text" style="text-align:center" :readonly="true" v-model="model.inAutoNaviButNotInPalmgoCount" placeholder='inAutoNaviButNotInPalmgoCount' :maxlength="20")
 
 </template>

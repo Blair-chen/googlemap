@@ -51,7 +51,6 @@ export default {
   },
   methods: {
      cycleHandler() {
-      this.mapLoadHandler();
       this.interval =setInterval(() => {
          this.mapLoadHandler();
       }, 180000);
