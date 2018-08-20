@@ -2,7 +2,7 @@
 div
   gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.search-box
-    Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="编号" @on-enter="search()" @on-click="search()")
+    Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
   div.menu
     nav-menu(ref="menu")
@@ -89,7 +89,7 @@ export default {
            this.lines = response.data.listWay;
             }
         }else {
-          this.$Message.error("服务器读取文件失败");
+          this.$Message.error("Server failed to read file");
         }
       }
     },
@@ -101,7 +101,7 @@ export default {
       let response = await api.loadroute(this.key);
       if (response.status === 200) {
         if (_.isEmpty(response.data)) {
-          this.$Message.warning("此id没有对应的路段");
+          this.$Message.warning("Wayid has no corresponding section");
         } else {
           _.each(response.data, item => {
             item.color = colorMapping(item.flow);

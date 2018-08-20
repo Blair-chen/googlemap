@@ -1,7 +1,7 @@
 <template lang="pug">
 div.menu-box
   Dropdown(style="margin-left: 88%;margin-top:15px"   @on-click="ClickHandler" )
-    Button(type="primary") 功能选择
+    Button(type="primary") switch
       Icon(type="ios-arrow-down")
     DropdownMenu(slot="list")
       DropdownItem(v-for="(item,index) in authMenus" :name="item.router" :key="index") {{ item.title }}

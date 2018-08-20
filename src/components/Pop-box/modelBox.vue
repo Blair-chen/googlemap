@@ -1,8 +1,8 @@
 <template lang="pug">
   div.speed-box
-    Button(v-if="buttonFlag" type="primary" @click="TimeHandler" style="margin-top: 80px;margin-left: 200px;") 选择时间
+    Button(v-if="buttonFlag" type="primary" @click="TimeHandler" style="margin-top: 80px;margin-left: 200px;") Select time
     div(v-else)
-      Button( type="primary" @click="TimeHandler" style="margin-left: 200px;margin-bottom: 20px;") 重选时间
+      Button( type="primary" @click="TimeHandler" style="margin-left: 200px;margin-bottom: 20px;") Re-election time
       Slider( v-model="value" :min="0" :max="1440" style="margin-top: 60px;" :tip-format="format")
       div.showing-box {{ formatDateValue(value)}}
     Spin.ivu-spin-table(size="large"  v-if="loading" fix)
@@ -62,22 +62,22 @@ export default {
       let currentTime = this.getCurrentTime();
       let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
       if (speed != null) {
-          return "时间:" + currentTime + ";速度:" + speed.speed;
+          return "Time:" + currentTime + ";Speed:" + speed.speed;
       }
-      return "时间" + currentTime + ";速度:" + 0;
+      return "Time" + currentTime + ";Speed:" + 0;
     },
     formatDateValue() {
       let currentTime = this.getCurrentTime();
       let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
       if (speed != null) {
         if (moment(speed.dtimeStr).isSame(currentTime)) {
-          return "时间:" + currentTime + ";速度:" + speed.speed;
+          return "Time:" + currentTime + ";Speed:" + speed.speed;
         }
         const format = "YYYY-MM-DD HH:mm";
         let prev = moment(speed.dtime).format(format);
-        return "时间:" + prev + "-" + currentTime + ";速度:" + speed.speed;
+        return "Time:" + prev + "-" + currentTime + ";Speed:" + speed.speed;
       }
-      return "时间" + currentTime + ";速度:" + 0;
+      return "Time" + currentTime + ";Speed:" + 0;
     },
     //Time to resolve the slider
     getCurrentTime() {

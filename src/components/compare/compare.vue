@@ -95,7 +95,7 @@ export default {
             this.lines = response.data.roadeslist;
           }
         }else{
-         this.$Message.error("服务器读取文件失败");
+         this.$Message.error("Server failed to read file");
         }
 
       }
@@ -107,7 +107,7 @@ export default {
            str+="<tr><td align='center'>"+ item.type+"</td><td align='center'>"+ item.speed+"</td><td align='center'>"+ item.level+"</td><td align='center'>"+ item.reportTime+"</td></tr>"
          })
       }else{
-        str+="<tr><td colspan='4' align='center'>暂无数据</td></tr>"
+        str+="<tr><td colspan='4' align='center'>No data</td></tr>"
       }
       str+="</table>"
       let item = {

@@ -34,7 +34,7 @@ export default {
    return ajax.get(urls);
   },
   getGraph(){
-    return [{key:'123',name:'中国'},{key:'456',name:'澳大利亚'},{key:'789',name:'北美'},{key:'987',name:'南美'},{key:'654',name:'韩国'},{key:'321',name:'欧洲'}]
+    return [{key:'123',name:'China'},{key:'456',name:'Austrical'},{key:'789',name:'North America'},{key:'987',name:'South America'},{key:'654',name:'Korea'},{key:'321',name:'Europe'}]
   },
   loadMap(key){
     return "ANZ";

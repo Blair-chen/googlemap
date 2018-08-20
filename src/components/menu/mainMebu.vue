@@ -2,9 +2,9 @@
   div.login
     div.all-box
       div.compare-source-box(@click="ClickHandler('search')")
-        span.span-box 历史速度
+        span.span-box Traffic replay
       div.compare-source-box(@click="ClickHandler('compare')")
-        span.span-box  数据来源对比
+        span.span-box  Resource compare
 
 </template>
 

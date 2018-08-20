@@ -1,6 +1,6 @@
 <template lang="pug">
   div.regin-chose
-   span(style="position: absolute; margin-top: 17px;width: 100%;text-align: center;font-size:20px") 地区选择
+   span(style="position: absolute; margin-top: 17px;width: 100%;text-align: center;font-size:20px") region
    div.regin-all-box
      div.regin-box(v-for="item in data" @click="onClickHandler(item)")
        span.span-box {{item.name}}

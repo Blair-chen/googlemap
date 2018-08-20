@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal" :transfer="false"  :width="850" title="时间选择器" :loading="loading"
+Modal(v-model="modal" :transfer="false"  :width="850" title="Time selector " :loading="loading"
       @on-ok="asyncOK" @on-cancel="asyncOK")
   time-calender(ref="timeline" :dates="dates" @selectHandler="selectHandler")
 </template>

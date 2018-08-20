@@ -37,14 +37,7 @@ export default {
     zIndex: Number,
     events: Object
   },
-  // watch: {
-  //   map(nv) {
-  //     this.loadinit();
-  //   },
-  //   path(nv) {
-  //      this.loadinit();
-  //   }
-  // },
+
   mounted() {
     this.loadinit();
   },

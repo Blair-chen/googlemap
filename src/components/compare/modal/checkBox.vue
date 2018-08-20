@@ -3,10 +3,10 @@ div(style="padding: 32px;")
   div(style="float:left;margin-top: 2px; margin-right: 15px;")
     checkbox( :indeterminate="indeterminate"
             :value="checkAll"
-            @click.prevent.native="handleCheckAll") 全选
+            @click.prevent.native="handleCheckAll") selectAll
   checkbox-group(v-model="checkAllGroup" @on-change="checkAllGroupChange")
-    checkbox(label="auto")
-    checkbox(label="palm")
+    checkbox(label="autoNavi")
+    checkbox(label="palmgo")
 </template>
 <script>
 export default {

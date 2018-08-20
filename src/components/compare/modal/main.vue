@@ -1,6 +1,6 @@
 <template lang="pug">
   Modal(v-model="modal" :transfer="false" :width="500"
-        title="选择数据来源"
+        title="checkResource"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")
     check-box(ref="checkBox")

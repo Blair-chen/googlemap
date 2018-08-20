@@ -1,19 +1,19 @@
 <template lang="pug">
   div.regin-chose
-    span(style="position: absolute; margin-top: 17px;width: 100%;text-align: center;font-size:20px") 地区选择
+    span(style="position: absolute; margin-top: 17px;width: 100%;text-align: center;font-size:20px") region
     div.regin-all-box
       div.regin-box(@click="onClickHandler")
-        span.span-box 中国
+        span.span-box China
       div.regin-box
-        span.span-box 澳大利亚
+        span.span-box Australia
       div.regin-box
-        span.span-box 北美
+        span.span-box North America
       div.regin-box
-        span.span-box 南美
+        span.span-box South America
       div.regin-box
-        span.span-box 欧洲
+        span.span-box Europe
       div.regin-box
-        span.span-box 韩国
+        span.span-box Korea
     model(ref="model" :modelId="modelId" @cilckHandler="clickHandler")
 </template>
 <script>

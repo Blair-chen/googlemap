@@ -2,15 +2,15 @@
 div.report-box
   div.report-detail
     div.tip-list(style="height:0px")
-      h3(style="  text-align: center; margin-top: 15px;") 数据来源分析
+      h3(style="  text-align: center; margin-top: 15px;") Data source analysis
     formReport.detail-table(ref="formReport" :data="model")
     Table.table-box(:columns="columns1" :data="data1")
     Icon.icon-box(type="ios-arrow-forward" style=" margin-left: 10px;")
     div.tip-list.mt5
-      h3(style="  text-align: center") 路段颜色
-      p(style="font-size:15px") 1,autonavi与palmgo的traffic_level不同显示红色。
-      p(style="font-size:15px") 1,autonavi有palmgo没有显示绿色。
-      p(style="font-size:15px") 1,palmgo有autonavi没有显示蓝色。
+      h3(style="  text-align: center") Road color
+      p(style="font-size:15px") 1,Red is autonavi and palmgo has different traffic_level
+      p(style="font-size:15px") 1,Green is in autonavi but not in palmgo
+      p(style="font-size:15px") 1,Blue is in palmgo but not in autonavi
 </template>
 <script>
 import formReport from './form';

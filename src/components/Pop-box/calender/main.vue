@@ -6,9 +6,9 @@ div
       Button-group
         Button(@click="isNext=false")
           Icon.mr1(type="chevron-left")
-          span 上半年
+          span First half year
         Button(@click="isNext=true")
-          span 下半年
+          span Second half year
           Icon.ml1(type="chevron-right")
   div.px2.absolute.pos-fit.overflow-auto
     Row.p2.mb2(:gutter="16" style="height:45%;min-height:50px" v-for="(item,index) in monthDates" :key="index")

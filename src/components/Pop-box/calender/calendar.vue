@@ -33,7 +33,7 @@ export default {
 
   data() {
     return {
-      week: ["一", "二", "三", "四", "五", "六", "日"],
+      week: ["Monday", "Tuesday", "Wednesday", "Thursday", "Firday", "Saturday", "Sunday"],
       MonthDates: []
     };
   },
@@ -65,7 +65,7 @@ export default {
         _.first(currentDates).getDay()
       );
       const lastDayNeeds = _.takeRight(lastDates, weekDayOfFirstDay - 1);
-      const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); // 最后一天是星期几
+      const weekDayofEndDay = this.mapDayToZhCN(_.last(currentDates).getDay()); //week of last day
       const nextDayNeeds = _.take(nextDates, 7 - weekDayofEndDay);
       let dates = lastDayNeeds.concat(currentDates).concat(nextDayNeeds);
 
@@ -105,7 +105,7 @@ export default {
     getDate(date) {
       let selectMonth = date.getMonth() + 1;
       return (
-        date.getFullYear() + "年" + selectMonth + "月" + date.getDate() + "日"
+        date.getFullYear() + "-" + selectMonth + "-" + date.getDate()
       );
     },
     selectHandler(date) {
