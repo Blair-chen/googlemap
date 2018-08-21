@@ -28,8 +28,8 @@ export default {
       if(response){
       this.center =getCenter(response) ;
       this.loading = false;
-      this.$router.push({name:"searchView"});
-    // this.$router.push({name:"searchView",params: { center: this.center }});
+      //this.$router.push({name:"searchView"});
+      this.$router.push({name:"searchView",params: { center: this.center }});
       }
 
     }

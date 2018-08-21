@@ -11,6 +11,7 @@ export default new Router({
     },
     {
       path: '/compareView',
+      name:'compareView',
       component: () => System.import('@/components/compare/compare.vue'),
     },
     {
