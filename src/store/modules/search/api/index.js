@@ -41,5 +41,8 @@ export default {
   },
   functionCount(params){
     return ajax.post(url.functionCount,params);
+  },
+  loadCompareMap(data){
+    return "CN";
   }
 };

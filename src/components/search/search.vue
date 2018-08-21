@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  gmap-map( @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map( v-if="center" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.search-box
     Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
@@ -24,7 +24,7 @@ export default {
 
   data() {
     return {
-      center: { lat: -33.88658145569154, lng: 151.13988831025813 },
+      center: null,
       key: null,
       lines: [],
       map: null,
@@ -35,12 +35,21 @@ export default {
       strokeWeight:5
     };
   },
+  created(){
+    const params=this.$route.params.center;
+    if( params){
+     this.center = params;
+    }else{
+      this.$router.push("/search");
+    }
+
+  },
   mounted() {
     VueGoogleMaps.loaded.then(() => {
       setTimeout(() => {
-        const vm = this.$refs.googleMap.$mapObject;
-        if (vm) {
-          this.map = vm;
+        const vm = this.$refs.googleMap;
+        if (vm&&vm.$mapObject) {
+          this.map = vm.$mapObject;
           this.cycleHandler();
         }
       }, 1000);

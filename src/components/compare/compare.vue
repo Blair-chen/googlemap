@@ -44,12 +44,21 @@ export default {
       interval: null
     };
   },
+    created(){
+    const params=this.$route.params.center;
+    if( params){
+     this.center = params;
+    }else{
+      this.$router.push("/compare");
+    }
+
+  },
   mounted() {
     VueGoogleMaps.loaded.then(() => {
-      const vm = this;
+      const vm = this.$refs.googleMap;
       setTimeout(() => {
-        if (vm.$refs.googleMap.$mapObject) {
-          this.map = vm.$refs.googleMap.$mapObject;
+        if (vm && vm.$mapObject) {
+          this.map = vm.$mapObject;
           this.cycleHandler();
         }
       }, 1000);

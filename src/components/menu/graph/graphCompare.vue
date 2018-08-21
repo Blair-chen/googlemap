@@ -18,6 +18,8 @@
 </template>
 <script>
 import model from "@/components/compare/modal/main";
+import api from "store/search/api/index.js";
+import {getCenter} from "@/components/untils/tool.js"
 export default {
   components: {
     model
@@ -35,7 +37,13 @@ export default {
     clickHandler(data) {
       this.modelId = false;
       if (data) {
-        this.$router.push("/compareView");
+       let response = api.loadCompareMap(data );
+      if(response){
+      this.center =getCenter(response) ;
+      this.loading = false;
+      //this.$router.push({name:"searchView"});
+      this.$router.push({name:"compareView",params: { center: this.center }});
+      }
       }
     }
   }
