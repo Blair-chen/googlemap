@@ -9,10 +9,6 @@
 
 <script>
 import _ from "lodash";
-
-import propsBinder from "@/components/untils/propsBinder.js";
-import eventsBinder from "@/components/untils/eventsBinder.js";
-import mutationObserver from "@/components/untils/mutationObserver.js";
 import MapComponent from "./mapComponent.js";
 
 const props = {
@@ -47,7 +43,6 @@ const props = {
     twoWay: true
   }
 };
-
 
 export default MapComponent.extend({
   replace: false,

@@ -1,5 +1,4 @@
 <template>
-
 </template>
 
 <script>
@@ -47,6 +46,7 @@ export default {
     this.$polyline.setMap(null);
     google.maps.event.clearInstanceListeners(this.$polyline);
   },
+
   methods: {
     loadinit() {
       if (this.map) {

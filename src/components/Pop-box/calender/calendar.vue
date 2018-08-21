@@ -33,7 +33,7 @@ export default {
 
   data() {
     return {
-      week: ["Monday", "Tuesday", "Wednesday", "Thursday", "Firday", "Saturday", "Sunday"],
+      week: ["Mon", "Tues", "Wedne", "Thurs", "Fir", "Satur", "Sun"],
       MonthDates: []
     };
   },

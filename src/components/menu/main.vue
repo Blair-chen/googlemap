@@ -19,7 +19,7 @@ export default {
     return {
       hiddlen:false,
       authMenus:[
-        {title:'对比报告',router:'compare'},{title:'历史速度分析',router:'search'}
+        {title:'Compare Resource',router:'compare'},{title:'Traffic Reply',router:'search'}
       ]
     }
   },
