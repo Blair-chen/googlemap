@@ -12,7 +12,7 @@
 <script>
 import ss from "../../assets/first.png";
 export default {
-  name: "HelloWorld",
+
   methods: {
     ClickHandler(value) {
       this.$router.push("/" + value);

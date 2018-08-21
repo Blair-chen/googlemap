@@ -20,7 +20,7 @@ import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import { zoomMapping, isCatains } from "../untils/tool.js";
-require('gmaps-marker-clusterer');
+require("gmaps-marker-clusterer");
 export default {
   components: {
     vueGooglemapPolyline,
@@ -32,7 +32,7 @@ export default {
 
   data() {
     return {
-      featuresData:'differentLevel',
+      featuresData: "differentLevel",
       center: { lat: 39.9042, lng: 116.4074 },
       lines: [],
       map: null,
@@ -40,8 +40,8 @@ export default {
       marks: [],
       zoom: 13,
       item: null,
-      data:null,
-      interval:null
+      data: null,
+      interval: null
     };
   },
   mounted() {
@@ -49,34 +49,33 @@ export default {
       const vm = this;
       setTimeout(() => {
         if (vm.$refs.googleMap.$mapObject) {
-          this.map =vm.$refs.googleMap.$mapObject;
+          this.map = vm.$refs.googleMap.$mapObject;
           this.cycleHandler();
         }
       }, 1000);
     });
-
   },
   beforeDestroy() {
-  clearTimeout( this.interval);
-},
+    clearTimeout(this.interval);
+  },
   methods: {
     cycleHandler() {
       this.mapLoadHandler();
       this.ComapreReport();
-      this.interval =setInterval(() => {
-         this.mapLoadHandler();
+      this.interval = setInterval(() => {
+        this.mapLoadHandler();
         this.ComapreReport();
-
       }, 180000);
     },
-    async ComapreReport(){
+    async ComapreReport() {
       let response = await api.getCompareReport();
-      if ( response.status === 200&&response.data!=""&&!_.isEmpty(response.data)){
-         this.data = response.data;
+      if (
+        response.status === 200 &&  response.data != "" &&  !_.isEmpty(response.data)  ) {
+        this.data = response.data;
       }
     },
     async mapLoadHandler() {
-      if(this.map === null) {
+      if (this.map === null) {
         return null;
       }
       this.lines = [];
@@ -89,27 +88,27 @@ export default {
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
       let response = await api[this.featuresData](params);
-      if (response.status === 200 ) {
-        if (response.data){
+      if (response.status === 200) {
+        if (response.data) {
           if (this.isCurrentBound(response.data.bound)) {
             this.lines = response.data.roadeslist;
           }
-        }else{
-         this.$Message.error("Server failed to read file");
+        } else {
+          this.$Message.error("Server failed to read file");
         }
-
       }
     },
     onlickHandler(event, value) {
-      let str="<table  border='1' cellspacing='0' > <tr><th width='70px'>type</th><th width='70px'>speed</th><th width='70px'>level</th><th width='70px'>reportTime</th></tr>"
+      let str =
+        "<table  border='1' cellspacing='0' > <tr><th width='70px'>type</th><th width='70px'>speed</th><th width='70px'>level</th><th width='70px'>reportTime</th></tr>";
       if (value.listSource) {
-         _.each(value.listSource,item=>{
-           str+="<tr><td align='center'>"+ item.type+"</td><td align='center'>"+ item.speed+"</td><td align='center'>"+ item.level+"</td><td align='center'>"+ item.reportTime+"</td></tr>"
-         })
-      }else{
-        str+="<tr><td colspan='4' align='center'>No data</td></tr>"
+        _.each(value.listSource, item => {
+          str += "<tr><td align='center'>" +item.type +"</td><td align='center'>" + item.speed +
+            "</td><td align='center'>" +  item.level +  "</td><td align='center'>" +   item.reportTime +  "</td></tr>"; });
+      } else {
+        str += "<tr><td colspan='4' align='center'>No data</td></tr>";
       }
-      str+="</table>"
+      str += "</table>";
       let item = {
         position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
         content: str
@@ -134,7 +133,7 @@ export default {
     async loadData(params) {
       return await api[this.featuresData](params);
     },
-    featuresHandler(value){
+    featuresHandler(value) {
       this.featuresData = value;
       this.mapLoadHandler();
     }
@@ -145,9 +144,9 @@ export default {
 .search-box {
   display: block;
 }
-.features{
-      margin-top: -33px;
-      display: block;
+.features {
+  margin-top: -33px;
+  display: block;
 }
 .google-ployline {
   cursor: pointer;

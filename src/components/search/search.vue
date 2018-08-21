@@ -47,9 +47,10 @@ export default {
     });
   },
   beforeDestroy() {
-  clearTimeout( this.interval);
+    clearTimeout( this.interval);
   },
   methods: {
+    //polling
      cycleHandler() {
       this.interval =setInterval(() => {
          this.mapLoadHandler();
@@ -59,6 +60,7 @@ export default {
       this.key = null;
       this.mapLoadHandler();
     },
+    // get rode by bound box
     async mapLoadHandler() {
       if (this.key) {
         return null;
@@ -93,6 +95,7 @@ export default {
         }
       }
     },
+    //get by wayid
     async search() {
       if (this.key === null) {
         return null;
@@ -121,6 +124,7 @@ export default {
       this.item = value;
       this.display = true;
     },
+    //compare bound box
     isCurrentBound(bound) {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();

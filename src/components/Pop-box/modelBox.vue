@@ -31,6 +31,7 @@ export default {
     };
   },
   methods: {
+    //select Time
     async TimeHandler() {
       this.value = 0;
       this.speeds = [];
@@ -45,7 +46,7 @@ export default {
       this.modelId = false;
     },
     async selectHandler(date) {
-       this.buttonFlag = false;
+      this.buttonFlag = false;
       this.loading =true;
       this.date = date;
       this.dates=[];
@@ -54,10 +55,10 @@ export default {
       const response = await api.loadSpeed(this.item.wayid, select);
       if (response.status === 200) {
         this.speeds = response.data;
+        this.loading =false;
       }
-      this.loading =false;
     },
-    //
+    //slider
     format(){
       let currentTime = this.getCurrentTime();
       let speed = this.binSearch(this.speeds,  0,this.speeds.length - 1,currentTime);
