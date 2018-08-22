@@ -24,7 +24,7 @@ export default {
 .login {
   width: 1500px;
   height: 800px;
-  background-image: url("../../assets/first.png");
+
   background-size: 100%;
   background-repeat: no-repeat;
   position: relative;
@@ -50,10 +50,16 @@ export default {
       background-color: aqua;
       border-radius: 25px;
       .span-box{
+        text-align: center;
         position: absolute;
-        margin-top: 14px;
-        margin-left: -40px;
-        font-size:15px
+         margin-top: 27px;
+        // margin-left: -40px;
+        font-size:15px;
+        -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
       }
     }
   }
