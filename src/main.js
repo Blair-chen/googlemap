@@ -6,7 +6,7 @@ import router from './router/index'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import iView from 'iview';
 import 'iview/dist/styles/iview.css';
-
+import VCharts from 'v-charts'
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 Vue.use(VueGoogleMaps, {
@@ -16,6 +16,7 @@ Vue.use(VueGoogleMaps, {
     // libraries: 'places', //// If you need to use place input
   }
 })
+Vue.use(VCharts)
 Vue.use(iView);
 new Vue({
   el: '#app',

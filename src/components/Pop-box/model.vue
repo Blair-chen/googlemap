@@ -1,5 +1,5 @@
 <template lang="pug">
-Modal(v-model="modal" :transfer="false" :width="500"
+Modal(v-model="modal" :transfer="false" :width="1000"
         title="traffic reply"
         :loading="loading"
         @on-ok="asyncOK" @on-cancel="asyncOK")

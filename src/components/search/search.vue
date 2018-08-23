@@ -1,31 +1,27 @@
 <template lang="pug">
 div
   gmap-map( v-if="center" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
-  div.search-box
-    Input.ml10(type="text" icon="search" v-model="key" style="width:200px;height:0px;left:5px" placeholder="wayid" @on-enter="search()" @on-click="search()")
-    Button.ml1(icon="refresh" style="position: absolute; margin-top: 11px;margin-left: 10px;"  @click="refresh")
-  div.menu
-    nav-menu(ref="menu")
+  div.top-menu
+    nav-menu.z1002(ref="topMenu" :buttonFlag="false" @refresh="refresh" @search="search" @reginHandler="regionHandler" )
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="strokeWeight" :events="event"  @onclick="onlickHandler" :editable="false")
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
 </template>
 <script>
-import navMenu from "../menu/main"
+import navMenu from "./regin"
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import { zoomMapping, colorMapping,isCatains } from "../untils/tool.js";
+import {getCenter, zoomMapping, colorMapping,isCatains } from "../untils/tool.js";
 
 export default {
   components: { vueGooglemapPolyline, modelView,navMenu },
 
   data() {
     return {
-      center: null,
-      key: null,
+      center:  { lat: -33.88658145569154, lng: 151.13988831025813 },
       lines: [],
       map: null,
       event: { click: "onclick" },
@@ -34,15 +30,6 @@ export default {
       item: null,
       strokeWeight:5
     };
-  },
-  created(){
-    const params=this.$route.params.center;
-    if( params){
-     this.center = params;
-    }else{
-      this.$router.push("/search");
-    }
-
   },
   mounted() {
     VueGoogleMaps.loaded.then(() => {
@@ -66,14 +53,10 @@ export default {
       }, 180000);
     },
     refresh() {
-      this.key = null;
       this.mapLoadHandler();
     },
     // get rode by bound box
     async mapLoadHandler() {
-      if (this.key) {
-        return null;
-      }
       this.lines = [];
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
@@ -105,12 +88,12 @@ export default {
       }
     },
     //get by wayid
-    async search() {
-      if (this.key === null) {
+    async search(key) {
+      if (key === null) {
         return null;
       }
        this.lines=[];
-      let response = await api.loadroute(this.key);
+      let response = await api.loadroute(key);
       if (response.status === 200) {
         if (_.isEmpty(response.data)) {
           this.$Message.warning("Wayid has no corresponding section");
@@ -147,16 +130,23 @@ export default {
         return true;
       }
       return false;
+    },
+    regionHandler(value){
+     this.$refs.googleMap.$mapObject.setCenter(getCenter(value));
+     this.$refs.googleMap.$mapObject.setZoom(15);
     }
   }
 };
 </script>
 <style lang="less" scoped>
-.search-box {
+.top-menu {
   position: absolute;
-  margin-top: 50px;
+  width: 100%;
+  height: 50px;
   display: block;
+
 }
+
 .menu{
   margin-top: -6px;
   margin-left: 239px;
