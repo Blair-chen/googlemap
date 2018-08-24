@@ -76,6 +76,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .report-box {
+  margin-top: 100px;
   position: absolute;
   .report-detail {
     position: absolute;

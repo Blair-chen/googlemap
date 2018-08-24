@@ -5,11 +5,14 @@ div(style="padding: 32px;")
             :value="checkAll"
             @click.prevent.native="handleCheckAll") selectAll
   checkbox-group(v-model="checkAllGroup" @on-change="checkAllGroupChange")
-    checkbox(label="autoNavi")
-    checkbox(label="palmgo")
+    checkbox(v-for="(item,index) in data" :label="item.type" :key="index")
+
 </template>
 <script>
 export default {
+  props:{
+    data:Array
+  },
   data() {
     return {
       indeterminate: true,
@@ -44,6 +47,11 @@ export default {
         this.indeterminate = false;
         this.checkAll = false;
       }
+    },
+    reset(){
+      this.indeterminate= true,
+      this.checkAll= false,
+      this.checkAllGroup= []
     }
   }
 };

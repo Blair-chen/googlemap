@@ -1,14 +1,14 @@
 <template lang="pug">
 div.regin-search-menu
   div.regin-box
-      Button(type="primary") regin
-      RadioGroup(v-model="button" type="button")
-        Radio(label="CN" )
-        Radio(label="EU")
-        Radio(label="ANZ")
-        Radio(label="KOR" disabled)
-        Radio(label="NA")
-        Radio(label="SA")
+      div(style="float:left")
+        ul.absolute.right(style="background-color:#FFF")
+          li(style="height: 40px;display: inline-block; border-left: 1px solid #ccc; width: 50px;text-align: center;vertical-align: top;")
+            span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") regin
+          li.nav-btn(v-for="(item,index) in  region" @click="selectRegion(item)" :key="index")
+            span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") {{item.region}}
+
+  resource(v-show="resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
     Input.ml10(type="text" :disabled="buttonFlag" icon="search" v-model="key" style="width:200px;height:7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" :disabled="buttonFlag" style="position: absolute; margin-top: 7px;"  @click="refresh")
@@ -17,20 +17,27 @@ div.regin-search-menu
 
 </template>
 <script>
+import resource from "./resource";
+import api from "store/search/api/index.js"
 import navMenu from "../menu/main"
+import _ from 'lodash';
 export default {
   components:{
-    navMenu
+    navMenu,resource
   },
   props:{
     buttonFlag:Boolean,
     data:String,
-    sourceFlag:Boolean
+    sourceFlag:Boolean,
+
   },
   data(){
     return {
+      region:null,
       button:"ANZ",
-      key:null
+      key:null,
+      resource:null,
+      resourceFlag:false
     }
   },
   watch:{
@@ -45,10 +52,29 @@ export default {
       }
     }
   },
+  mounted(){
+    this.region =api.loadRegion();
+  },
 methods:{
   refresh(){
     this.key = null;
     this.$emit("refresh");
+  },
+  cancelHandler(){
+    this.resourceFlag = false;
+  },
+  okHandler(){
+    //add api
+    this.resourceFlag = false
+  },
+  selectRegion(value){
+    if(!_.isEmpty(value.resource)){
+      this.resource = value.resource;
+      this.resourceFlag = true;
+    }else {
+      this.$emit("reginHandler",value.region);
+    }
+
   },
   search(){
     this.$emit("search",this.key);
@@ -65,21 +91,70 @@ methods:{
   position: absolute;
   margin-left: 10px;
   margin-top: 6px;
-   .user-pop {
-       width: 296px;
-    display: block;
-    /* display: none; */
-    position: absolute;
-    line-height: normal;
-    /* right: 0; */
-    top: 6%;
-    left: 70px;
-    text-align: left;
-    z-index: 1;
-    background-color: #fff;
-    -webkit-box-shadow: 0 2px 6px #888;
-    box-shadow: 0 2px 6px #888;
-   }
+    .nav-btn {
+    height: 40px;
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    width: 50px;
+    text-align: center;
+    vertical-align: top;
+    cursor: pointer;
+    &:hover {
+      color: red;
+    }
+    .icon {
+      font-size: 1.5rem;
+      &.sysicon {
+        font-size: 2rem;
+      }
+    }
+    &.user {
+      width: auto;
+      padding: 0 1rem;
+      &:hover {
+        color: inherit;
+        .user-pop {
+          display: block;
+        }
+      }
+      .user-info {
+        img {
+          height: 40px;
+          width: 40px;
+          margin-right: 0.5rem;
+          margin-top: 4px;
+          vertical-align: top;
+        }
+        .icon {
+          font-size: 1.2rem;
+        }
+      }
+      .user-pop {
+        display: none;
+        position: absolute;
+        line-height: normal;
+        right: 0;
+        top:2px;
+        left: 0;
+        text-align: left;
+        z-index: 1;
+        background-color: #fff;
+        box-shadow: 0 2px 6px #888;
+        .item {
+          padding: 0.5rem 1rem;
+          transition: background-color 0.3s;
+          a {
+            color: inherit;
+          }
+          &:hover {
+            background-color: red;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+
 }
 .search-box{
   text-align: center;

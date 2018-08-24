@@ -28,7 +28,7 @@ export default new Router({
     },
     {
       path:'/menu',
-      component:() =>System.import('@/components/Pop-box/speedLineChart.vue')
+      component:() =>System.import('@/components/compare/report.vue')
     }
   ]
 })

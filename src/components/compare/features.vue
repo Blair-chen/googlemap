@@ -33,9 +33,10 @@ export default {
 </script>
 <style lang="less" scoped>
 .features-box{
+  position: absolute;
   width: 200px;
   margin-left: 5px;
-  margin-top: 5px;
+  margin-top: 70px;
 }
 
 </style>

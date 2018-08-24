@@ -44,5 +44,8 @@ export default {
   },
   loadCompareMap(data){
     return "CN";
+  },
+  loadRegion(){
+    return [{region:'EU',id:'1234',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{region:'EU',id:'1234',resource:[{type:'here',id:'123'},{type:'here2',id:'123'}]}]
   }
 };

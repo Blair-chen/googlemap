@@ -1,8 +1,8 @@
 <template lang="pug">
 div
   gmap-map(ref="googleMap" @tilesloaded="mapLoadHandler"  :center="center" :zoom="zoom" )
-  div.menu
-    nav-menu(ref="menu")
+  div.top-menu
+    nav-menu.z1002(ref="topMenu" :buttonFlag="true"  @reginHandler="regionHandler" )
   div.features
     features.ml10(ref="features" :data="featuresData" @featuresHandler="featuresHandler" )
   report-view(ref="report" :data="data")
@@ -14,7 +14,7 @@ div
 <script>
 import features from "./features";
 import reportView from "./report";
-import navMenu from "../menu/main";
+import navMenu from "../search/regin";
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       featuresData: "differentLevel",
-      center: { lat: 39.9042, lng: 116.4074 },
+      center:  { lat: -33.88658145569154, lng: 151.13988831025813 },
       lines: [],
       map: null,
       event: { click: "onclick" },
@@ -44,15 +44,7 @@ export default {
       interval: null
     };
   },
-    created(){
-    const params=this.$route.params.center;
-    if( params){
-     this.center = params;
-    }else{
-      this.$router.push("/compare");
-    }
 
-  },
   mounted() {
     VueGoogleMaps.loaded.then(() => {
       const vm = this.$refs.googleMap;
@@ -145,11 +137,23 @@ export default {
     featuresHandler(value) {
       this.featuresData = value;
       this.mapLoadHandler();
+    },
+    regionHandler(value){
+     this.$refs.googleMap.$mapObject.setCenter(getCenter(value));
+     this.$refs.googleMap.$mapObject.setZoom(15);
     }
   }
 };
 </script>
 <style lang="less" scoped>
+.top-menu {
+  margin-top: 25px;
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  display: block;
+
+}
 .search-box {
   display: block;
 }
