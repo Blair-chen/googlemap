@@ -2,9 +2,7 @@
 div
   gmap-map(ref="googleMap" @tilesloaded="mapLoadHandler"  :center="center" :zoom="zoom" )
   div.top-menu
-    nav-menu.z1002(ref="topMenu" :buttonFlag="true"  @reginHandler="regionHandler" )
-  div.features
-    features.ml10(ref="features" :data="featuresData" @featuresHandler="featuresHandler" )
+    nav-menu.z1002(ref="topMenu" :buttonFlag="true"  @reginHandler="regionHandler" @featuresHandler="featuresHandler")
   report-view(ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
@@ -12,7 +10,7 @@ div
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
 </template>
 <script>
-import features from "./features";
+
 import reportView from "./report";
 import navMenu from "../search/regin";
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
@@ -27,7 +25,7 @@ export default {
     vueGoogleInfoWindow,
     navMenu,
     reportView,
-    features
+
   },
 
   data() {
@@ -147,7 +145,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .top-menu {
-  margin-top: 25px;
+  margin-top: 5px;
   position: absolute;
   width: 100%;
   height: 50px;
@@ -157,10 +155,7 @@ export default {
 .search-box {
   display: block;
 }
-.features {
-  margin-top: -33px;
-  display: block;
-}
+
 .google-ployline {
   cursor: pointer;
   &:hover {

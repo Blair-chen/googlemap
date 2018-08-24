@@ -28,7 +28,7 @@ export default new Router({
     },
     {
       path:'/menu',
-      component:() =>System.import('@/components/compare/report.vue')
+      component:() =>System.import('@/components/search/regin.vue')
     }
   ]
 })

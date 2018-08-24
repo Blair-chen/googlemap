@@ -9,7 +9,9 @@ div.regin-search-menu
             span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") {{item.region}}
 
   resource(v-show="resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
-  div.search-box
+  div.features(v-show="buttonFlag")
+    features.ml10(ref="features"  @featuresHandler="featuresHandler" )
+  div.search-box(v-show="!buttonFlag")
     Input.ml10(type="text" :disabled="buttonFlag" icon="search" v-model="key" style="width:200px;height:7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1(icon="refresh" :disabled="buttonFlag" style="position: absolute; margin-top: 7px;"  @click="refresh")
   div.menu
@@ -17,13 +19,14 @@ div.regin-search-menu
 
 </template>
 <script>
+import features from "../compare/features";
 import resource from "./resource";
 import api from "store/search/api/index.js"
 import navMenu from "../menu/main"
 import _ from 'lodash';
 export default {
   components:{
-    navMenu,resource
+    navMenu,resource,features
   },
   props:{
     buttonFlag:Boolean,
@@ -78,7 +81,10 @@ methods:{
   },
   search(){
     this.$emit("search",this.key);
-  }
+  },
+   featuresHandler(value) {
+      this.$emit("featuresHandler",value);
+    },
 }
 }
 </script>
@@ -87,6 +93,10 @@ methods:{
   width: 100%;
   height: 50px;
   background-color:#F2F4F4;
+    .features {
+text-align: center;
+  display: block;
+}
 .regin-box{
   position: absolute;
   margin-left: 10px;

@@ -6,12 +6,10 @@ div.features-box
 </template>
 <script>
 export default {
-  props:{
-    data:String
-  },
+
   data(){
     return {
-      model:this.data,
+      model:'differentLevel',
       list:[
         {
           value :'differentLevel',
@@ -34,9 +32,10 @@ export default {
 <style lang="less" scoped>
 .features-box{
   position: absolute;
-  width: 200px;
-  margin-left: 5px;
-  margin-top: 70px;
+  margin-left: 400px;
+  margin-top: 10px;
+ width:200px;
+ text-align: center
 }
 
 </style>
