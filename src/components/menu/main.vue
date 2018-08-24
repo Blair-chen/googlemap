@@ -8,12 +8,7 @@ div.menu-box
 
 </template>
 <script>
-
-
-
 import _ from 'lodash';
-
-
 export default {
   data(){
     return {
@@ -36,6 +31,7 @@ export default {
  width: 100px;
     float: right;
     margin-right: 100px;
+    margin-top: -2px;
 }
 
 </style>

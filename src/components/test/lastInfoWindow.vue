@@ -32,7 +32,7 @@ export default {
      this.positions.push(position);
     },
     close(positions) {
-      debugger
+
     }
   }
 

@@ -3,18 +3,17 @@ div.regin-search-menu
   div.regin-box
       div(style="float:left")
         ul.absolute.right(style="background-color:#FFF")
-          li(style="height: 40px;display: inline-block; border-left: 1px solid #ccc; width: 50px;text-align: center;vertical-align: top;")
-            span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") regin
-          li.nav-btn(v-for="(item,index) in  region" @click="selectRegion(item)" :key="index")
-            span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") {{item.region}}
-  resource(v-show="resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
-  div.features(v-show="buttonFlag")
-    features.ml10(ref="features"  @featuresHandler="featuresHandler" )
-  div.search-box(v-show="!buttonFlag")
-    Input.ml10(type="text" :disabled="buttonFlag" icon="search" v-model="key" style="width:200px;height:7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
-    Button.ml1(icon="refresh" :disabled="buttonFlag" style="position: absolute; margin-top: 7px;"  @click="refresh")
+          li.nav-btn
+            span.span regin
+          li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item,resourceFlag = true" :key="index")
+            span.span {{item.region}}
+  resource(v-if="buttonFlag&&resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
+  div.search-box
+    features.ml10(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
+    Input.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" style="width:200px;height:7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
+    Button.ml1(v-if="!buttonFlag" icon="refresh"  style="position: absolute; margin-top: 7px;"  @click="refresh")
   div.menu
-    nav-menu(ref="menu")
+    nav-menu(ref="menu" :class="{active:buttonFlag}" )
 
 </template>
 <script>
@@ -36,10 +35,10 @@ export default {
   data(){
     return {
       region:null,
-      button:"ANZ",
       key:null,
       resource:null,
-      resourceFlag:false
+      resourceFlag:false,
+      select:null
     }
   },
   watch:{
@@ -48,14 +47,23 @@ export default {
         this.key = nv
       }
     },
-    button(nv){
-      if(nv){
-        this.$emit("reginHandler",nv);
+    select(nv){
+    if(nv){
+      if(!_.isEmpty(nv.resource)&&this.buttonFlag){
+      this.resource = nv.resource;
+      if(!this.resourceFlag){
+        this.$emit("reginHandler",nv.region);
+      }
+    }else {
+      this.$emit("reginHandler",nv.region);
+    }
       }
     }
   },
   mounted(){
-    this.region =api.loadRegion();
+    let region =api.loadRegion();
+    this.select = region[0];
+    this.region = region;
   },
 methods:{
   refresh(){
@@ -65,18 +73,11 @@ methods:{
   cancelHandler(){
     this.resourceFlag = false;
   },
-  okHandler(){
-    //add api
-    this.resourceFlag = false
-  },
-  selectRegion(value){
-    if(!_.isEmpty(value.resource)){
-      this.resource = value.resource;
-      this.resourceFlag = true;
-    }else {
-      this.$emit("reginHandler",value.region);
-    }
+  okHandler(value){
 
+    //add api
+    this.$emit("reginHandler",this.select.region);
+    this.resourceFlag = false
   },
   search(){
     this.$emit("search",this.key);
@@ -108,12 +109,17 @@ text-align: center;
     text-align: center;
     vertical-align: top;
     cursor: pointer;
-    &:hover {
+    &:not(:first-child):hover {
       color: red;
     }
-
-
+   .span{
+     position: absolute;
+      text-align: center;
+      margin-top: 12px;
+      margin-left: -7px;
+   }
   }
+
 
 }
 .search-box{
@@ -123,7 +129,20 @@ text-align: center;
 .menu{
   margin-top: -6px;
   margin-left: 239px;
+
 }
+.active{
+  margin-top: 10px
+}
+ .select{
+    height: 40px;
+    display: inline-block;
+    border-left: 1px solid #ccc;
+    width: 50px;
+    text-align: center;
+    vertical-align: top;
+    background-color: aqua;
+  }
 }
 
 </style>

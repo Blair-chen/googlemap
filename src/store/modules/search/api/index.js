@@ -36,16 +36,19 @@ export default {
   getGraph(){
     return [{key:'123',name:'China'},{key:'456',name:'Austrical'},{key:'789',name:'North America'},{key:'987',name:'South America'},{key:'654',name:'Korea'},{key:'321',name:'Europe'}]
   },
-  loadMap(key){
-    return "ANZ";
-  },
+
   functionCount(params){
     return ajax.post(url.functionCount,params);
   },
-  loadCompareMap(data){
-    return "CN";
-  },
+
   loadRegion(){
-    return [{region:'EU',id:'1234',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{region:'EU',id:'1234',resource:[{type:'here',id:'123'},{type:'here2',id:'123'}]}]
+    return [
+      {region:'CN',id:'12345',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+      {region:'EU',id:'1234',resource:[{type:'here',id:'123'},{type:'here2',id:'123'}]},
+      {region:'KOR',id:'1',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+      {region:'ANZ',id:'2',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+      {region:'NZ',id:'3',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+      {region:'SZ',id:'4',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+    ]
   }
 };

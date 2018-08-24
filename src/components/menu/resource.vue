@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.zone.flex.flex-column.overflow-hidden(style="height: 200px; width: 200px;margin-left:50px;margin-top:60px;position:absolute;box-shadow: 1px 1px 5px #888888;    background-color: white;")
+  div.zone.flex.flex-column.overflow-hidden(style="height: 200px; width: 300px;margin-left:50px;margin-top:60px;position:absolute;box-shadow: 1px 1px 5px #888888;    background-color: white;")
     div.header(style="height: 30px;width: 100%; border-bottom: 1px solid #DDD;")
       div.left
         div.h2(style="font-size；15px;margin-left:5px;margin-top:4px") Data Sources
@@ -22,7 +22,7 @@ export default {
   },
   data(){
      return{
-       resource:[]
+       resource:this.data
      }
   },
   watch:{

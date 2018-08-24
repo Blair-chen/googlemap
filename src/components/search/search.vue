@@ -132,8 +132,15 @@ export default {
       return false;
     },
     regionHandler(value){
-     this.$refs.googleMap.$mapObject.setCenter(getCenter(value));
-     this.$refs.googleMap.$mapObject.setZoom(15);
+      let map= this.map;
+      if(map) {
+       map.setCenter(getCenter(value));
+       map.setZoom(15);
+      }else{
+        this.center = getCenter(value);
+        this.zoom = 15
+      }
+
     }
   }
 };

@@ -17,7 +17,7 @@ import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import { zoomMapping, isCatains } from "../untils/tool.js";
+import { getCenter,zoomMapping, isCatains } from "../untils/tool.js";
 
 export default {
   components: {
@@ -136,8 +136,15 @@ export default {
       this.mapLoadHandler();
     },
     regionHandler(value){
-     this.$refs.googleMap.$mapObject.setCenter(getCenter(value));
-     this.$refs.googleMap.$mapObject.setZoom(15);
+
+      let map= this.map;
+      if(map) {
+       map.setCenter(getCenter(value));
+       map.setZoom(15);
+      }else{
+        this.center = getCenter(value);
+        this.zoom = 15
+      }
     }
   }
 };

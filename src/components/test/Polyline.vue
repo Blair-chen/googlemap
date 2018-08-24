@@ -30,7 +30,7 @@ export default {
           strokeOpacity: 0.8,
           strokeWeight: 2
         });
-        debugger
+
         let a = this.$refs.googleMapPolyline;
 
         flightPath.setMap(this.$refs.googleMapPolyline.$mapObject);

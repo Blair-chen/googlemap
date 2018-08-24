@@ -33,9 +33,6 @@ export default {
     });
   },
   methods: {
-    test(event){
-      debugger
-    },
     async mapLoadHandler() {
        let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
@@ -45,7 +42,7 @@ export default {
         northeast: { lat: northeast.lat(), lng: northeast.lng() },
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
-      debugger
+
       let response = await api.functionCount(params);
     }
   }
