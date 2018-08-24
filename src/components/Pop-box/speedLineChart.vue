@@ -43,6 +43,9 @@ export default {
     dates() {
       let value = this.value;
       let count = parseInt((value[1] - value[0]) / this.inputValue);
+      if(count<=0){
+        return [];
+      }
       return _.map(new Array(count), (item, index) => {
         let hour =
           parseInt((value[0] + index * this.inputValue) / 60) >= 10
