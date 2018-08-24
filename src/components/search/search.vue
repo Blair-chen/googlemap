@@ -9,7 +9,7 @@ div
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
 </template>
 <script>
-import navMenu from "./regin"
+import navMenu from "../menu/regin"
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
@@ -145,11 +145,6 @@ export default {
   height: 50px;
   display: block;
 
-}
-
-.menu{
-  margin-top: -6px;
-  margin-left: 239px;
 }
 .google-ployline {
   cursor: pointer;

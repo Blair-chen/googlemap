@@ -11,7 +11,7 @@
         Button(type="primary" @click="okHandler") 确定
 </template>
 <script>
-import checkout from "../compare/modal/checkBox"
+import checkout from "./checkBox"
 import _ from "lodash";
 export default {
   components:{

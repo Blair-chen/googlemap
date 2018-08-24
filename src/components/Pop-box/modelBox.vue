@@ -65,7 +65,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .speed-box {
-
   .time-box {
     position: absolute;
     margin-top: -9px;

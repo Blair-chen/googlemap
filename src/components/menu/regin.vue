@@ -7,7 +7,6 @@ div.regin-search-menu
             span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") regin
           li.nav-btn(v-for="(item,index) in  region" @click="selectRegion(item)" :key="index")
             span(style="position: absolute; text-align: center;margin-top: 12px;margin-left: -7px;") {{item.region}}
-
   resource(v-show="resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.features(v-show="buttonFlag")
     features.ml10(ref="features"  @featuresHandler="featuresHandler" )
@@ -112,57 +111,8 @@ text-align: center;
     &:hover {
       color: red;
     }
-    .icon {
-      font-size: 1.5rem;
-      &.sysicon {
-        font-size: 2rem;
-      }
-    }
-    &.user {
-      width: auto;
-      padding: 0 1rem;
-      &:hover {
-        color: inherit;
-        .user-pop {
-          display: block;
-        }
-      }
-      .user-info {
-        img {
-          height: 40px;
-          width: 40px;
-          margin-right: 0.5rem;
-          margin-top: 4px;
-          vertical-align: top;
-        }
-        .icon {
-          font-size: 1.2rem;
-        }
-      }
-      .user-pop {
-        display: none;
-        position: absolute;
-        line-height: normal;
-        right: 0;
-        top:2px;
-        left: 0;
-        text-align: left;
-        z-index: 1;
-        background-color: #fff;
-        box-shadow: 0 2px 6px #888;
-        .item {
-          padding: 0.5rem 1rem;
-          transition: background-color 0.3s;
-          a {
-            color: inherit;
-          }
-          &:hover {
-            background-color: red;
-            color: #fff;
-          }
-        }
-      }
-    }
+
+
   }
 
 }

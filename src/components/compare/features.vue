@@ -34,7 +34,7 @@ export default {
   position: absolute;
   margin-left: 400px;
   margin-top: 10px;
- width:200px;
+  width:200px;
  text-align: center
 }
 

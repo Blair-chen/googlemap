@@ -12,20 +12,19 @@ div
 <script>
 
 import reportView from "./report";
-import navMenu from "../search/regin";
+import navMenu from "../menu/regin";
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import vueGoogleInfoWindow from "../googlemap/infoWindow";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import { zoomMapping, isCatains } from "../untils/tool.js";
-require("gmaps-marker-clusterer");
+
 export default {
   components: {
     vueGooglemapPolyline,
     vueGoogleInfoWindow,
     navMenu,
     reportView,
-
   },
 
   data() {

@@ -33,32 +33,9 @@ export default {
 
 <style lang="less">
 .menu-box{
-  width: 100%
+ width: 100px;
+    float: right;
+    margin-right: 100px;
 }
-.user-pop {
-  width: 100px;
-  display: block;
-  display: none;
-  position: absolute;
-  line-height: normal;
-  right: 0;
-  top: 50%;
-  left: 0;
-  text-align: left;
-  z-index: 1;
-  background-color: #fff;
-  -webkit-box-shadow: 0 2px 6px #888;
-  box-shadow: 0 2px 6px #888;
-  .item {
-    padding: 0.5rem 1rem;
-    transition: background-color 0.3s;
-    a {
-      color: inherit;
-    }
-    &:hover {
-      background-color: blue;
-      color: #fff;
-    }
-  }
-}
+
 </style>
