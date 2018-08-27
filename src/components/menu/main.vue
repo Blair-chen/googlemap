@@ -14,7 +14,7 @@ export default {
     return {
       hiddlen:false,
       authMenus:[
-        {title:'Compare Resource',router:'compare'},{title:'Traffic Reply',router:'search'}
+        {title:'Compare Resource',router:'compareView'},{title:'Traffic Reply',router:'searchView'}
       ]
     }
   },
