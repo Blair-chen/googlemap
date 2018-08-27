@@ -6,6 +6,11 @@ div.spped-chart-box
     div(style="text-align:center;font-size:15px")
       span(style="text-align:center") Please slide slider to select start and end time
     Slider(v-model="value" :min="0" :max="1440" :step="inputValue" range show-input :tip-format="format")
+    div(style="margin-bottom:5px")
+      span(style="margin-left:20px;width:100px") Start Time
+      TimePicker(v-model="startTime" @on-change="startTimeHandler" format="HH:mm" placeholder="Select time" style="width: 112px;margin-left:10px")
+      span(style="margin-left:20px;width:100px") End Time
+      TimePicker(v-model="endTime" @on-change="endTimeHandler" format="HH:mm" placeholder="Select time" style="width: 112px;margin-left:10px")
     span(style="margin-left:150px;width:100px") Time Interval
     InputNumber( :min="3" v-model="inputValue" placeholder="time" clearable style="width: 50px;margin-left:10px")
     span(style="margin-left:10px;width:100px") minutes
@@ -23,6 +28,8 @@ export default {
       xAxisType: "time"
     };
     return {
+      startTime:"00:00",
+      endTime:"23:59",
       inputValue: 5,
       value: [0, 1440],
       chartData: {
@@ -37,6 +44,12 @@ export default {
   watch: {
     dates(nv) {
       this.chartData.rows = nv;
+    },
+    value(nv){
+      if(nv){
+        this.startTime =   this.translateTime(nv[0]);
+        this.endTime  =   this.translateTime(nv[1]);
+      }
     }
   },
   computed: {
@@ -63,31 +76,46 @@ export default {
     }
   },
   methods: {
+    endTimeHandler(){
+      const format = "YYYY-MM-DD";
+      const selectTime = moment(this.date).format(format);
+      const time=moment(selectTime+" "+this.endTime);
+      const hour = time.hours();
+      const minute = time.minute();
+      const value = [this.value[0],hour*60+minute] ;
+      this.value =value;
+    },
+    startTimeHandler(){
+      const format = "YYYY-MM-DD";
+      const selectTime = moment(this.date).format(format);
+      const time=moment(selectTime+" "+this.startTime);
+      const hour = time.hours();
+      const minute = time.minute();
+      const value = [hour*60+minute,this.value[1]] ;
+      this.value =value;
+    },
     format() {
       return this.getCurrentTime();
     },
     getCurrentTime() {
       let value = this.value;
-      let bhour =
-        parseInt(value[0] / 60) < 10
-          ? "0" + parseInt(value[0] / 60)
-          : parseInt(value[0] / 60);
-      let bminute =
-        parseInt(value[0] % 60) < 10
-          ? "0" + parseInt(value[0] % 60)
-          : parseInt(value[0] % 60);
-      let lhour =
-        parseInt(value[1] / 60) < 10
-          ? "0" + parseInt(value[0] / 60)
-          : parseInt(value[1] / 60);
-      let lminute =
-        parseInt(value[1] % 60) < 10
-          ? "0" + parseInt(value[0] % 60)
-          : parseInt(value[1] % 60);
+      const startTime = this.translateTime(value[0]);
+      const endTime = this.translateTime(value[1]);
       const format = "YYYY-MM-DD";
       let selectTime = moment(this.date).format(format);
-      const currentTime = selectTime +  " " + bhour +  ":" +  bminute + "-" +  selectTime + " " +  lhour +  ":" +  lminute;
+      const currentTime = selectTime +  " "+startTime + "-" +  selectTime + " " +  endTime;
       return currentTime;
+    },
+    translateTime(value){
+       let bhour =
+        parseInt(value / 60) < 10
+          ? "0" + parseInt(value / 60)
+          : parseInt(value / 60);
+      let bminute =
+        parseInt(value % 60) < 10
+          ? "0" + parseInt(value % 60)
+          : parseInt(value % 60);
+        return bhour+":"+bminute;
     },
      //Get current speed or recent speed
     binSearch(arr, start, end, key) {
