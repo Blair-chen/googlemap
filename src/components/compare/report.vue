@@ -89,7 +89,7 @@ export default {
     -webkit-transition: width 0.2s; /* Safari and Chrome */
     -o-transition: width 0.2s; /* Opera */
     &:hover {
-      width: 400px;
+      width: 450px;
       .icon-box {
         display: none;
       }
@@ -109,13 +109,13 @@ export default {
       cursor: pointer;
     }
     .table-box{
-       width: 380px;
+       width: 400px;
       display: none;
     }
     .detail-table {
-      margin-top: 50px;
+      margin-top: 20px;
       display: none;
-      width: 300px;
+      margin-bottom: 20px;
       margin-left: 10px;
       border-collapse: collapse;
       .caption {
