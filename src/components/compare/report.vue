@@ -9,8 +9,8 @@ div.report-box
     div.tip-list.mt5
       h3(style="  text-align: center") Road color
       p(style="font-size:15px") 1,Red is autonavi and palmgo has different traffic_level
-      p(style="font-size:15px") 1,Green is in autonavi but not in palmgo
-      p(style="font-size:15px") 1,Blue is in palmgo but not in autonavi
+      p(style="font-size:15px") 2,Green is in autonavi but not in palmgo
+      p(style="font-size:15px") 3,Blue is in palmgo but not in autonavi
 </template>
 <script>
 import formReport from './form';
