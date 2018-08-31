@@ -1,9 +1,9 @@
 <template lang="pug">
-  div
-    span(style="font-size:15px;margin:10px;text-align=center") {{center1}}
-    Table(:columns="columns1" :data="data1")
+  div {{data3}}
+
 </template>
 <script>
+import api from "store/search/api/index.js";
 export default {
   data(){
     return {
@@ -16,9 +16,16 @@ export default {
         {key:"functionClassTwo", width: 100,title:"functionClassTwo"},
         {key:"functionClassThree", width: 100,title:"functionClassThree"},
         {key:"functionClassFour", width: 100,title:"functionClassFour"},
+        {key:"area",width:200,title:"area"},
         {key:"bound",title:"bound"}
       ],
-      data2:[
+      data2:[],
+      data1:[],
+      data3:[]
+    }
+  },
+  mounted(){
+    this.data2=[
 {"id":1,"functionClassZero":4769940,"functionClassTwo":505359,"bound":{"northeast":{"lat":87.06897386178504,"lng":180.0},"sourthwest":{"lat":-89.16722422740155,"lng":-180.0},"zoom":0},"functionClassFour":161576,"functionClassThree":233010,"functionClassOne":569236},
 {"id":2,"functionClassZero":4769940,"functionClassTwo":505359,"bound":{"northeast":{"lat":65.2844800898337,"lng":180.0},"sourthwest":{"lat":-82.87738104906909,"lng":-180.0},"zoom":0},"functionClassFour":161576,"functionClassThree":233010,"functionClassOne":569236},
 {"id":3,"functionClassZero":4769940,"functionClassTwo":505359,"bound":{"northeast":{"lat":24.668337673370836,"lng":-77.02518270033147},"sourthwest":{"lat":-69.35584719881938,"lng":19.30495932084773},"zoom":0},"functionClassFour":161576,"functionClassThree":233010,"functionClassOne":569236},
@@ -43,11 +50,11 @@ export default {
 {"id":22,"functionClassZero":0,"functionClassTwo":0,"bound":{"northeast":{"lat":-33.88648404275933,"lng":151.1401397654297},"sourthwest":{"lat":-33.886678868512504,"lng":151.13963685508656},"zoom":4},"functionClassFour":0,"functionClassThree":2,"functionClassOne":0},
 {"id":23,"functionClassZero":0,"functionClassTwo":0,"bound":{"northeast":{"lat":-33.88648404275933,"lng":151.1401397654297},"sourthwest":{"lat":-33.886678868512504,"lng":151.13963685508656},"zoom":4},"functionClassFour":0,"functionClassThree":2,"functionClassOne":0},
 ],
-      data1:[
+this.data1=[
         {"id":1,"functionClassZero":36666101,"functionClassTwo":2318151,"bound":{"northeast":{"lat":89.26980475387418,"lng":180.0},"sourthwest":{"lat":-86.65741803715457,"lng":-180.0},"zoom":0},"functionClassFour":409507,"functionClassThree":1325364,"functionClassOne":2034107},
 {"id":2,"functionClassZero":36666101,"functionClassTwo":2318151,"bound":{"northeast":{"lat":83.75290492502874,"lng":180.0},"sourthwest":{"lat":-61.94139151726107,"lng":-180.0},"zoom":0},"functionClassFour":409507,"functionClassThree":1325364,"functionClassOne":2034107},
 {"id":3,"functionClassZero":36666101,"functionClassTwo":2318151,"bound":{"northeast":{"lat":71.85366552428678,"lng":-112.1650710105896},"sourthwest":{"lat":-17.649933455943465,"lng":-15.8349289894104},"zoom":0},"functionClassFour":409507,"functionClassThree":1325364,"functionClassOne":2034107},
-{"id":4,"functionClassZero":36666101,"functionClassTwo":2318151,"bound":{"northeast":{"lat":59.441148188070194,"lng":-178.0825355052948},"sourthwest":{"lat":12.719538775073572,"lng":50.0825355052948},"zoom":0},"functionClassFour":409507,"functionClassThree":1325364,"functionClassOne":2034107},
+{"id":4,"functionClassZero":36666101,"functionClassTwo":2318151,"bound":{"northeast":{"lat":59.441148188070194,"lng":178.0825355052948},"sourthwest":{"lat":12.719538775073572,"lng":50.0825355052948},"zoom":0},"functionClassFour":409507,"functionClassThree":1325364,"functionClassOne":2034107},
 {"id":5,"functionClassZero":29403584,"functionClassTwo":1778927,"bound":{"northeast":{"lat":50.6760631796257,"lng":148.9587322473526},"sourthwest":{"lat":27.13117104019742,"lng":83.0412677526474},"zoom":0},"functionClassFour":308658,"functionClassThree":986041,"functionClassOne":1595390},
 {"id":6,"functionClassZero":15574543,"functionClassTwo":861758,"bound":{"northeast":{"lat":45.54738237639752,"lng":132.4793661236763},"sourthwest":{"lat":33.75498702536562,"lng":99.5206338763237},"zoom":1},"functionClassFour":132151,"functionClassThree":541105,"functionClassOne":735194},
 {"id":7,"functionClassZero":6850113,"functionClassTwo":382256,"bound":{"northeast":{"lat":42.790058043091946,"lng":124.23968306183815},"sourthwest":{"lat":36.89147322096338,"lng":107.76031693816185},"zoom":1},"functionClassFour":65168,"functionClassThree":270303,"functionClassOne":362014},
@@ -68,6 +75,20 @@ export default {
 {"id":22,"functionClassZero":0,"functionClassTwo":0,"bound":{"northeast":{"lat":39.90429001719571,"lng":116.00025145517156},"sourthwest":{"lat":39.90410998268606,"lng":115.99974854482844},"zoom":4},"functionClassFour":0,"functionClassThree":0,"functionClassOne":0},
 {"id":23,"functionClassZero":0,"functionClassTwo":0,"bound":{"northeast":{"lat":39.90429001719571,"lng":116.00025145517156},"sourthwest":{"lat":39.90410998268606,"lng":115.99974854482844},"zoom":4},"functionClassFour":0,"functionClassThree":0,"functionClassOne":0}
       ]
+  },
+  watch:{
+    data1(nv){
+      let s=[];
+      _.each(nv,(item,index)=>{
+         s.push({
+           Googlezoom:index+1,
+           bound:item.bound
+         })
+
+      })
+      this.data3 = s;
+
+
     }
   }
 }

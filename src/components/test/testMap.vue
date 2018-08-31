@@ -1,6 +1,6 @@
 
 <template>
-  <gmap-map  ref="googleMap"  :center="center" :zoom="3" style="width: 1500px; height: 700px" />
+  <gmap-map @tilesloaded="test" ref="googleMap"  :center="center" :zoom="0" style="width: 1500px; height: 700px" />
 </template>
 <script >
 import * as VueGoogleMaps from 'vue2-google-maps';
@@ -40,29 +40,24 @@ export default {
       ]
     }
   },
-  mounted() {
-    const vm = this
+    mounted() {
     VueGoogleMaps.loaded.then(() => {
       setTimeout(() => {
+        const vm = this.$refs.googleMap;
+        if (vm&&vm.$mapObject) {
+          this.map = vm.$mapObject;
+          this.cycleHandler();
+        }
+      }, 1000);
+    });
+  },
+  methods:{
+    test(){
+ let northeast = this.$refs.googleMap.$mapObject.getBounds().getNorthEast();
+      let sourthwest = this.$refs.googleMap.$mapObject.getBounds().getSouthWest();
+      console.log({"northeast":northeast.lat(),"sourthwest":sourthwest.lat()});
+    }
 
-
-        // Create an array of alphabetical characters used to label the markers.
-        let labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-
-        // Add some markers to the map.
-        // Note: The code uses the JavaScript Array.prototype.map() method to
-        // create an array of markers based on a given "locations" array.
-        // The map() method here has nothing to do with the Google Maps API.
-        let markers = _.map(this.locations,(item,a)=>{
-           return new google.maps.Marker({
-             position:item,
-             label:labels[a%labels.length]
-           })
-        });
-        let markerCluster = new MarkerClusterer(vm.$refs.googleMap.$mapObject, markers,
-          { imagePath: '' });
-      }, 1000)
-    })
   }
 };
 </script>
