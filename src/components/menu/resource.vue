@@ -1,11 +1,17 @@
 <template lang="pug">
   div.zone.flex.flex-column.overflow-hidden(style="height: 200px; width: 300px;margin-left:50px;margin-top:60px;position:absolute;box-shadow: 1px 1px 5px #888888;    background-color: white;")
-    div.header(style="height: 30px;width: 100%; border-bottom: 1px solid #DDD;")
+    div.header(style="height: 40px;width: 100%; border-bottom: 1px solid #DDD;")
       div.left
-        div.h2(style="font-size；15px;margin-left:5px;margin-top:4px") Data Sources
-    div.flex-grow.body(style="height:65%;border-bottom: 1px solid #DDD")
-      checkout(ref="checkout" :data="resource")
-    div.footer.clearfix
+        div
+          span.inline-block.region-select-map {{regin.region}}/
+          span.inline-block.map-rechose.region-select-map(@click="reChoseMap") {{map}}
+    div.flex-grow.body(style="height:55%;border-bottom: 1px solid #DDD")
+      checkout(v-if="mapSelected" ref="checkout" :data="resource")
+      div(v-else)
+       ul.zone-names.clearfix.mt2
+         li.zone-name(v-for="(item,index) in data"  @click="mapClickHandler(item)")
+          span {{item.map}}
+    div.footer.clearfix(style="margin-top:7px")
       div.right
         Button(type="text"  @click="cancelHandler") 取消
         Button(type="primary" @click="okHandler") 确定
@@ -18,34 +24,79 @@ export default {
     checkout
   },
   props:{
+    regin:Object,
     data:Array
   },
   data(){
      return{
-       resource:this.data
+       map:null,
+       mapSelected:false,
+     //  data:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}],
+       resource:null,
      }
   },
   watch:{
     data(nv){
-      if (!_.isEmpty(nv)) {
-        this.resource = nv;
-      }
+      this.map = null;
+      this.mapSelected = false;
     }
   },
+
   methods:{
     cancelHandler(){
-      this.$refs.checkout.reset();
+      if(this.$refs.checkout){
+        this.$refs.checkout.reset();
+      }
       this.$emit("cancelHandler");
     },
+    mapClickHandler(item){
+        this.map = item.map;
+        this.resource =item.resource;
+        this.mapSelected = true;
+    },
+    reChoseMap(){
+       this.map = null;
+       this.mapSelected=false;
+    },
     okHandler(){
+      if(!this.$refs.checkout){
+        this.$Message.warning("check");
+        return null
+      }
       const value = this.$refs.checkout.checkAllGroup;
       this.$refs.checkout.reset();
-      this.$emit("okHandler",value);
+      const param={
+        map:this.map,
+        resource:value
+      }
+      this.$emit("okHandler",param);
     }
   }
 
 }
 </script>
 <style lang="less" scoped>
-
+.region-select-map{
+font-size:15px;
+margin-top: 10px;
+position: absolute;
+margin-left:10px
+}
+.map-rechose{
+  margin-left:50px;
+  cursor: pointer;
+}
+.zone-names {
+    margin: 0.5rem 1rem;
+    white-space: normal;
+    .zone-name {
+      cursor: pointer;
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      &:hover {
+        background-color: #ddd;
+        color: red;
+      }
+    }
+  }
 </style>

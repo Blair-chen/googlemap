@@ -19,7 +19,7 @@ export default new Router({
     },
     {
       path:'/menu',
-      component:() =>System.import('@/components/test/testMap.vue')
+      component:() =>System.import('@/components/view.vue')
     }
   ]
 })

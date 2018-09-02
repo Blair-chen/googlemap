@@ -43,12 +43,12 @@ export default {
 
   loadRegion(){
     return [
-      {region:'CN',id:'12345',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
-      {region:'EU',id:'1234',resource:[{type:'here',id:'123'},{type:'here2',id:'123'}]},
-      {region:'KOR',id:'1',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
-      {region:'ANZ',id:'2',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
-      {region:'NZ',id:'3',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
-      {region:'SZ',id:'4',resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},
+      {region:'CN',id:'12345',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'EU',id:'1234',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'KOR',id:'1',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'ANZ',id:'2',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'NZ',id:'3',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'SZ',id:'4',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
     ]
   }
 };

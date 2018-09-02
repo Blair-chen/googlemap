@@ -1,19 +1,21 @@
 <template lang="pug">
 div.regin-search-menu
   div.regin-box
-      div(style="float:left")
+    div(style="float:left")
         ul.absolute.right(style="background-color:#FFF")
           li.nav-btn
             span.span regin
-          li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item,resourceFlag = true" :key="index")
+          li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item" :key="index")
             span.span {{item.region}}
-  resource(v-if="buttonFlag&&resourceFlag" ref="resource" :data="resource" @cancelHandler="cancelHandler" @okHandler="okHandler")
+    RadioGroup(v-model="button" type="button" style="margin-top:5px;margin-left:300px")
+        Radio(label="RealTime")
+        Radio(label="History")
+  resource(v-if="Falg" ref="resource" :data="resource" :regin="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
     features.ml10(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
-    Input.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" style="width:200px;height:7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
-    Button.ml1(v-if="!buttonFlag" icon="refresh"  style="position: absolute; margin-top: 7px;"  @click="refresh")
-  div.menu
-    nav-menu(ref="menu" :class="{active:buttonFlag}" )
+    Input.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" style="width:200px;height:7px; margin-top: 7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
+    Button.ml1(v-if="!buttonFlag" icon="refresh"  style="position: absolute; margin-top: 10px;"  @click="refresh")
+
 
 </template>
 <script>
@@ -27,9 +29,9 @@ export default {
     navMenu,resource,features
   },
   props:{
-    buttonFlag:Boolean,
+
     data:String,
-    sourceFlag:Boolean,
+
 
   },
   data(){
@@ -37,8 +39,10 @@ export default {
       region:null,
       key:null,
       resource:null,
-      resourceFlag:false,
-      select:null
+      Falg:false,
+      button:"RealTime",
+      select:null,
+      buttonFlag:false
     }
   },
   watch:{
@@ -49,11 +53,10 @@ export default {
     },
     select(nv){
     if(nv){
-      if(!_.isEmpty(nv.resource)&&this.buttonFlag){
+      if(!_.isEmpty(nv.resource)){
       this.resource = nv.resource;
-      if(!this.resourceFlag){
-        this.$emit("reginHandler",nv.region);
-      }
+      this.Falg = true;
+
     }else {
       this.$emit("reginHandler",nv.region);
     }
@@ -70,14 +73,19 @@ methods:{
     this.key = null;
     this.$emit("refresh");
   },
-  cancelHandler(){
-    this.resourceFlag = false;
-  },
-  okHandler(value){
 
-    //add api
-    this.$emit("reginHandler",this.select.region);
-    this.resourceFlag = false
+cancelHandler(){
+   this.Falg = false;
+   this.select =null;
+},
+  okHandler(value){
+    if(value.resource.length>1){
+      this.buttonFlag = true;
+    }
+    value.region=this.select.region;
+    this.$emit("reginHandler",value);
+    this.Falg = false;
+
   },
   search(){
     this.$emit("search",this.key);
@@ -123,7 +131,7 @@ text-align: center;
 
 }
 .search-box{
-  text-align: center;
+  margin-left: 70%
 
 }
 .menu{
