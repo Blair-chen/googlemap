@@ -52,7 +52,7 @@ export default {
       {region:'EU',name:"Europe",id:'1234',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
       {region:'KOR',name:"Korea",id:'1',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
       {region:'ANZ',name:"Australia",id:'2',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'NA',name:"North America",id:'3',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'NA',name:"North America",id:'3',resource:[{map:"here",resource:[{type:'sirius',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'sirius',id:'123'}]}]},
       {region:'SA',name:"South America",id:'4',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
     ]
   }

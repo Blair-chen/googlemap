@@ -1,6 +1,6 @@
 <template lang="pug">
 div(style="padding: 32px;")
-  div(style="float:left;margin-top: 2px; margin-right: 15px;")
+  div.checkbox
     checkbox( :indeterminate="indeterminate"
             :value="checkAll"
             @click.prevent.native="handleCheckAll") selectAll
@@ -10,15 +10,14 @@ div(style="padding: 32px;")
 </template>
 <script>
 export default {
-  props:{
-    data:Array
+  props: {
+    data: Array
   },
   data() {
     return {
       indeterminate: true,
       checkAll: false,
       checkAllGroup: []
-
     };
   },
   methods: {
@@ -48,13 +47,18 @@ export default {
         this.checkAll = false;
       }
     },
-    reset(){
-      this.indeterminate= true,
-      this.checkAll= false,
-      this.checkAllGroup= []
+    reset() {
+      (this.indeterminate = true),
+        (this.checkAll = false),
+        (this.checkAllGroup = []);
     }
   }
 };
 </script>
 <style lang="less" scoped>
+.checkbox {
+  float: left;
+  margin-top: 2px;
+  margin-right: 15px;
+}
 </style>

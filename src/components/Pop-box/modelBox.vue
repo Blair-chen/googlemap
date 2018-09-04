@@ -1,6 +1,6 @@
 <template lang="pug">
   div.speed-box(style="height:buttonFlag?400px:800px")
-    Button(v-if="buttonFlag" type="primary" @click="TimeHandler" style="margin-top: 80px; margin-bottom: 100px;margin-left: 450px;") Select time
+    Button.button-box(v-if="buttonFlag" type="primary" @click="TimeHandler" ) Select time
     div(v-else)
       chart-speed(ref="chart" :date="date" :speeds="speeds" @TimeHandler="TimeHandler")
     Spin.ivu-spin-table(size="large"  v-if="loading" fix)
@@ -70,6 +70,11 @@ export default {
     margin-top: -9px;
     font-size: 15px;
 
+  }
+  .button-box{
+    margin-top: 80px;
+    margin-bottom: 100px;
+    margin-left: 450px;
   }
   .showing-box {
     font-size: 1rem;

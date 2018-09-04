@@ -13,7 +13,7 @@ div.regin-search-menu
   resource(v-if="Falg" ref="resource" :data="resource" :regin="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
     features.ml10(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
-    Input.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" style="width:200px;height:7px; margin-top: 7px" placeholder="wayid" @on-enter="search()" @on-click="search()")
+    Input.input-box.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1(v-if="!buttonFlag" icon="refresh"  style="position: absolute; margin-top: 10px;"  @click="refresh")
 
 
@@ -135,6 +135,11 @@ export default {
   }
   .search-box {
     margin-left: 70%;
+    .input-box{
+       width:200px;
+       height:7px;
+       margin-top: 7px
+    }
   }
   .menu {
     margin-top: -6px;

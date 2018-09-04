@@ -44,6 +44,7 @@ export default {
       historyFalg:false,
       time:null,
       feature:null,
+      region:null,
 
     };
   },
@@ -101,7 +102,7 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+ northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic=sirius&region=na"
+      let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+ northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region;
       return params;
     },
     //get by wayid
@@ -172,6 +173,7 @@ export default {
       }
       this.mapSource = value.map;
       this.resource=value.resource;
+      this.region=_.toLower(value.region);
       if(value.resource.length>1){
         this.feature ="differentLevel";
         this.buttonFlag = true
