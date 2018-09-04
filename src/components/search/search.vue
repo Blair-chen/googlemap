@@ -9,33 +9,34 @@ div
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
 </template>
 <script>
-import navMenu from "../menu/regin"
+import navMenu from "../menu/regin";
 import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import {getCenter, zoomMapping, colorMapping,isCatains } from "../untils/tool.js";
+import { getCenter,isCantainsBounds,zoomMapping,colorMapping, isCatains} from "../untils/tool.js";
 
 export default {
-  components: { vueGooglemapPolyline, modelView,navMenu },
+  components: { vueGooglemapPolyline, modelView, navMenu },
 
   data() {
     return {
-      center:  { lat: -33.88658145569154, lng: 151.13988831025813 },
+      center: { lat: -33.88658145569154, lng: 151.13988831025813 },
       lines: [],
       map: null,
       event: { click: "onclick" },
       zoom: 19,
       display: false,
       item: null,
-      strokeWeight:5
+      strokeWeight: 3,
+      prevPosition: null
     };
   },
   mounted() {
     VueGoogleMaps.loaded.then(() => {
       setTimeout(() => {
         const vm = this.$refs.googleMap;
-        if (vm&&vm.$mapObject) {
+        if (vm && vm.$mapObject) {
           this.map = vm.$mapObject;
           this.cycleHandler();
         }
@@ -43,56 +44,75 @@ export default {
     });
   },
   beforeDestroy() {
-    clearTimeout( this.interval);
+    clearTimeout(this.interval);
   },
   methods: {
     //polling
-     cycleHandler() {
-      this.interval =setInterval(() => {
-         this.mapLoadHandler();
+    cycleHandler() {
+      this.interval = setInterval(() => {
+        this.mapLoadHandler();
       }, 180000);
     },
     refresh() {
       this.mapLoadHandler();
     },
     // get rode by bound box
-    async mapLoadHandler() {
+    mapLoadHandler() {
       this.lines = [];
-      let mapObject = this.$refs.googleMap.$mapObject;
-      let northeast = mapObject.getBounds().getNorthEast();
-      let sourthwest = mapObject.getBounds().getSouthWest();
-      let params = {
-        zoom: zoomMapping(mapObject.getZoom()),
-        northeast: { lat: northeast.lat(), lng: northeast.lng() },
-        sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
-      };
+      const boundList = this.createParams();
+      _.each(boundList, params => {
+        this.loadBoundingBox(params);
+      });
+    },
+    async loadBoundingBox(params) {
       let response = await api.search(params);
-
-      if (response.status === 200 ) {
-        if(response.data!=""&&!_.isEmpty(response.data)){
-           if(this.isCurrentBound(response.data.bound)){
-              _.each(response.data.listWay, item => {
-                item.color = colorMapping(item.flow);
-               });
-               let zoom = mapObject.getZoom();
-               if (zoom<16){
-                 this.strokeWeight =3;
-               }else{
-                  this.strokeWeight =5;
-               }
-           this.lines = response.data.listWay;
-            }
-        }else {
+      if (response.status === 200) {
+        if (response.data != "" && !_.isEmpty(response.data)) {
+          if (this.isCurrentBound(response.data.bound)) {
+            this.prevPosition = response.data.bound;
+            _.each(response.data.listWay, item => {
+              item.color = colorMapping(item.flow);
+            });
+            this.lines.push(...response.data.listWay);
+          }
+        } else {
           this.$Message.error("Server failed to read file");
         }
       }
+    },
+    createParams() {
+      let mapObject = this.$refs.googleMap.$mapObject;
+      let northeast = mapObject.getBounds().getNorthEast();
+      let sourthwest = mapObject.getBounds().getSouthWest();
+      const zoom=zoomMapping(mapObject.getZoom());
+      let params = {
+        zoom: zoom,
+        northeast: { lat: northeast.lat(), lng: northeast.lng() },
+        sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
+      };
+      let boundList = [];
+      if (mapObject.getZoom() < 16) {
+        const averageLat = (northeast.lat() - sourthwest.lat()) / 4;
+        const averageLng = (northeast.lng() - sourthwest.lng()) / 4;
+        boundList.push({zoom: zoom,sourthwest: {lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng()+averageLng }, northeast: { lat: sourthwest.lat() +3* averageLat, lng: sourthwest.lng() + 2 * averageLng } });
+        boundList.push({zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat,lng: sourthwest.lng()+2*averageLng}, northeast: {lat: sourthwest.lat() +3* averageLat, lng: sourthwest.lng() + 3 * averageLng } });
+        boundList.push({ zoom: zoom,sourthwest: {lat: sourthwest.lat() +  averageLat, lng: sourthwest.lng()+averageLng },northeast: { lat: sourthwest.lat() +2* averageLat,lng: sourthwest.lng() + 2 * averageLng }});
+        boundList.push({zoom: zoom, sourthwest: { lat: sourthwest.lat() +  averageLat, lng: sourthwest.lng()+2*averageLng},northeast: { lat: sourthwest.lat() +2* averageLat, lng: sourthwest.lng() + 3 * averageLng} });
+        boundList.push({ zoom: zoom,northeast: {lat: sourthwest.lat() + averageLat,lng: northeast.lng() }, sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() } });
+        boundList.push({zoom: zoom,northeast: { lat: northeast.lat(), lng: northeast.lng() },sourthwest: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() }});
+        boundList.push({ zoom: zoom,northeast: { lat: sourthwest.lat() + 3 * averageLat,lng: sourthwest.lng() + averageLng }, sourthwest: { lat: sourthwest.lat() + averageLat,lng: sourthwest.lng() }});
+        boundList.push({zoom: zoom, northeast: {lat: sourthwest.lat() + 3 * averageLat,lng: northeast.lng()}, sourthwest: {lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + 3 * averageLng } });
+      } else {
+        boundList.push(params);
+      }
+      return boundList;
     },
     //get by wayid
     async search(key) {
       if (key === null) {
         return null;
       }
-       this.lines=[];
+      this.lines = [];
       let response = await api.loadroute(key);
       if (response.status === 200) {
         if (_.isEmpty(response.data)) {
@@ -131,16 +151,15 @@ export default {
       }
       return false;
     },
-    regionHandler(value){
-      let map= this.map;
-      if(map) {
-       map.setCenter(getCenter(value));
-       map.setZoom(15);
-      }else{
+    regionHandler(value) {
+      let map = this.map;
+      if (map) {
+        map.setCenter(getCenter(value));
+        map.setZoom(15);
+      } else {
         this.center = getCenter(value);
-        this.zoom = 15
+        this.zoom = 15;
       }
-
     }
   }
 };
@@ -151,7 +170,6 @@ export default {
   width: 100%;
   height: 50px;
   display: block;
-
 }
 .google-ployline {
   cursor: pointer;

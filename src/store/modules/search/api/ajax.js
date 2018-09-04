@@ -11,6 +11,24 @@ export default {
         console.log(response)
       });
   },
+  aget(url,param){
+
+    let urls =url+"?"+param
+    return axios
+    .get(urls, {
+      headers: {
+        "Access-Control-Allow-Origin":
+          "Origin, X-Requested-With, Content-Type, Accept, Connection, User-Agent, Cookie "
+      },
+      crossdomain: true
+    })
+    .then(function (response) {
+      return response;
+    })
+    .catch(function (response) {
+      console.log(response);
+    });
+  },
   get(url, params) {
     let urls;
     if (params) {

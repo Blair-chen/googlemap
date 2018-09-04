@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  gmap-map( v-if="center" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map( v-if="center" @tilesloaded="tilesloadedHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.top-menu
     nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler" @timeTypeChange="timeTypeChange" @featuresHandler="featuresHandler" @keyHandler="keyHandler")
   report-view(v-if="buttonFlag" ref="report" :data="data")
@@ -44,6 +44,7 @@ export default {
       historyFalg:false,
       time:null,
       feature:null,
+
     };
   },
   mounted() {
@@ -71,18 +72,20 @@ export default {
       this.key = null;
       this.mapLoadHandler();
     },
+    tilesloadedHandler(){
+       this.mapLoadHandler();
+    },
     // get rode by bound box
     async mapLoadHandler() {
       if(!this.mapSource||!this.resource){ return null; }
       if (this.key){  return null;  }
       this.lines = [];
       let params = this.createParam();
-      let response = await api.search(params);
-      if (response.status === 200 ) {
+      let response = await api.trafficReplay(params);
+      if (response&&response.status === 200 ) {
         if(response.data!=""&&!_.isEmpty(response.data)){
-           if(this.isCurrentBound(response.data.bound)){
-              _.each(response.data.listWay, item => { item.color = colorMapping(item.flow); });
-               let zoom = mapObject.getZoom();
+           if(this.isCurrentBound(response.data.northeast,response.data.sourthwest)){
+               let zoom = this.map.getZoom();
                if (zoom<16){this.strokeWeight =3;
                }else{ this.strokeWeight =5; }
            this.lines = response.data.listWay;
@@ -98,15 +101,7 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      let params = {
-        zoom: zoomMapping(mapObject.getZoom()),
-        northeast: { lat: northeast.lat(), lng: northeast.lng() },
-        sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() },
-        map:this.mapSource,
-        resource:this.resource,
-        time:time,
-        feature:this.feature
-      };
+      let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+ northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic=sirius&region=na"
       return params;
     },
     //get by wayid
@@ -157,11 +152,11 @@ export default {
 
     },
     //compare bound box
-    isCurrentBound(bound) {
+    isCurrentBound(prevnortheast,prevsourthwest) {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      if ( isCatains(northeast.lat(), bound.northeast.lat) &&   isCatains(northeast.lng(), bound.northeast.lng) &&  isCatains(sourthwest.lat(), bound.sourthwest.lat) &&isCatains(sourthwest.lng(), bound.sourthwest.lng)  ) {
+      if ( isCatains(northeast.lat(), prevnortheast.lat) &&   isCatains(northeast.lng(),prevnortheast.lng) &&  isCatains(sourthwest.lat(), prevsourthwest.lat) &&isCatains(sourthwest.lng(),prevsourthwest.lng)  ) {
         return true;
       }
       return false;

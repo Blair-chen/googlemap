@@ -37,15 +37,21 @@ export const isCatains=(source, target)=>{
   }
   return false;
 }
-
+export const isCantainsBounds=(prevPosition,newPosition)=>{
+   if (prevPosition.northeast.lat<newPosition.northeast.lat&&prevPosition.northeast.lng<newPosition.northeast.lng){
+       if(prevPosition.sourthwest.lat>newPosition.sourthwest.lat&&prevPosition.sourthwest.lng>newPosition.sourthwest.lng){
+          return true;
+       }
+   }
+}
 export const getCenter=(key)=>{
   switch(key){
     case "EU": return  {lat:52.3555 ,lng: 1.1743};
     case "CN": return { lat: 39.9042, lng: 116.4074 };
     case "ANZ":return { lat: -33.88658145569154, lng: 151.13988831025813 };
     case "KOR" : return {lat:35.9078 ,lng: 127.7669};
-    case "NA":return {lat:54.5260,lng: 105.255};
-    case "SA":return{lat:8.7832, lng:55.4915}
+    case "NA":return {lat:43.5260,lng: -105.255};
+    case "SA":return{lat:8.7832, lng:-55.4915}
   }
 }
 

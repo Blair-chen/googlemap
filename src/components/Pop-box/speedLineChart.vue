@@ -5,7 +5,7 @@ div.spped-chart-box
   div.time-change-box
     div(style="text-align:center;font-size:15px")
       span(style="text-align:center") Please slide slider to select start and end time
-    Slider(v-model="value" :min="0" :max="1440" :step="inputValue" range show-input :tip-format="format")
+    Slider(v-model="value" :min="0" :max="1439" :step="inputValue" range show-input :tip-format="format")
     div(style="margin-bottom:5px")
       span(style="margin-left:20px;width:100px") Start Time
       TimePicker(v-model="startTime" @on-change="startTimeHandler" format="HH:mm" placeholder="Select time" style="width: 112px;margin-left:10px")
@@ -31,7 +31,7 @@ export default {
       startTime:"00:00",
       endTime:"23:59",
       inputValue: 5,
-      value: [0, 1440],
+      value: [0, 1439],
       chartData: {
         columns: ["Time", "Speed"],
         rows: []
@@ -47,6 +47,7 @@ export default {
     },
     value(nv){
       if(nv){
+        debugger
         this.startTime =   this.translateTime(nv[0]);
         this.endTime  =   this.translateTime(nv[1]);
       }
@@ -107,6 +108,7 @@ export default {
       return currentTime;
     },
     translateTime(value){
+      debugger
        let bhour =
         parseInt(value / 60) < 10
           ? "0" + parseInt(value / 60)
@@ -140,6 +142,7 @@ export default {
       return null;
     },
     TimeHandler(){
+       this.value = [0,1439];
        this.$emit("TimeHandler");
     }
   }
