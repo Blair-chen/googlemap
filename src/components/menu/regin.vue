@@ -21,128 +21,129 @@ div.regin-search-menu
 <script>
 import features from "../compare/features";
 import resource from "./resource";
-import api from "store/search/api/index.js"
-import navMenu from "../menu/main"
-import _ from 'lodash';
+import api from "store/search/api/index.js";
+import navMenu from "../menu/main";
+import _ from "lodash";
 export default {
-  components:{
-    navMenu,resource,features
+  components: {
+    navMenu,
+    resource,
+    features
   },
-  props:{
-
-    data:String,
-
-
+  props: {
+    data: String
   },
-  data(){
+  data() {
     return {
-      region:null,
-      key:null,
-      resource:null,
-      Falg:false,
-      button:"RealTime",
-      select:null,
-      buttonFlag:false
-    }
+      region: null,
+      key: null,
+      resource: null,
+      Falg: false,
+      button: "RealTime",
+      select: null,
+      buttonFlag: false
+    };
   },
-  watch:{
-    data(nv){
+  watch: {
+    key(nv){
+      this.$emit("keyHandler",nv);
+    },
+    button(nv){
       if(nv){
-        this.key = nv
+        this.$emit("timeTypeChange",nv);
       }
     },
-    select(nv){
-    if(nv){
-      if(!_.isEmpty(nv.resource)){
-      this.resource = nv.resource;
-      this.Falg = true;
-
-    }else {
-      this.$emit("reginHandler",nv.region);
-    }
+    data(nv) {
+      if (nv) {
+        this.key = nv;
+      }
+    },
+    select(nv) {
+      if (nv) {
+        if (!_.isEmpty(nv.resource)) {
+          this.resource = nv.resource;
+          this.Falg = true;
+        } else {
+          this.$emit("reginHandler", nv.region);
+        }
       }
     }
   },
-  mounted(){
-    let region =api.loadRegion();
+  mounted() {
+    let region = api.loadRegion();
     this.select = region[0];
     this.region = region;
   },
-methods:{
-  refresh(){
-    this.key = null;
-    this.$emit("refresh");
-  },
-
-cancelHandler(){
-   this.Falg = false;
-   this.select =null;
-},
-  okHandler(value){
-    if(value.resource.length>1){
-      this.buttonFlag = true;
-    }
-    value.region=this.select.region;
-    this.$emit("reginHandler",value);
-    this.Falg = false;
-
-  },
-  search(){
-    this.$emit("search",this.key);
-  },
-   featuresHandler(value) {
-      this.$emit("featuresHandler",value);
+  methods: {
+    refresh() {
+      this.key = null;
+      this.$emit("refresh");
     },
-}
-}
+
+    cancelHandler() {
+      this.Falg = false;
+      this.select = null;
+    },
+    okHandler(value) {
+      if (value.resource.length > 1) {
+        this.buttonFlag = true;
+      }
+      value.region = this.select.region;
+      this.$emit("reginHandler", value);
+      this.Falg = false;
+    },
+    search() {
+      this.$emit("search", this.key);
+    },
+    featuresHandler(value) {
+      this.$emit("featuresHandler", value);
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-.regin-search-menu{
+.regin-search-menu {
   width: 100%;
   height: 50px;
-  background-color:#F2F4F4;
-    .features {
-text-align: center;
-  display: block;
-}
-.regin-box{
-  position: absolute;
-  margin-left: 10px;
-  margin-top: 6px;
-    .nav-btn {
-    height: 40px;
-    display: inline-block;
-    border-left: 1px solid #ccc;
-    width: 50px;
+  background-color: #f2f4f4;
+  .features {
     text-align: center;
-    vertical-align: top;
-    cursor: pointer;
-    &:not(:first-child):hover {
-      color: red;
-    }
-   .span{
-     position: absolute;
-      text-align: center;
-      margin-top: 12px;
-      margin-left: -7px;
-   }
+    display: block;
   }
-
-
-}
-.search-box{
-  margin-left: 70%
-
-}
-.menu{
-  margin-top: -6px;
-  margin-left: 239px;
-
-}
-.active{
-  margin-top: 10px
-}
- .select{
+  .regin-box {
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 6px;
+    .nav-btn {
+      height: 40px;
+      display: inline-block;
+      border-left: 1px solid #ccc;
+      width: 50px;
+      text-align: center;
+      vertical-align: top;
+      cursor: pointer;
+      &:not(:first-child):hover {
+        color: red;
+      }
+      .span {
+        position: absolute;
+        text-align: center;
+        margin-top: 12px;
+        margin-left: -7px;
+      }
+    }
+  }
+  .search-box {
+    margin-left: 70%;
+  }
+  .menu {
+    margin-top: -6px;
+    margin-left: 239px;
+  }
+  .active {
+    margin-top: 10px;
+  }
+  .select {
     height: 40px;
     display: inline-block;
     border-left: 1px solid #ccc;
@@ -152,5 +153,4 @@ text-align: center;
     background-color: aqua;
   }
 }
-
 </style>

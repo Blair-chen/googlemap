@@ -1,10 +1,10 @@
 <template lang="pug">
-  div.zone.flex.flex-column.overflow-hidden(style="height: 200px; width: 300px;margin-left:50px;margin-top:60px;position:absolute;box-shadow: 1px 1px 5px #888888;    background-color: white;")
+  div.zone.flex.flex-column.overflow-hidden(style="position: absolute;height: 200px; width: 300px;margin-left:50px;margin-top:60px;position:absolute;box-shadow: 1px 1px 5px #888888;    background-color: white;")
     div.header(style="height: 40px;width: 100%; border-bottom: 1px solid #DDD;")
       div.left
         div
-          span.inline-block.region-select-map {{regin.region}}/
-          span.inline-block.map-rechose.region-select-map(@click="reChoseMap") {{map}}
+          span.inline-block.region-select-map {{regin.name}}/
+          span.inline-block.region-select-map.map-rechose(@click="reChoseMap") {{map}}
     div.flex-grow.body(style="height:55%;border-bottom: 1px solid #DDD")
       checkout(v-if="mapSelected" ref="checkout" :data="resource")
       div(v-else)
@@ -59,8 +59,8 @@ export default {
        this.mapSelected=false;
     },
     okHandler(){
-      if(!this.$refs.checkout){
-        this.$Message.warning("check");
+      if(!this.$refs.checkout||_.isEmpty(this.$refs.checkout.checkAllGroup)){
+        this.$Message.warning("Please select a data source ");
         return null
       }
       const value = this.$refs.checkout.checkAllGroup;
@@ -79,11 +79,11 @@ export default {
 .region-select-map{
 font-size:15px;
 margin-top: 10px;
-position: absolute;
+float: left;
 margin-left:10px
 }
 .map-rechose{
-  margin-left:50px;
+
   cursor: pointer;
 }
 .zone-names {

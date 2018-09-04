@@ -2,13 +2,14 @@
 div
   gmap-map( v-if="center" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.top-menu
-    nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler" )
+    nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler" @timeTypeChange="timeTypeChange" @featuresHandler="featuresHandler" @keyHandler="keyHandler")
   report-view(v-if="buttonFlag" ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="strokeWeight" :events="event"  @onclick="onlickHandler" :editable="false")
   vue-google-info-window(v-for="(m, key) in marks" :key="key+'info'" :content="m.content" :map="map" :position="m.position"  :opened="true" )
   modelView(ref="model" :modelId="display" @close="closeModel" :item="item")
+  history-slider(v-if="historyFalg" @changeHistoryTime="changeHistoryTime")
 </template>
 <script>
 import reportView from "./compare/report";
@@ -18,10 +19,11 @@ import modelView from "./Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import vueGoogleInfoWindow from "./googlemap/infoWindow";
+import historySlider from "./history/silder"
 import {getCenter, zoomMapping, colorMapping,isCatains } from "./untils/tool.js";
 
 export default {
-  components: { vueGooglemapPolyline, modelView,navMenu,reportView ,vueGoogleInfoWindow},
+  components: { historySlider,vueGooglemapPolyline, modelView,navMenu,reportView ,vueGoogleInfoWindow},
 
   data() {
     return {
@@ -37,7 +39,11 @@ export default {
       resource:null,
       buttonFlag:false,
       marks: [],
-      data:null
+      data:null,
+      key:null,
+      historyFalg:false,
+      time:null,
+      feature:null,
     };
   },
   mounted() {
@@ -62,14 +68,33 @@ export default {
       }, 180000);
     },
     refresh() {
+      this.key = null;
       this.mapLoadHandler();
     },
     // get rode by bound box
     async mapLoadHandler() {
-      if(!this.mapSource||!this.resource){
-        return null;
-      }
+      if(!this.mapSource||!this.resource){ return null; }
+      if (this.key){  return null;  }
       this.lines = [];
+      let params = this.createParam();
+      let response = await api.search(params);
+      if (response.status === 200 ) {
+        if(response.data!=""&&!_.isEmpty(response.data)){
+           if(this.isCurrentBound(response.data.bound)){
+              _.each(response.data.listWay, item => { item.color = colorMapping(item.flow); });
+               let zoom = mapObject.getZoom();
+               if (zoom<16){this.strokeWeight =3;
+               }else{ this.strokeWeight =5; }
+           this.lines = response.data.listWay;
+            }
+        }else {
+          this.$Message.error("Server failed to read file");
+        }
+      }
+    },
+    createParam(){
+      let time="RealTime";
+      if(this.historyFalg){  time=this.time; }
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
@@ -78,34 +103,16 @@ export default {
         northeast: { lat: northeast.lat(), lng: northeast.lng() },
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() },
         map:this.mapSource,
-        resource:this.resource
+        resource:this.resource,
+        time:time,
+        feature:this.feature
       };
-      let response = await api.search(params);
-
-      if (response.status === 200 ) {
-        if(response.data!=""&&!_.isEmpty(response.data)){
-           if(this.isCurrentBound(response.data.bound)){
-              _.each(response.data.listWay, item => {
-                item.color = colorMapping(item.flow);
-               });
-               let zoom = mapObject.getZoom();
-               if (zoom<16){
-                 this.strokeWeight =3;
-               }else{
-                  this.strokeWeight =5;
-               }
-           this.lines = response.data.listWay;
-            }
-        }else {
-          this.$Message.error("Server failed to read file");
-        }
-      }
+      return params;
     },
     //get by wayid
     async search(key) {
-      if (key === null) {
-        return null;
-      }
+      if (key === null) {return null; }
+      this.key =key;
        this.lines=[];
       let response = await api.loadroute(key);
       if (response.status === 200) {
@@ -127,7 +134,6 @@ export default {
       this.display = false;
     },
     onlickHandler(event, value) {
-
       if(this.buttonFlag){
        let str =
         "<table  border='1' cellspacing='0' > <tr><th width='70px'>type</th><th width='70px'>speed</th><th width='70px'>level</th><th width='70px'>reportTime</th></tr>";
@@ -155,12 +161,7 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      if (
-        isCatains(northeast.lat(), bound.northeast.lat) &&
-        isCatains(northeast.lng(), bound.northeast.lng) &&
-        isCatains(sourthwest.lat(), bound.sourthwest.lat) &&
-        isCatains(sourthwest.lng(), bound.sourthwest.lng)
-      ) {
+      if ( isCatains(northeast.lat(), bound.northeast.lat) &&   isCatains(northeast.lng(), bound.northeast.lng) &&  isCatains(sourthwest.lat(), bound.sourthwest.lat) &&isCatains(sourthwest.lng(), bound.sourthwest.lng)  ) {
         return true;
       }
       return false;
@@ -177,11 +178,31 @@ export default {
       this.mapSource = value.map;
       this.resource=value.resource;
       if(value.resource.length>1){
+        this.feature ="differentLevel";
         this.buttonFlag = true
       }else{
+        this.feature =null;
         this.buttonFlag = false;
       }
-
+    },
+    timeTypeChange(value){
+      if(value==="RealTime"){
+        this.historyFalg= false;
+      }else if(value="History"){
+         this.historyFalg= true;
+      }
+      this.time =null;
+    },
+    changeHistoryTime(value){
+      this.time = value;
+      this.mapLoadHandler();
+    },
+    featuresHandler(value){
+      this.feature = value;
+       this.mapLoadHandler();
+    },
+    keyHandler(value){
+      this.key =value;
     }
   }
 };

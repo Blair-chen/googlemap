@@ -15,7 +15,7 @@ export default new Router({
     {
       path:'/searchView',
       name:'searchView',
-      component:() =>System.import('@/components/search/search.vue')
+      component:() =>System.import('@/components/history/silder.vue')
     },
     {
       path:'/menu',

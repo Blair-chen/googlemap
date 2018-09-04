@@ -43,12 +43,12 @@ export default {
 
   loadRegion(){
     return [
-      {region:'CN',id:'12345',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'EU',id:'1234',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'KOR',id:'1',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'ANZ',id:'2',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'NZ',id:'3',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
-      {region:'SZ',id:'4',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'CN',name:"China",id:'12345',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'EU',name:"Europe",id:'1234',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'KOR',name:"Korea",id:'1',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'ANZ',name:"Australia",id:'2',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'NZ',name:"North America",id:'3',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
+      {region:'SZ',name:"South America",id:'4',resource:[{map:"here",resource:[{type:'auto',id:'123'},{type:'palmgo',id:'123'}]},{map:"here2",resource:[{type:'auto2',id:'123'},{type:'palmgo2',id:'123'}]}]},
     ]
   }
 };

@@ -5,10 +5,11 @@
        th Type
        th Count
       tbody
-        tr(span="24" v-for="(item,index) in itemCount" :key="index")
+        tr(v-if="Falg" span="24" v-for="(item,index) in itemCount" :key="index")
           td.span-item-count(style="width:250px") {{index}}
           td.span-item-count(style="width:140px") {{item}}
-
+        tr(v-if="!Falg"  )
+          td(colspan="2" style="text-align:center") No data
 
 
 </template>
@@ -20,7 +21,7 @@ export default {
   },
   data(){
     return {
-
+      Falg:false,
       itemCount:{ },
       inOrNotItemCount:{}
     }
@@ -35,6 +36,7 @@ export default {
           itemCount[index] = item;
          }
         });
+         this.Falg = true;
       }
      this.itemCount = itemCount;
     }
@@ -50,6 +52,7 @@ export default {
 table, th, td {
     border: 0.5px solid #ccc;
     border-collapse: collapse;
+    width: 380px;
     height: 25px
 }
 
