@@ -158,10 +158,10 @@ export default {
         position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
         content: str
       };
-      this.marks.push(item);
+        this.marks.push(item);
       }else{
-      this.item = value;
-      this.display = true;
+        this.item = value;
+        this.display = true;
       }
 
     },

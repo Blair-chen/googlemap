@@ -47,7 +47,6 @@ export default {
     },
     value(nv) {
       if (nv) {
-        debugger;
         this.startTime = this.translateTime(nv[0]);
         this.endTime = this.translateTime(nv[1]);
       }
@@ -114,7 +113,6 @@ export default {
       return currentTime;
     },
     translateTime(value) {
-      debugger;
       let bhour =
         parseInt(value / 60) < 10
           ? "0" + parseInt(value / 60)

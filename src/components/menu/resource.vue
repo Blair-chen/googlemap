@@ -5,7 +5,7 @@
         div
           span.inline-block.region-select-map {{regin.name}}/
           span.inline-block.region-select-map.map-rechose(@click="reChoseMap") {{map}}
-    div.flex-grow.body(style="height:55%;border-bottom: 1px solid #DDD")
+    div.flex-grow.body
       checkout(v-if="mapSelected" ref="checkout" :data="resource")
       div(v-else)
        ul.zone-names.clearfix.mt2
@@ -92,6 +92,10 @@ export default {
     width: 100%;
     border-bottom: 1px solid #ddd;
   }
+  .body{
+    height:55%;
+    border-bottom: 1px solid #DDD
+  }
   .region-select-map {
     font-size: 15px;
     margin-top: 10px;
@@ -108,6 +112,7 @@ export default {
       cursor: pointer;
       display: inline-block;
       padding: 0.2rem 0.5rem;
+      font-size: 0.8rem;
       &:hover {
         background-color: #ddd;
         color: red;

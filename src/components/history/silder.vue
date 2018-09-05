@@ -2,8 +2,8 @@
   div.history
     date-picker( :open="open" :value="date" confirm type="date"   @on-change="handleChange" @on-clear="handleClear"  @on-ok="handleOk")
       a( href="javascript:void(0)" @click="handleClick")
-        icon(style="margin-left:300px;float:left" type="ios-calendar-outline")
-        div(style="width:200px;margin-left:300px") {{ date }} {{time}}
+        icon.icon-date( type="ios-calendar-outline")
+        div.selected-date {{ date }} {{time}}
     Slider.slider-history(:min=0 :max=1440 v-model="slider" :tip-format="format" @on-change="changeSlider")
 </template>
 <script>
@@ -17,7 +17,7 @@ export default {
       time: ""
     };
   },
-  mounted(){
+  mounted() {
     const format = "YYYY-MM-DD";
     this.date = moment(new Date()).format(format);
   },
@@ -40,8 +40,8 @@ export default {
       this.time = this.translateTime(this.slider);
       return this.time;
     },
-    changeSlider(){
-      this.$emit("changeHistoryTime",this.date+" "+this.time);
+    changeSlider() {
+      this.$emit("changeHistoryTime", this.date + " " + this.time);
     },
     translateTime(value) {
       let bhour =
@@ -60,14 +60,27 @@ export default {
 </script>
 <style lang="less" scoped>
 .history {
-  margin-left: 25%;
-  margin-top: 40%;
-  height: 70px;
-  width: 50%;
+  margin-left: 73%;
+  margin-top: 5%;
+  height: 50px;
+  width: 20%;
   position: absolute;
- background-color: white;
+  background-color:#f2f4f4;
+  box-shadow: 1px 1px 5px #888888;
   .slider-history {
-    width: 40
+    width: 95%;
+    margin-left: 6px;
+    margin-top: -10px
+  }
+  .icon-date {
+    margin-left: 100px;
+    float: left;
+    margin-top: 0px;
+  }
+  .selected-date {
+    margin-top: 10px;
+    width: 200px;
+    margin-left: 100px;
   }
 }
 </style>

@@ -7,14 +7,14 @@ div.regin-search-menu
             span.span regin
           li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item" :key="index")
             span.span {{item.region}}
-    RadioGroup(v-model="button" type="button" style="margin-top:5px;margin-left:300px")
+    RadioGroup.radio-box(v-model="button" type="button" )
         Radio(label="RealTime")
         Radio(label="History")
   resource(v-if="Falg" ref="resource" :data="resource" :regin="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
     features.ml10(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
     Input.input-box.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" placeholder="wayid" @on-enter="search()" @on-click="search()")
-    Button.ml1(v-if="!buttonFlag" icon="refresh"  style="position: absolute; margin-top: 10px;"  @click="refresh")
+    Button.ml1.buttonn-refresh(v-if="!buttonFlag" icon="refresh"   @click="refresh")
 
 
 </template>
@@ -102,18 +102,27 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+html{
+    font-size:10px;
+}
 .regin-search-menu {
   width: 100%;
-  height: 50px;
+  height: 3rem;
   background-color: #f2f4f4;
   .features {
     text-align: center;
     display: block;
   }
   .regin-box {
+    width: 50%;
     position: absolute;
     margin-left: 10px;
+    float: left;
     margin-top: 6px;
+    .radio-box{
+      margin-top:5px;
+      float: right
+    }
     .nav-btn {
       height: 40px;
       display: inline-block;
@@ -134,11 +143,18 @@ export default {
     }
   }
   .search-box {
-    margin-left: 70%;
+    width: 50%;
+    float: right;
+    position: relative;
+    text-align: center;
     .input-box{
        width:200px;
        height:7px;
-       margin-top: 7px
+       margin-top: 7px;
+    }
+    .buttonn-refresh{
+      position: absolute;
+       margin-top: 10px;
     }
   }
   .menu {

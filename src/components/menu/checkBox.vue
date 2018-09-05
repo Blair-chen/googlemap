@@ -15,7 +15,7 @@ export default {
   },
   data() {
     return {
-      indeterminate: true,
+      indeterminate: false,
       checkAll: false,
       checkAllGroup: []
     };
@@ -30,13 +30,16 @@ export default {
       this.indeterminate = false;
 
       if (this.checkAll) {
-        this.checkAllGroup = ["auto", "palm"];
+       const selectAllResource =  _.map(this.data,item=>{
+          return item.type;
+        })
+        this.checkAllGroup = selectAllResource;
       } else {
         this.checkAllGroup = [];
       }
     },
     checkAllGroupChange(data) {
-      if (data.length === 2) {
+      if (data.length === this.data.length) {
         this.indeterminate = false;
         this.checkAll = true;
       } else if (data.length > 0) {
