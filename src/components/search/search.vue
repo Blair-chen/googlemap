@@ -14,7 +14,7 @@ import vueGooglemapPolyline from "../googlemap/googleMapPolyline";
 import modelView from "../Pop-box/model";
 import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
-import { getCenter,isCantainsBounds,zoomMapping,colorMapping, isCatains} from "../untils/tool.js";
+import { spiltBoundingBox,getCenter,isCantainsBounds,zoomMapping,colorMapping, isCatains} from "../untils/tool.js";
 
 export default {
   components: { vueGooglemapPolyline, modelView, navMenu },
@@ -85,27 +85,8 @@ export default {
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
       const zoom=zoomMapping(mapObject.getZoom());
-      let params = {
-        zoom: zoom,
-        northeast: { lat: northeast.lat(), lng: northeast.lng() },
-        sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
-      };
-      let boundList = [];
-      if (mapObject.getZoom() < 16) {
-        const averageLat = (northeast.lat() - sourthwest.lat()) / 4;
-        const averageLng = (northeast.lng() - sourthwest.lng()) / 4;
-        boundList.push({zoom: zoom,sourthwest: {lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng()+averageLng }, northeast: { lat: sourthwest.lat() +3* averageLat, lng: sourthwest.lng() + 2 * averageLng } });
-        boundList.push({zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat,lng: sourthwest.lng()+2*averageLng}, northeast: {lat: sourthwest.lat() +3* averageLat, lng: sourthwest.lng() + 3 * averageLng } });
-        boundList.push({ zoom: zoom,sourthwest: {lat: sourthwest.lat() +  averageLat, lng: sourthwest.lng()+averageLng },northeast: { lat: sourthwest.lat() +2* averageLat,lng: sourthwest.lng() + 2 * averageLng }});
-        boundList.push({zoom: zoom, sourthwest: { lat: sourthwest.lat() +  averageLat, lng: sourthwest.lng()+2*averageLng},northeast: { lat: sourthwest.lat() +2* averageLat, lng: sourthwest.lng() + 3 * averageLng} });
-        boundList.push({ zoom: zoom,northeast: {lat: sourthwest.lat() + averageLat,lng: northeast.lng() }, sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() } });
-        boundList.push({zoom: zoom,northeast: { lat: northeast.lat(), lng: northeast.lng() },sourthwest: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() }});
-        boundList.push({ zoom: zoom,northeast: { lat: sourthwest.lat() + 3 * averageLat,lng: sourthwest.lng() + averageLng }, sourthwest: { lat: sourthwest.lat() + averageLat,lng: sourthwest.lng() }});
-        boundList.push({zoom: zoom, northeast: {lat: sourthwest.lat() + 3 * averageLat,lng: northeast.lng()}, sourthwest: {lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + 3 * averageLng } });
-      } else {
-        boundList.push(params);
-      }
-      return boundList;
+      return spiltBoundingBox(northeast,sourthwest,zoom);
+
     },
     //get by wayid
     async search(key) {

@@ -2,7 +2,8 @@
 div
   gmap-map( v-if="center" @tilesloaded="tilesloadedHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.top-menu
-    nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler" @timeTypeChange="timeTypeChange" @featuresHandler="featuresHandler" @keyHandler="keyHandler")
+    nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler"
+    @timeTypeChange="timeTypeChange" @featuresHandler="featuresHandler" @keyHandler="keyHandler")
   report-view(v-if="buttonFlag" ref="report" :data="data")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
@@ -20,7 +21,7 @@ import * as VueGoogleMaps from "vue2-google-maps";
 import api from "store/search/api/index.js";
 import vueGoogleInfoWindow from "./googlemap/infoWindow";
 import historySlider from "./history/silder"
-import {getCenter, zoomMapping, colorMapping,isCatains } from "./untils/tool.js";
+import {spiltBoundingBox,getCenter, zoomMapping, colorMapping,isCatains } from "./untils/tool.js";
 
 export default {
   components: { historySlider,vueGooglemapPolyline, modelView,navMenu,reportView ,vueGoogleInfoWindow},
@@ -64,7 +65,7 @@ export default {
   },
   methods: {
     //polling
-     cycleHandler() {
+    cycleHandler() {
       this.interval =setInterval(() => {
          this.mapLoadHandler();
       }, 180000);
@@ -81,15 +82,18 @@ export default {
       if(!this.mapSource||!this.resource){ return null; }
       if (this.key){  return null;  }
       this.lines = [];
-      let params = this.createParam();
-      let response = await api.trafficReplay(params);
+      let paramsStringList = this.createParam();
+      this.strokeWeight = this.map.getZoom()<16?3:5;
+      _.each(paramsStringList,item=>{
+        this.loadBoundingBoxList(item)
+      });
+    },
+    async loadBoundingBoxList(str){
+      let response = await api.trafficReplay(str);
       if (response&&response.status === 200 ) {
         if(response.data!=""&&!_.isEmpty(response.data)){
            if(this.isCurrentBound(response.data.northeast,response.data.sourthwest)){
-               let zoom = this.map.getZoom();
-               if (zoom<16){this.strokeWeight =3;
-               }else{ this.strokeWeight =5; }
-           this.lines = response.data.listWay;
+               this.lines.push(...response.data.listWay);
             }
         }else {
           this.$Message.error("Server failed to read file");
@@ -102,8 +106,17 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+ northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region;
-      return params;
+      const boundList=spiltBoundingBox(northeast,sourthwest,mapObject.getZoom());
+      let boundingBoxList = [];
+      _.each(boundList,item=>{
+        boundingBoxList.push(
+          "sourthwest="+item.sourthwest.lat+","+ item.sourthwest.lng+"&northeast="+item.northeast.lat+","+
+          item.northeast.lng+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region
+        );
+      })
+      // let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+
+      //  northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region;
+      return boundingBoxList;
     },
     //get by wayid
     async search(key) {
@@ -111,7 +124,7 @@ export default {
       this.key =key;
        this.lines=[];
       let response = await api.loadroute(key);
-      if (response.status === 200) {
+      if (response&&response.status === 200) {
         if (_.isEmpty(response.data)) {
           this.$Message.warning("Wayid has no corresponding section");
         } else {

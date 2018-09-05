@@ -13,7 +13,6 @@ const url={
 }
 export default {
   trafficReplay(params){
-
     return ajax.aget(url.trafficReplay,params);
   },
   differentLevel(params){
