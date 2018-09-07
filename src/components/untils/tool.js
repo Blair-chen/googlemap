@@ -69,7 +69,7 @@ export const getCenter = (key) => {
     case "ANZ": return { lat: -33.88658145569154, lng: 151.13988831025813 };
     case "KOR": return { lat: 35.9078, lng: 127.7669 };
     case "NA": return { lat: 43.5260, lng: -105.255 };
-    case "SA": return { lat: 8.7832, lng: -55.4915 }
+    case "SA": return { lat: -15.45, lng: -47.57 }
   }
 }
 

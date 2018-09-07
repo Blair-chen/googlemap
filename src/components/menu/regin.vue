@@ -5,14 +5,14 @@ div.regin-search-menu
         ul.absolute.right(style="background-color:#FFF")
           li.nav-btn
             span.span regin
-          li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item" :key="index")
+          li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item;Falg = true" :key="index")
             span.span {{item.region}}
     RadioGroup.radio-box(v-model="button" type="button" )
         Radio(label="RealTime")
         Radio(label="History")
   resource(v-if="Falg" ref="resource" :data="resource" :regin="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
-    features.ml10(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
+    features.input-box.ml10.feature(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
     Input.input-box.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1.buttonn-refresh(v-if="!buttonFlag" icon="refresh"   @click="refresh")
 
@@ -62,7 +62,7 @@ export default {
       if (nv) {
         if (!_.isEmpty(nv.resource)) {
           this.resource = nv.resource;
-          this.Falg = true;
+
         } else {
           this.$emit("reginHandler", nv.region);
         }
@@ -87,6 +87,8 @@ export default {
     okHandler(value) {
       if (value.resource.length > 1) {
         this.buttonFlag = true;
+      }else{
+        this.buttonFlag = false;
       }
       value.region = this.select.region;
       this.$emit("reginHandler", value);
@@ -151,6 +153,9 @@ html{
        width:200px;
        height:7px;
        margin-top: 7px;
+    }
+    .feature{
+      margin-top: 11px;
     }
     .buttonn-refresh{
       position: absolute;

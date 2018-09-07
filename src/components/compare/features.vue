@@ -32,8 +32,8 @@ export default {
 <style lang="less" scoped>
 .features-box{
   position: absolute;
-
-  margin-top: 10px;
+  margin-left: 10rem;
+  margin-top: 20px;
   width:200px;
  text-align: center
 }
