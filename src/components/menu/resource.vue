@@ -3,7 +3,7 @@
     div.header
       div.left
         div
-          span.inline-block.region-select-map {{regin.name}}/
+          span.inline-block.region-select-map {{region.name}}/
           span.inline-block.region-select-map.map-rechose(@click="reChoseMap") {{map}}
     div.flex-grow.body
       checkout(v-if="mapSelected" ref="checkout" :data="resource")
@@ -24,7 +24,7 @@ export default {
     checkout
   },
   props: {
-    regin: Object,
+    region: Object,
     data: Array
   },
   data() {

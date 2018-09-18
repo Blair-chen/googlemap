@@ -1,6 +1,7 @@
 <template lang="pug">
 div
-  gmap-map( v-if="center" @tilesloaded="tilesloadedHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map( v-if="center" @bounds_changed="lines=key?lines:[]" @tilesloaded="mapLoadHandler"
+  ref="googleMap" :mapTypeControl="mapTypeControl"  :center="center" :zoom="zoom" )
   div.top-menu
     nav-menu.z1002(ref="topMenu"  @refresh="refresh" @search="search" @reginHandler="regionHandler"
     @timeTypeChange="timeTypeChange" @featuresHandler="featuresHandler" @keyHandler="keyHandler")
@@ -29,6 +30,7 @@ export default {
   data() {
     return {
       center:  { lat: 39.9042, lng: 116.4074 },
+      mapTypeControl:false,
       lines: [],
       map: null,
       event: { click: "onclick" },
@@ -46,7 +48,7 @@ export default {
       time:null,
       feature:null,
       region:null,
-
+      interval:null
     };
   },
   mounted() {
@@ -74,19 +76,18 @@ export default {
       this.key = null;
       this.mapLoadHandler();
     },
-    tilesloadedHandler(){
-       this.mapLoadHandler();
-    },
     // get rode by bound box
     async mapLoadHandler() {
       if(!this.mapSource||!this.resource){ return null; }
       if (this.key){  return null;  }
-      this.lines = [];
       let paramsStringList = this.createParam();
       this.strokeWeight = this.map.getZoom()<16?3:5;
-      _.each(paramsStringList,item=>{
-        this.loadBoundingBoxList(item)
-      });
+      this.loadBoundingBoxList(paramsStringList.boundcenterBox).then(res=>{
+          _.each(paramsStringList.boundingBoxList,item=>{
+           this.loadBoundingBoxList(item)
+         });
+       })
+
     },
     async loadBoundingBoxList(str){
       let response = await api.trafficReplay(str);
@@ -106,17 +107,19 @@ export default {
       let mapObject = this.$refs.googleMap.$mapObject;
       let northeast = mapObject.getBounds().getNorthEast();
       let sourthwest = mapObject.getBounds().getSouthWest();
-      const boundList=spiltBoundingBox(northeast,sourthwest,mapObject.getZoom());
+      const bound=spiltBoundingBox(northeast,sourthwest,mapObject.getZoom());
+      const boundcenterBox= this.createUrlBySourthwestAndNorthWest(bound.boundcenter);
       let boundingBoxList = [];
-      _.each(boundList,item=>{
+      _.each(bound.boundList,item=>{
         boundingBoxList.push(
-          "sourthwest="+item.sourthwest.lat+","+ item.sourthwest.lng+"&northeast="+item.northeast.lat+","+
-          item.northeast.lng+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region
+          this.createUrlBySourthwestAndNorthWest(item)
         );
       })
-      // let params = "sourthwest="+sourthwest.lat()+","+ sourthwest.lng()+"&northeast="+northeast.lat()+","+
-      //  northeast.lng()+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region;
-      return boundingBoxList;
+      return {"boundcenterBox":boundcenterBox,"boundingBoxList":boundingBoxList};
+    },
+    createUrlBySourthwestAndNorthWest(item){
+     return "sourthwest="+item.sourthwest.lat+","+ item.sourthwest.lng+"&northeast="+item.northeast.lat+","+
+          item.northeast.lng+"&zoom="+mapObject.getZoom()+"&map="+this.mapSource+"&traffic="+ this.resource+"&region="+this.region;
     },
     //get by wayid
     async search(key) {
@@ -179,10 +182,10 @@ export default {
       let map= this.map;
       if(map) {
        map.setCenter(getCenter(value.region));
-       map.setZoom(15);
+       map.setZoom(8);
       }else{
         this.center = getCenter(value.region);
-        this.zoom = 15
+        this.zoom = 8
       }
       this.mapSource = value.map;
       this.resource=value.resource;

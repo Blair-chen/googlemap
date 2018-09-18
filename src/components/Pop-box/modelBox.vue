@@ -22,7 +22,6 @@ export default {
     return {
       modelId: false,
       buttonFlag: true,
-      value: 0,
       date: null,
       dates: null,
       speeds: [],
@@ -32,9 +31,7 @@ export default {
   methods: {
     //select Time
     async TimeHandler() {
-      this.value = 0;
       this.speeds = [];
-      this.value = 0;
       let response = await api.loadTime(this.item.wayid);
       if (response.status === 200) {
         this.dates = response.data;
@@ -45,14 +42,13 @@ export default {
       this.modelId = false;
     },
     async selectHandler(date) {
-      if(date===this.dat){
+      if(date===this.date){
         this.buttonFlag = false;
       }
       this.loading =true;
-      const format = "YYYY-MM-DD";
-      this.date = moment(date).format(format);
+      this.date = moment(date).format("YYYY-MM-DD");
       this.dates=[];
-      let select = moment(date).format(format);
+      let select = moment(date).format("YYYY-MM-DD");
       const response = await api.loadSpeed(this.item.wayid, select);
       if (response.status === 200) {
         this.speeds = response.data;

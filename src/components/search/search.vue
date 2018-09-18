@@ -1,8 +1,8 @@
 <template lang="pug">
 div
-  gmap-map( v-if="center" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
+  gmap-map( v-if="center" @bounds_changed="lines=key?lines:[]" @tilesloaded="mapLoadHandler"  ref="googleMap"  :center="center" :zoom="zoom" )
   div.top-menu
-    nav-menu.z1002(ref="topMenu" :buttonFlag="false" @refresh="refresh" @search="search" @reginHandler="regionHandler" )
+    nav-menu.z1002(ref="topMenu" :buttonFlag="false" @refresh="refresh" @search="search" @reginHandler="regionHandler" @keyHandler="keyHandler")
   vue-googlemap-polyline( ref="ployline" v-for="(m, index) in lines" class="google-ployline" :map="map" :key="index"
   :valueitem="m" :path="m.positions" :strokeColor="m.color"
   :strokeWeight="strokeWeight" :events="event"  @onclick="onlickHandler" :editable="false")
@@ -29,7 +29,8 @@ export default {
       display: false,
       item: null,
       strokeWeight: 3,
-      prevPosition: null
+      prevPosition: null,
+      key:null,
     };
   },
   mounted() {
@@ -54,15 +55,21 @@ export default {
       }, 180000);
     },
     refresh() {
+      this.key = null;
       this.mapLoadHandler();
     },
     // get rode by bound box
     mapLoadHandler() {
+      if (this.key){  return null;  }
       this.lines = [];
+
       const boundList = this.createParams();
-      _.each(boundList, params => {
-        this.loadBoundingBox(params);
+      this.loadBoundingBox(boundList.boundcenter).then(res=>{
+        _.each(boundList.boundList, params => {
+          this.loadBoundingBox(params);
+        });
       });
+
     },
     async loadBoundingBox(params) {
       let response = await api.search(params);
@@ -93,6 +100,7 @@ export default {
       if (key === null) {
         return null;
       }
+      key = this.key;
       this.lines = [];
       let response = await api.loadroute(key);
       if (response.status === 200) {
@@ -141,6 +149,9 @@ export default {
         this.center = getCenter(value);
         this.zoom = 15;
       }
+    },
+     keyHandler(value){
+      this.key =value;
     }
   }
 };

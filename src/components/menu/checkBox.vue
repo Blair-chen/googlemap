@@ -28,11 +28,10 @@ export default {
         this.checkAll = !this.checkAll;
       }
       this.indeterminate = false;
-
       if (this.checkAll) {
-       const selectAllResource =  _.map(this.data,item=>{
+        const selectAllResource = _.map(this.data, item => {
           return item.type;
-        })
+        });
         this.checkAllGroup = selectAllResource;
       } else {
         this.checkAllGroup = [];
@@ -51,9 +50,9 @@ export default {
       }
     },
     reset() {
-      (this.indeterminate = true),
-        (this.checkAll = false),
-        (this.checkAllGroup = []);
+      this.indeterminate = true;
+      this.checkAll = false;
+      this.checkAllGroup = [];
     }
   }
 };

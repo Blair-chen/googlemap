@@ -45,22 +45,75 @@ export const isCantainsBounds = (prevPosition, newPosition) => {
   }
 }
 export const spiltBoundingBox = (northeast, sourthwest, zoom) => {
+  let boundcenter = {};
   let boundList = [];
   if (zoom < 16) {
     const averageLat = (northeast.lat() - sourthwest.lat()) / 4;
     const averageLng = (northeast.lng() - sourthwest.lng()) / 4;
-    boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + averageLng }, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() + 2 * averageLng } });
-    boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 2 * averageLng }, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() + 3 * averageLng } });
-    boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + averageLng }, northeast: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 2 * averageLng } });
-    boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + 2 * averageLng }, northeast: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 3 * averageLng } });
-    boundList.push({ zoom: zoom, northeast: { lat: sourthwest.lat() + averageLat, lng: northeast.lng() }, sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() } });
-    boundList.push({ zoom: zoom, northeast: { lat: northeast.lat(), lng: northeast.lng() }, sourthwest: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() } });
-    boundList.push({ zoom: zoom, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() + averageLng }, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() } });
-    boundList.push({ zoom: zoom, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: northeast.lng() }, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + 3 * averageLng } });
+    // boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + averageLng }, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() + 2 * averageLng } });
+    // boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 2 * averageLng }, northeast: { lat: sourthwest.lat() + 3 * averageLat, lng: sourthwest.lng() + 3 * averageLng } });
+    // boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + averageLng }, northeast: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 2 * averageLng } });
+    // boundList.push({ zoom: zoom, sourthwest: { lat: sourthwest.lat() + averageLat, lng: sourthwest.lng() + 2 * averageLng }, northeast: { lat: sourthwest.lat() + 2 * averageLat, lng: sourthwest.lng() + 3 * averageLng } });
+    boundcenter = {
+      zoom: zoom,
+      sourthwest: {
+        lat: sourthwest.lat() + averageLat,
+        lng: sourthwest.lng() + averageLng
+      },
+      northeast: {
+        lat: northeast.lat() + averageLat,
+        lng: northeast.lng() + averageLng
+      }
+    };
+    boundList.push({
+      zoom: zoom,
+      northeast: { lat: sourthwest.lat() + averageLat, lng: northeast.lng() },
+      sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
+    });
+    boundList.push({
+      zoom: zoom,
+      northeast: { lat: northeast.lat(), lng: northeast.lng() },
+      sourthwest: {
+        lat: sourthwest.lat() + 3 * averageLat,
+        lng: sourthwest.lng()
+      }
+    });
+    boundList.push({
+      zoom: zoom,
+      northeast: {
+        lat: sourthwest.lat() + 3 * averageLat,
+        lng: sourthwest.lng() + averageLng
+      },
+      sourthwest: {
+        lat: sourthwest.lat() + averageLat,
+        lng: sourthwest.lng()
+      }
+    });
+    boundList.push({
+      zoom: zoom,
+      northeast: {
+        lat: sourthwest.lat() + 3 * averageLat,
+        lng: northeast.lng()
+      },
+      sourthwest: {
+        lat: sourthwest.lat() + averageLat,
+        lng: sourthwest.lng() + 3 * averageLng
+      }
+    });
   } else {
-    boundList.push(params);
+    boundcenter = {
+      zoom: zoom,
+      sourthwest: {
+        lat: sourthwest.lat() + averageLat,
+        lng: sourthwest.lng() + averageLng
+      },
+      northeast: {
+        lat: northeast.lat() + averageLat,
+        lng: northeast.lng() + averageLng
+      }
+    };
   }
-  return boundList;
+  return { "boundList": boundList, "boundcenter": boundcenter };
 }
 export const getCenter = (key) => {
   switch (key) {

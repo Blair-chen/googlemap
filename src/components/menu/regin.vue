@@ -3,8 +3,8 @@ div.regin-search-menu
   div.regin-box
     div(style="float:left")
         ul.absolute.right(style="background-color:#FFF")
-          li.nav-btn
-            span.span regin
+          li.nav-btn.region
+            span.span-region region
           li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item;Falg = true" :key="index")
             span.span {{item.region}}
     RadioGroup.radio-box(v-model="button" type="button" )
@@ -62,7 +62,6 @@ export default {
       if (nv) {
         if (!_.isEmpty(nv.resource)) {
           this.resource = nv.resource;
-
         } else {
           this.$emit("reginHandler", nv.region);
         }
@@ -125,6 +124,16 @@ html{
       margin-top:5px;
       float: right
     }
+     .region{
+      background-color:#506EEC;
+      color: white;
+      font-size: 15px;
+        .span-region{
+          position: absolute;
+          margin-left: -15px;
+          margin-top: 8px;
+        }
+    }
     .nav-btn {
       height: 40px;
       display: inline-block;
@@ -132,9 +141,10 @@ html{
       width: 50px;
       text-align: center;
       vertical-align: top;
-      cursor: pointer;
+
       &:not(:first-child):hover {
         color: red;
+        cursor: pointer;
       }
       .span {
         position: absolute;
@@ -142,6 +152,7 @@ html{
         margin-top: 12px;
         margin-left: -7px;
       }
+
     }
   }
   .search-box {

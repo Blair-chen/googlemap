@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       featuresData: "differentLevel",
-      center:  { lat: -33.88658145569154, lng: 151.13988831025813 },
+      center:  { lat: 39.9042, lng: 116.4074 },
       lines: [],
       map: null,
       event: { click: "onclick" },
@@ -85,16 +85,18 @@ export default {
         northeast: { lat: northeast.lat(), lng: northeast.lng() },
         sourthwest: { lat: sourthwest.lat(), lng: sourthwest.lng() }
       };
+
       let response = await api[this.featuresData](params);
-      if (response.status === 200) {
-        if (response.data) {
-          if (this.isCurrentBound(response.data.bound)) {
-            this.lines = response.data.roadeslist;
-          }
-        } else {
-          this.$Message.error("Server failed to read file");
-        }
-      }
+       this.lines = response;
+      // if (response.status === 200) {
+      //   if (response.data) {
+      //     if (this.isCurrentBound(response.data.bound)) {
+      //       this.lines = response.data.roadeslist;
+      //     }
+      //   } else {
+      //     this.$Message.error("Server failed to read file");
+      //   }
+      // }
     },
     onlickHandler(event, value) {
       let str =

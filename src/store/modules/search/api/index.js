@@ -16,7 +16,10 @@ export default {
     return ajax.aget(url.trafficReplay,params);
   },
   differentLevel(params){
-    return ajax.post(url.differentLevel,params);
+   return   [{positions:[{ lat: 39.9042, lng: 116.4074 },{ lat: 39.90142, lng: 116.4074 }],
+    color:"#E33C0A",listSource:[{level:7,type:"auto",speed:1,reportTime:"null"},{type:"palm",level:2,speed:1,reportTime:"null"}]}]
+
+    //return ajax.post(url.differentLevel,params);
   },
   inSomethingButNotInOther(params){
     return ajax.post(url.inSomethingButNotInOther,params);

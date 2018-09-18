@@ -23,13 +23,12 @@ export default {
     return {
       Falg:false,
       itemCount:{ },
-      inOrNotItemCount:{}
     }
   },
 
   watch:{
     data(nv){
-      let itemCount={};let inOrNotItemCount={};
+      let itemCount={};
       if(nv){
         _.each(nv,(item,index)=>{
          if( _.endsWith(index, "Count")){
