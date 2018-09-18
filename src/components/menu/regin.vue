@@ -7,16 +7,14 @@ div.regin-search-menu
             span.span-region region
           li.nav-btn(v-for="(item,index) in  region" :class='{select:item.id==(select && select.id)}' @click="select=item;Falg = true" :key="index")
             span.span {{item.region}}
-    RadioGroup.radio-box(v-model="button" type="button" )
+    RadioGroup.radio-box(v-model="button" type="button" size="large")
         Radio(label="RealTime")
         Radio(label="History")
-  resource(v-if="Falg" ref="resource" :data="resource" :regin="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
+  resource(v-if="Falg" ref="resource" :data="resource" :region="select" @cancelHandler="cancelHandler" @okHandler="okHandler")
   div.search-box
     features.input-box.ml10.feature(v-if="buttonFlag" ref="features"  @featuresHandler="featuresHandler" )
     Input.input-box.ml10(v-if="!buttonFlag" type="text"  icon="search" v-model="key" placeholder="wayid" @on-enter="search()" @on-click="search()")
     Button.ml1.buttonn-refresh(v-if="!buttonFlag" icon="refresh"   @click="refresh")
-
-
 </template>
 <script>
 import features from "../compare/features";
@@ -122,7 +120,8 @@ html{
     margin-top: 6px;
     .radio-box{
       margin-top:5px;
-      float: right
+      float: right;
+      display: flex;
     }
      .region{
       background-color:#506EEC;

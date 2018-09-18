@@ -67,7 +67,7 @@ export default {
       this.loadBoundingBox(boundList.boundcenter).then(res=>{
         _.each(boundList.boundList, params => {
           this.loadBoundingBox(params);
-        });
+         });
       });
 
     },

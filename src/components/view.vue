@@ -123,7 +123,9 @@ export default {
     },
     //get by wayid
     async search(key) {
-      if (key === null) {return null; }
+      if (key === null) {
+         this.$Message.warning("The key value is null");
+        return null; }
       this.key =key;
        this.lines=[];
       let response = await api.loadroute(key);

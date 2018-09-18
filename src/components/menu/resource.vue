@@ -9,7 +9,7 @@
       checkout(v-if="mapSelected" ref="checkout" :data="resource")
       div(v-else)
        ul.zone-names.clearfix.mt2
-         li.zone-name(v-for="(item,index) in data"  @click="mapClickHandler(item)")
+         li.zone-name(v-for="(item,index) in data" :key="index" @click="mapClickHandler(item)")
           span {{item.map}}
     div.footer.clearfix(style="margin-top:7px")
       div.right

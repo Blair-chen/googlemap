@@ -7,8 +7,8 @@
       thead
         th.py1(v-for="(item,index) in week" ) {{item}}
       tbody
-        tr(v-for="(row,index) in vdata")
-          td.relative.calendar-cell(v-for="(date,index) in row" )
+        tr(v-for="(row,index) in vdata" :key="index")
+          td.relative.calendar-cell(v-for="(date,index) in row" :key="index" )
             Tooltip(:content="getDate(date)" placement="bottom" size="small" v-if="isCurrentMonth(date)&&compareExistHandler(date)")
               div.current( @click="selectHandler(date)" ) {{date.getDate()}}
             div.lunar(v-if="isCurrentMonth(date)&&!compareExistHandler(date)" )  {{date.getDate()}}
